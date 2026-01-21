@@ -1,0 +1,7 @@
+streamlit
+plotly
+anthropic
+google-cloud-aiplatform
+requests
+openai
+
