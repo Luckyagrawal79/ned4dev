@@ -49,6 +49,7 @@
       "churn_previous": 10.79,
       "churn_deviation": 28.601
     },
+  
     {
       "week": "2025-07-08",
       "metric": "Maid #1 IP-PID Count",
@@ -99,6 +100,7 @@
       "churn_previous": 12.39,
       "churn_deviation": -12.933
     },
+  
     {
       "week": "2025-07-01",
       "metric": "Maid #1 IP-PID Count",
@@ -150,3 +152,4 @@
       "churn_deviation": 30.077
     }
   ]
+  

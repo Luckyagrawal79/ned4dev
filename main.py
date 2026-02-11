@@ -1,4 +1,9 @@
 import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
 import streamlit as st
 from store.json_store import JSONMetricStore
 from charts.pie import create_pie
