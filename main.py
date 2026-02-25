@@ -1,4 +1,5 @@
 import os
+import traceback
 
 from dotenv import load_dotenv
 
@@ -133,6 +134,22 @@ st.markdown("## 🧠 N.E.D – Neural Executive Dashboard")
 
 GCS_METRICS_URI = "gs://oneid-media-dev/Lucky/TrialJsonFormat/read.json"
 store = JSONMetricStore(gcs_uri=GCS_METRICS_URI)
+
+with st.sidebar.expander("Data Source Debug", expanded=False):
+    st.code(f"gcs_uri = {store.gcs_uri}\nlocal_path = {os.path.abspath(store.local_path)}", language="bash")
+    source = "GCS" if store.gcs_uri else "LOCAL"
+    st.write("chosen source: ", f"**{source}**")
+
+    try:
+        data = store.load()
+        st.success(f"Loaded {len(data)} rows from **{source}**")
+    except Exception as e:
+        st.error(f"Load failed -> likely GCS if gcs_uri is set. \n\n{e}")
+        st.text("Traceback: ")
+        st.text("".join(traceback.format_exc()))
+
+
+
 RAW_WEEKLY = store.group_by_week()
 
 def pretty_week(w):
