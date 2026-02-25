@@ -40,7 +40,7 @@ class JSONMetricStore:
                 "google-cloud-storage is required to load data_store.json from GCS. "
                 "Install it with `pip install google-cloud-storage`."
             )
-
+        print("DEBUG >> Using GCS URI", self.gcs_uri)
         parsed = urlparse(self.gcs_uri)
         if parsed.scheme != "gs" or not parsed.netloc or not parsed.path:
             raise ValueError(

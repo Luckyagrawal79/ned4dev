@@ -130,7 +130,9 @@ with st.sidebar:
 st.markdown("## 🧠 N.E.D – Neural Executive Dashboard")
 
 # Week selector in header
-store = JSONMetricStore()
+
+GCS_METRICS_URI = "gs://oneid-media-dev/Lucky/TrialJsonFormat/read.json"
+store = JSONMetricStore(gcs_uri=GCS_METRICS_URI)
 RAW_WEEKLY = store.group_by_week()
 
 def pretty_week(w):
