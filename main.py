@@ -404,7 +404,7 @@ if query:
                 suggest_msg += "\nTry again with the exact metric name."
 
                 # Show warning to the user
-                st.warning(suggest_msg)
+                st.markdown(suggest_msg)
                 st.session_state.messages.append({"role": "assistant", "content": suggest_msg, "type": "warning"})
 
 
@@ -430,7 +430,7 @@ if query:
                     suggest_msg += "\nTry again with the exact field name."
 
                     # Show warning to the user
-                    st.warning(suggest_msg)
+                    st.markdown(suggest_msg)
                     st.session_state.messages.append({"role": "assistant", "content": suggest_msg, "type": "warning"})
                 else:
                     # Set the value field to the matched field
