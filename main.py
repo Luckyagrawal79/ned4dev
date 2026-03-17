@@ -12,12 +12,13 @@ from charts.trend import create_trend
 from charts.bar import create_bar
 from nlp.intent import detect_plot_request, detect_harness_query
 from nlp.metric_extractor import extract_metric_from_query
+from nlp.field_detector import detect_value_field
 from datetime import datetime
 
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
 # Debug – confirm correct file
-st.error("RUNNING FILE: " + os.path.abspath(__file__) + "New Format 6")
+st.error("RUNNING FILE: " + os.path.abspath(__file__) + "New Format 8")
 
 # Add custom CSS for fixed header/footer and visible sidebar
 st.markdown("""
@@ -194,7 +195,7 @@ def analyze_data_query(query, selected_week, weekly_data):
     # Check if query is asking about which week metric(s) changed
     if "which week" in query_lower and ("increased" in query_lower or "increase" in query_lower or "decreased" in query_lower or "decrease" in query_lower):
         # Extract all metric conditions from query
-        available_metrics = ['maid', 'gravy', 'cookie', 'dig']
+        available_metrics = ['maid', 'gravy', 'cookie', 'dig', 'liveintent']
         conditions = []  # List of (metric, condition) tuples where condition is 'increased' or 'decreased'
         
         # Split query by common conjunctions
