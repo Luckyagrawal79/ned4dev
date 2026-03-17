@@ -396,12 +396,12 @@ if query:
             if metrics_found and isinstance(metrics_found[0], dict) and "suggestion" in metrics_found[0]:
                 # Show suggestion to the user
                 suggestion = metrics_found[0]
-                suggest_msg = f"Did you mean **{suggestion['suggestion']}**?\n\nAvailable metrics:\n"
+                suggest_msg = f"Did you mean **{suggestion['suggestion']}**?\n\nAvailable metrics:\n\n"
 
                 # Show all available metrics in the suggestion
                 for m in sorted(suggestion["all_metrics"]):
-                    suggest_msg += f"• `{m}`\n"
-                suggest_msg += "\nTry again with the exact metric name."
+                    suggest_msg += f"• {m}\n\n"
+                suggest_msg += "\n\nTry again with the exact metric name."
 
                 # Show warning to the user
                 st.markdown(suggest_msg)
@@ -422,12 +422,12 @@ if query:
                 # Show suggestion to the user
                 if not field_result["confident"]:
                     # Show suggestion to the user
-                    suggest_msg = f"Did you mean **{field_result['match']}**?\n\nAvailable fields:\n"
+                    suggest_msg = f"Did you mean **{field_result['match']}**?\n\nAvailable fields:\n\n"
 
                     # Show all available fields in the suggestion
                     for f in field_result["suggestions"]:
-                        suggest_msg += f"• `{f}`\n"
-                    suggest_msg += "\nTry again with the exact field name."
+                        suggest_msg += f"• {f}\n\n"
+                    suggest_msg += "\n\nTry again with the exact field name."
 
                     # Show warning to the user
                     st.markdown(suggest_msg)
