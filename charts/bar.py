@@ -2,7 +2,7 @@ import plotly.graph_objects as go
 import pandas as pd
 from datetime import datetime
 
-def create_bar(metric_names, weekly_data, selected_week=None, num_weeks=None):
+def create_bar(metric_names, weekly_data, selected_week=None, num_weeks=None, value_field="current"):
     """
     Create a bar chart for one or more metrics across one or more weeks.
     
@@ -11,10 +11,13 @@ def create_bar(metric_names, weekly_data, selected_week=None, num_weeks=None):
         weekly_data: Dictionary of weekly data
         selected_week: Optional week to filter to (if None, uses latest week)
         num_weeks: Optional number of weeks to include (e.g., 2 for past 2 weeks)
+        value_field: Which field to plot (current, previous, deviation, churn_current, etc.)
     """
     # Handle both single metric and multiple metrics
     if isinstance(metric_names, str):
         metric_names = [metric_names]
+    
+    label_suffix = f" ({value_field})" if value_field != "current" else ""
     
     # Determine which weeks to include
     all_weeks = sorted(weekly_data.keys())
@@ -43,7 +46,7 @@ def create_bar(metric_names, weekly_data, selected_week=None, num_weeks=None):
                     chart_data.append({
                         "week": week,
                         "metric": metric_entry["metric"],
-                        "value": metric_entry.get("current", 0)
+                        "value": metric_entry.get(value_field, 0)
                     })
                     break  # Found a match, move to next entry
     
@@ -86,9 +89,9 @@ def create_bar(metric_names, weekly_data, selected_week=None, num_weeks=None):
         
         fig.update_layout(
             barmode='group',
-            title=f"Bar Chart: {', '.join(metric_names)} - {len(weeks_to_plot)} weeks",
+            title=f"Bar Chart{label_suffix}: {', '.join(metric_names)} - {len(weeks_to_plot)} weeks",
             xaxis_title="Metric",
-            yaxis_title="Value",
+            yaxis_title=value_field,
             showlegend=True,
             height=500,
             xaxis=dict(tickangle=-45)
@@ -115,13 +118,12 @@ def create_bar(metric_names, weekly_data, selected_week=None, num_weeks=None):
         
         week_label = datetime.strptime(week, "%Y-%m-%d").strftime("%d-%m-%Y")
         fig.update_layout(
-            title=f"Bar Chart: {', '.join(metric_names)} - {week_label}",
+            title=f"Bar Chart{label_suffix}: {', '.join(metric_names)} - {week_label}",
             xaxis_title="Metric",
-            yaxis_title="Value",
+            yaxis_title=value_field,
             showlegend=False,
             height=500,
             xaxis=dict(tickangle=-45)
         )
     
     return fig
-

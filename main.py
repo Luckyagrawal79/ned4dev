@@ -17,7 +17,7 @@ from datetime import datetime
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
 # Debug – confirm correct file
-st.error("RUNNING FILE: " + os.path.abspath(__file__) + "New Format 5")
+st.error("RUNNING FILE: " + os.path.abspath(__file__) + "New Format 6")
 
 # Add custom CSS for fixed header/footer and visible sidebar
 st.markdown("""
@@ -391,48 +391,85 @@ if query:
             metrics_found = extract_metric_from_query(query, RAW_WEEKLY)
             query_lower = query.lower()
             
-            if "pie" in query_lower:
-                # For pie charts, use first metric or None
-                keyword = metrics_found[0].lower() if metrics_found else None
-                fig = create_pie(selected_week, RAW_WEEKLY, keyword)
-            elif "bar" in query_lower or "barchart" in query_lower:
-                # For bar charts, pass all found metrics
-                if metrics_found:
-                    # Extract number of weeks from query (e.g., "past 2 weeks", "last 3 weeks")
-                    num_weeks = None
-                    import re
-                    week_patterns = [
-                        r'past\s+(\d+)\s+weeks?',
-                        r'last\s+(\d+)\s+weeks?',
-                        r'(\d+)\s+weeks?',
-                    ]
-                    for pattern in week_patterns:
-                        match = re.search(pattern, query_lower)
-                        if match:
-                            num_weeks = int(match.group(1))
-                            break
-                    
-                    fig = create_bar(metrics_found, RAW_WEEKLY, selected_week, num_weeks)
-                else:
-                    fig = None
-            else:
-                # For trend charts, pass all found metrics
-                if metrics_found:
-                    # Pass list of all metrics for multi-metric support
-                    fig = create_trend(metrics_found, RAW_WEEKLY)
-                else:
-                    fig = None
+            # Check if metric extractor returned a suggestion (fuzzy match, low confidence)
+            if metrics_found and isinstance(metrics_found[0], dict) and "suggestion" in metrics_found[0]:
+                # Show suggestion to the user
+                suggestion = metrics_found[0]
+                suggest_msg = f"Did you mean **{suggestion['suggestion']}**?\n\nAvailable metrics:\n"
 
-            if fig is not None:
-                # Get next index for unique key
-                next_idx = len(st.session_state.messages)
-                st.plotly_chart(fig, use_container_width=True, key=f"chart_{next_idx}")
-                st.session_state.messages.append({"role": "assistant", "content": fig, "type": "chart"})
-            else:
-                error_msg = "No matching data found for this query."
+                # Show all available metrics in the suggestion
+                for m in sorted(suggestion["all_metrics"]):
+                    suggest_msg += f"• `{m}`\n"
+                suggest_msg += "\nTry again with the exact metric name."
+
+                # Show warning to the user
+                st.warning(suggest_msg)
+                st.session_state.messages.append({"role": "assistant", "content": suggest_msg, "type": "warning"})
+
+
+            elif not metrics_found:
+                # Show error to the user
+                error_msg = "No matching metric found. Try using a keyword from your data."
                 st.error(error_msg)
                 st.session_state.messages.append({"role": "assistant", "content": error_msg, "type": "error"})
 
+
+            else:
+                # Detect which value field to plot 
+                field_result = detect_value_field(query_lower)
+
+                # Show suggestion to the user
+                if not field_result["confident"]:
+                    # Show suggestion to the user
+                    suggest_msg = f"Did you mean **{field_result['match']}**?\n\nAvailable fields:\n"
+
+                    # Show all available fields in the suggestion
+                    for f in field_result["suggestions"]:
+                        suggest_msg += f"• `{f}`\n"
+                    suggest_msg += "\nTry again with the exact field name."
+
+                    # Show warning to the user
+                    st.warning(suggest_msg)
+                    st.session_state.messages.append({"role": "assistant", "content": suggest_msg, "type": "warning"})
+                else:
+                    # Set the value field to the matched field
+                    value_field = field_result["match"]
+
+                    # Create the chart
+                    if "pie" in query_lower:
+                        # For pie charts, use first metric or None
+                        keyword = metrics_found[0].lower() if metrics_found else None
+                        fig = create_pie(selected_week, RAW_WEEKLY, keyword)
+
+                    elif "bar" in query_lower or "barchart" in query_lower:
+                        # Extract number of weeks from query if present
+                        num_weeks = None
+                        import re
+                        week_patterns = [
+                            r'past\s+(\d+)\s+weeks?',
+                            r'last\s+(\d+)\s+weeks?',
+                            r'(\d+)\s+weeks?',
+                        ]
+                        for pattern in week_patterns:
+                            match = re.search(pattern, query_lower)
+                            if match:
+                                num_weeks = int(match.group(1))
+                                break
+                        
+                        fig = create_bar(metrics_found, RAW_WEEKLY, selected_week, num_weeks, value_field)
+                    else:
+                        # Default: trend chart
+                        fig = create_trend(metrics_found, RAW_WEEKLY, value_field)
+ 
+                    if fig is not None:
+                        next_idx = len(st.session_state.messages)
+                        st.plotly_chart(fig, use_container_width=True, key=f"chart_{next_idx}")
+                        st.session_state.messages.append({"role": "assistant", "content": fig, "type": "chart"})
+                    else:
+                        error_msg = "No matching data found for this query."
+                        st.error(error_msg)
+                        st.session_state.messages.append({"role": "assistant", "content": error_msg, "type": "error"})
+ 
         else:
             # Check if this is a data analysis query
             query_lower = query.lower()
@@ -465,3 +502,4 @@ if query:
                     warning_msg = "Please configure API key in sidebar for AI queries"
                     st.warning(warning_msg)
                     st.session_state.messages.append({"role": "assistant", "content": warning_msg, "type": "warning"})
+ 

@@ -2,7 +2,7 @@ import plotly.express as px
 import pandas as pd
 import plotly.graph_objects as go
 
-def create_trend(metric_names, weekly_data):
+def create_trend(metric_names, weekly_data, value_field="current"):
     """
     Create a trend chart for one or more metrics.
     
@@ -14,6 +14,9 @@ def create_trend(metric_names, weekly_data):
     if isinstance(metric_names, str):
         metric_names = [metric_names]
     
+    # Set the label suffix based on the value field
+    label_suffix = f" ({value_field})" if value_field != "current" else ""
+
     # Collect data for all metrics
     all_rows = []
     for week, metrics in weekly_data.items():
@@ -22,7 +25,7 @@ def create_trend(metric_names, weekly_data):
                 if metric_name.lower() in m["metric"].lower():
                     all_rows.append({
                         "week": week,
-                        "value": m["current"],
+                        "value": m.get(value_field, 0),
                         "metric": metric_name
                     })
     
@@ -45,13 +48,14 @@ def create_trend(metric_names, weekly_data):
                     line=dict(width=2)
                 ))
         fig.update_layout(
-            title=f"Trend Comparison: {', '.join(metric_names)}",
+            title=f"Trend Comparison{label_suffix}: {', '.join(metric_names)}",
             xaxis_title="Week",
-            yaxis_title="Value",
+            yaxis_title=value_field,
             hovermode="x unified"
         )
     else:
         # Single metric - use simpler plot
-        fig = px.line(df, x="week", y="value", title=f"{metric_names[0]} Trend")
+        fig = px.line(df, x="week", y="value", title=f"{metric_names[0]} Trend{label_suffix}")
     
     return fig
+ 
