@@ -17,7 +17,7 @@ from datetime import datetime
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
 # Debug – confirm correct file
-st.error("RUNNING FILE: " + os.path.abspath(__file__) + "New Format 2")
+st.error("RUNNING FILE: " + os.path.abspath(__file__) + "New Format 3")
 
 # Add custom CSS for fixed header/footer and visible sidebar
 st.markdown("""
@@ -143,6 +143,13 @@ with st.sidebar.expander("Data Source Debug", expanded=False):
     try:
         data = store.load()
         st.success(f"Loaded {len(data)} rows from **{source}**")
+        weeks_found = sorted(set(row["week"] for row in data))
+        st.write(f"**Total rows:** {len(data)}")
+        st.write(f"**Weeks found:** {weeks_found}")
+        for w in weeks_found:
+            count = sum(1 for r in data if r["week"] == w)
+            st.write(f"  {w} → {count} metrics")
+        st.json(data[:3])
     except Exception as e:
         st.error(f"Load failed -> likely GCS if gcs_uri is set. \n\n{e}")
         st.text("Traceback: ")
