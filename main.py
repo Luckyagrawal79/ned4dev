@@ -17,7 +17,7 @@ from datetime import datetime
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
 # Debug – confirm correct file
-st.error("RUNNING FILE: " + os.path.abspath(__file__) + "New Format 4")
+st.error("RUNNING FILE: " + os.path.abspath(__file__) + "New Format 5")
 
 # Add custom CSS for fixed header/footer and visible sidebar
 st.markdown("""
@@ -388,7 +388,7 @@ if query:
             st.session_state.messages.append({"role": "assistant", "content": response_text, "type": "info"})
 
         elif detect_plot_request(query):
-            metrics_found = extract_metric_from_query(query)
+            metrics_found = extract_metric_from_query(query, RAW_WEEKLY)
             query_lower = query.lower()
             
             if "pie" in query_lower:
