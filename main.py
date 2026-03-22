@@ -19,7 +19,7 @@ from datetime import datetime
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
 # Debug – confirm correct file
-st.error("RUNNING FILE: " + os.path.abspath(__file__) + "New Format 9")
+st.error("RUNNING FILE: " + os.path.abspath(__file__) + "New Format 10")
 
 # Add custom CSS for fixed header/footer and visible sidebar
 st.markdown("""
@@ -134,16 +134,8 @@ st.markdown("## 🧠 N.E.D – Neural Executive Dashboard")
 
 # Week selector in header
 
-
-# take Data from gcp path
-# GCS_METRICS_URI = "gs://oneid-media-dev/Lucky/TrialJsonFormat/read.json"
-# store = JSONMetricStore(gcs_uri=GCS_METRICS_URI)
-
-
-# take Data from local data store
-GCS_METRICS_URI = None
+GCS_METRICS_URI = None  # Set to "gs://..." to use GCS, or leave None for local data
 store = JSONMetricStore(path="data/data_store.json", gcs_uri=GCS_METRICS_URI)
-
 
 with st.sidebar.expander("Data Source Debug", expanded=False):
     st.code(f"gcs_uri = {store.gcs_uri}\nlocal_path = {os.path.abspath(store.local_path)}", language="bash")
@@ -487,7 +479,7 @@ if query:
                             st.session_state.messages.append({"role": "assistant", "content": error_msg, "type": "error"})
                     else:
                         # Default: trend chart — check for date range
-                        date_range = parse_date_range(query)
+                        date_range = parse_date_range(query, latest_week=sorted(RAW_WEEKLY.keys())[-1])
                         week_filter = None
                         range_info_msg = None
 
@@ -565,35 +557,25 @@ if query:
                                 st.session_state.messages.append({"role": "assistant", "content": error_msg, "type": "error"})
  
         else:
-            # Check if this is a data analysis query
-            query_lower = query.lower()
-            is_data_query = any(keyword in query_lower for keyword in [
-                "deviation", "show", "list", "filter", "metrics", "latest week", 
-                "current week", "greater than", "more than", "less than", "which week", "increased"
-            ])
-            
-            if is_data_query:
-                # Handle data analysis queries directly
-                response = analyze_data_query(query, selected_week, RAW_WEEKLY)
-                st.write(response)
-                st.session_state.messages.append({"role": "assistant", "content": response, "type": "text"})
+            # Non-plot query — send to AI with actual data context
+            if api_key or ai_provider == "gemini":
+                try:
+                    from ai.router import call_ai
+                    from ai.data_context import build_data_context, build_ai_prompt
+
+                    # Build rich context with actual metric data
+                    data_context = build_data_context(query, RAW_WEEKLY, selected_week)
+                    enhanced_query = build_ai_prompt(query, data_context)
+
+                    response = call_ai(ai_provider, enhanced_query, api_key, model)
+                    st.write(response)
+                    st.session_state.messages.append({"role": "assistant", "content": response, "type": "text"})
+                except Exception as e:
+                    error_msg = f"Error calling AI: {str(e)}"
+                    st.error(error_msg)
+                    st.session_state.messages.append({"role": "assistant", "content": error_msg, "type": "error"})
             else:
-                # Use AI router for other queries
-                if api_key or ai_provider == "gemini":
-                    try:
-                        from ai.router import call_ai
-                        # Enhance prompt with data context for better responses
-                        data_context = f"\n\nAvailable data: Latest week is {selected_week}. Data contains metrics with fields: metric, current, previous, deviation (%), churn_current, churn_previous, churn_deviation (%)."
-                        enhanced_query = query + data_context
-                        response = call_ai(ai_provider, enhanced_query, api_key, model)
-                        st.write(response)
-                        st.session_state.messages.append({"role": "assistant", "content": response, "type": "text"})
-                    except Exception as e:
-                        error_msg = f"Error calling AI: {str(e)}"
-                        st.error(error_msg)
-                        st.session_state.messages.append({"role": "assistant", "content": error_msg, "type": "error"})
-                else:
-                    warning_msg = "Please configure API key in sidebar for AI queries"
-                    st.warning(warning_msg)
-                    st.session_state.messages.append({"role": "assistant", "content": warning_msg, "type": "warning"})
+                warning_msg = "Please configure API key in sidebar for AI queries"
+                st.warning(warning_msg)
+                st.session_state.messages.append({"role": "assistant", "content": warning_msg, "type": "warning"})
  

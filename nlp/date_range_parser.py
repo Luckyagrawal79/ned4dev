@@ -47,8 +47,24 @@ _RANGE_RE = re.compile(
     re.IGNORECASE,
 )
 
+# Regex: "from feb [year]" — open-ended, means month to latest
+_FROM_MONTH_RE = re.compile(
+    r"from\s+"
+    r"(?P<m>" + _MONTH_NAMES_RE + r")"
+    r"(?:\s+(?P<y>\d{4}))?",
+    re.IGNORECASE,
+)
 
-def parse_date_range(query: str, reference_year: int | None = None) -> dict | None:
+# Regex: "in feb", "for march 2025", "during april" — single month only
+_SINGLE_MONTH_RE = re.compile(
+    r"(?:in|for|during|of)\s+"
+    r"(?P<m>" + _MONTH_NAMES_RE + r")"
+    r"(?:\s+(?P<y>\d{4}))?",
+    re.IGNORECASE,
+)
+
+
+def parse_date_range(query: str, reference_year: int | None = None, latest_week: str | None = None) -> dict | None:
     """
     Parse a date range from a natural language query.
 
@@ -56,15 +72,18 @@ def parse_date_range(query: str, reference_year: int | None = None) -> dict | No
         query: The user's query string
         reference_year: Year to assume when none is mentioned.
                         Defaults to the current year.
+        latest_week: The latest week key in the data (YYYY-MM-DD).
+                     Used as end date for open-ended "from feb" queries.
 
     Returns:
         dict with keys:
             start_date: date  (first day of start month)
-            end_date:   date  (last day of end month)
+            end_date:   date  (last day of end month, or latest_week date)
             start_month_name: str
             end_month_name:   str
             start_year: int
             end_year:   int
+            open_ended: bool  (True if "from X" with no end month)
         or None if no date range found.
     """
     if reference_year is None:
@@ -72,8 +91,58 @@ def parse_date_range(query: str, reference_year: int | None = None) -> dict | No
 
     match = _RANGE_RE.search(query.lower())
     if not match:
-        return None
+        # Try "from feb [year]" — open-ended: month to latest data
+        from_match = _FROM_MONTH_RE.search(query.lower())
+        if from_match:
+            m = MONTH_MAP[from_match.group("m").lower()]
+            y = int(from_match.group("y")) if from_match.group("y") else reference_year
 
+            start_date = date(y, m, 1)
+
+            # End date = latest available week, or end of current month
+            if latest_week:
+                end_date = datetime.strptime(latest_week, "%Y-%m-%d").date()
+            else:
+                now = datetime.now()
+                last_day = calendar.monthrange(now.year, now.month)[1]
+                end_date = date(now.year, now.month, last_day)
+
+            # If start is after end (e.g. "from dec" when latest is march,
+            # user probably means previous year's dec)
+            if start_date > end_date and not from_match.group("y"):
+                start_date = date(y - 1, m, 1)
+
+            return {
+                "start_date": start_date,
+                "end_date": end_date,
+                "start_month_name": calendar.month_name[m],
+                "end_month_name": end_date.strftime("%B"),
+                "start_year": start_date.year,
+                "end_year": end_date.year,
+                "open_ended": True,
+            }
+
+        # Try "in feb", "for march 2025" — single month only
+        single = _SINGLE_MONTH_RE.search(query.lower())
+        if single:
+            m = MONTH_MAP[single.group("m").lower()]
+            y = int(single.group("y")) if single.group("y") else reference_year
+
+            start_date = date(y, m, 1)
+            last_day = calendar.monthrange(y, m)[1]
+            end_date = date(y, m, last_day)
+
+            return {
+                "start_date": start_date,
+                "end_date": end_date,
+                "start_month_name": calendar.month_name[m],
+                "end_month_name": calendar.month_name[m],
+                "start_year": y,
+                "end_year": y,
+                "open_ended": False,
+            }
+
+        return None
     m1 = MONTH_MAP[match.group("m1").lower()]
     m2 = MONTH_MAP[match.group("m2").lower()]
 
@@ -123,6 +192,7 @@ def parse_date_range(query: str, reference_year: int | None = None) -> dict | No
         "end_month_name": calendar.month_name[m2],
         "start_year": start_year,
         "end_year": end_year,
+        "open_ended": False,
     }
 
 
