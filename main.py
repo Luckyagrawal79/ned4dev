@@ -134,8 +134,16 @@ st.markdown("## 🧠 N.E.D – Neural Executive Dashboard")
 
 # Week selector in header
 
-GCS_METRICS_URI = "gs://oneid-media-dev/Lucky/TrialJsonFormat/read.json"
-store = JSONMetricStore(gcs_uri=GCS_METRICS_URI)
+
+# take Data from gcp path
+# GCS_METRICS_URI = "gs://oneid-media-dev/Lucky/TrialJsonFormat/read.json"
+# store = JSONMetricStore(gcs_uri=GCS_METRICS_URI)
+
+
+# take Data from local data store
+GCS_METRICS_URI = None
+store = JSONMetricStore(path="data/data_store.json", gcs_uri=GCS_METRICS_URI)
+
 
 with st.sidebar.expander("Data Source Debug", expanded=False):
     st.code(f"gcs_uri = {store.gcs_uri}\nlocal_path = {os.path.abspath(store.local_path)}", language="bash")
