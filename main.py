@@ -13,12 +13,13 @@ from charts.bar import create_bar
 from nlp.intent import detect_plot_request, detect_harness_query
 from nlp.metric_extractor import extract_metric_from_query
 from nlp.field_detector import detect_value_field
+from nlp.date_range_parser import parse_date_range, filter_weeks_by_range
 from datetime import datetime
 
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
 # Debug – confirm correct file
-st.error("RUNNING FILE: " + os.path.abspath(__file__) + "New Format 8")
+st.error("RUNNING FILE: " + os.path.abspath(__file__) + "New Format 9")
 
 # Add custom CSS for fixed header/footer and visible sidebar
 st.markdown("""
@@ -442,6 +443,15 @@ if query:
                         keyword = metrics_found[0].lower() if metrics_found else None
                         fig = create_pie(selected_week, RAW_WEEKLY, keyword)
 
+                        if fig is not None:
+                            next_idx = len(st.session_state.messages)
+                            st.plotly_chart(fig, use_container_width=True, key=f"chart_{next_idx}")
+                            st.session_state.messages.append({"role": "assistant", "content": fig, "type": "chart"})
+                        else:
+                            error_msg = "No matching data found for this query."
+                            st.error(error_msg)
+                            st.session_state.messages.append({"role": "assistant", "content": error_msg, "type": "error"})
+
                     elif "bar" in query_lower or "barchart" in query_lower:
                         # Extract number of weeks from query if present
                         num_weeks = None
@@ -458,18 +468,93 @@ if query:
                                 break
                         
                         fig = create_bar(metrics_found, RAW_WEEKLY, selected_week, num_weeks, value_field)
+
+                        if fig is not None:
+                            next_idx = len(st.session_state.messages)
+                            st.plotly_chart(fig, use_container_width=True, key=f"chart_{next_idx}")
+                            st.session_state.messages.append({"role": "assistant", "content": fig, "type": "chart"})
+                        else:
+                            error_msg = "No matching data found for this query."
+                            st.error(error_msg)
+                            st.session_state.messages.append({"role": "assistant", "content": error_msg, "type": "error"})
                     else:
-                        # Default: trend chart
-                        fig = create_trend(metrics_found, RAW_WEEKLY, value_field)
+                        # Default: trend chart — check for date range
+                        date_range = parse_date_range(query)
+                        week_filter = None
+                        range_info_msg = None
+
+                        if date_range:
+                            all_weeks = sorted(RAW_WEEKLY.keys())
+                            filtered = filter_weeks_by_range(
+                                all_weeks,
+                                date_range["start_date"],
+                                date_range["end_date"],
+                            )
+
+                            requested_label = (
+                                f"{date_range['start_month_name']} {date_range['start_year']}"
+                                f" to {date_range['end_month_name']} {date_range['end_year']}"
+                            )
+
+                            if not filtered:
+                                # No data at all in the requested range
+                                range_info_msg = (
+                                    f"No data available for **{requested_label}**. "
+                                    f"Available data spans **{all_weeks[0]}** to **{all_weeks[-1]}**."
+                                )
+                            else:
+                                week_filter = filtered
+
+                                # Check if filtered range covers the full request
+                                from datetime import date as _date
+                                first_week_date = datetime.strptime(filtered[0], "%Y-%m-%d").date()
+                                last_week_date = datetime.strptime(filtered[-1], "%Y-%m-%d").date()
+
+                                # If first available week is after requested start OR
+                                # last available week is before requested end → partial
+                                partial = (
+                                    first_week_date > date_range["start_date"]
+                                    or last_week_date < date_range["end_date"]
+                                )
+                                if partial:
+                                    avail_start = first_week_date.strftime("%B %Y")
+                                    avail_end = last_week_date.strftime("%B %Y")
+                                    range_info_msg = (
+                                        f"Requested range: **{requested_label}**. "
+                                        f"Available data covers **{avail_start}** to **{avail_end}** "
+                                        f"({len(filtered)} week{'s' if len(filtered) != 1 else ''}). "
+                                        f"Showing what's available."
+                                    )
+
+                        # Show info message if there's one
+                        if range_info_msg and week_filter is None:
+                            # No data at all — just show the message, no chart
+                            st.warning(range_info_msg)
+                            st.session_state.messages.append({
+                                "role": "assistant",
+                                "content": range_info_msg,
+                                "type": "warning",
+                            })
+                        else:
+                            # Show partial-data info if applicable
+                            if range_info_msg:
+                                st.info(range_info_msg)
+                                st.session_state.messages.append({
+                                    "role": "assistant",
+                                    "content": range_info_msg,
+                                    "type": "info",
+                                })
+
+                            fig = create_trend(metrics_found, RAW_WEEKLY, value_field, week_filter)
  
-                    if fig is not None:
-                        next_idx = len(st.session_state.messages)
-                        st.plotly_chart(fig, use_container_width=True, key=f"chart_{next_idx}")
-                        st.session_state.messages.append({"role": "assistant", "content": fig, "type": "chart"})
-                    else:
-                        error_msg = "No matching data found for this query."
-                        st.error(error_msg)
-                        st.session_state.messages.append({"role": "assistant", "content": error_msg, "type": "error"})
+                            if fig is not None:
+                                next_idx = len(st.session_state.messages)
+                                st.plotly_chart(fig, use_container_width=True, key=f"chart_{next_idx}")
+                                st.session_state.messages.append({"role": "assistant", "content": fig, "type": "chart"})
+                            else:
+                                error_msg = "No matching data found for this query."
+                                st.error(error_msg)
+                                st.session_state.messages.append({"role": "assistant", "content": error_msg, "type": "error"})
  
         else:
             # Check if this is a data analysis query

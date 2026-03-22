@@ -2,13 +2,16 @@ import plotly.express as px
 import pandas as pd
 import plotly.graph_objects as go
 
-def create_trend(metric_names, weekly_data, value_field="current"):
+def create_trend(metric_names, weekly_data, value_field="current", week_filter=None):
     """
     Create a trend chart for one or more metrics.
     
     Args:
         metric_names: Single metric name (str) or list of metric names
         weekly_data: Dictionary of weekly data
+        value_field: Which field to plot
+        week_filter: Optional list of week keys (YYYY-MM-DD) to restrict to.
+                     If None, uses all weeks.
     """
     # Handle both single metric and multiple metrics
     if isinstance(metric_names, str):
@@ -17,9 +20,13 @@ def create_trend(metric_names, weekly_data, value_field="current"):
     # Set the label suffix based on the value field
     label_suffix = f" ({value_field})" if value_field != "current" else ""
 
+    # Determine which weeks to iterate over
+    weeks_to_use = sorted(week_filter) if week_filter else sorted(weekly_data.keys())
+
     # Collect data for all metrics
     all_rows = []
-    for week, metrics in weekly_data.items():
+    for week in weeks_to_use:
+        metrics = weekly_data.get(week, [])
         for m in metrics:
             for metric_name in metric_names:
                 if metric_name.lower() in m["metric"].lower():
