@@ -1,0 +1,2648 @@
+[
+  {
+    "build_number": "2025-01-06",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4533810,
+    "previous": 4500000,
+    "deviation": 0.751
+  },
+  {
+    "build_number": "2025-01-06",
+    "metric": "Gravy IP-PID Count",
+    "current": 4734196,
+    "previous": 4750000,
+    "deviation": -0.333
+  },
+  {
+    "build_number": "2025-01-06",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5178696,
+    "previous": 5150000,
+    "deviation": 0.557
+  },
+  {
+    "build_number": "2025-01-06",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9104794,
+    "previous": 9050000,
+    "deviation": 0.605
+  },
+  {
+    "build_number": "2025-01-06",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72229258,
+    "previous": 72500000,
+    "deviation": -0.373
+  },
+  {
+    "build_number": "2025-01-06",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3233563,
+    "previous": 3200000,
+    "deviation": 1.049
+  },
+  {
+    "build_number": "2025-01-13",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4555236,
+    "previous": 4533810,
+    "deviation": 0.473
+  },
+  {
+    "build_number": "2025-01-13",
+    "metric": "Gravy IP-PID Count",
+    "current": 4727122,
+    "previous": 4734196,
+    "deviation": -0.149
+  },
+  {
+    "build_number": "2025-01-13",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5224316,
+    "previous": 5178696,
+    "deviation": 0.881
+  },
+  {
+    "build_number": "2025-01-13",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9077636,
+    "previous": 9104794,
+    "deviation": -0.298
+  },
+  {
+    "build_number": "2025-01-13",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72082202,
+    "previous": 72229258,
+    "deviation": -0.204
+  },
+  {
+    "build_number": "2025-01-13",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3240615,
+    "previous": 3233563,
+    "deviation": 0.218
+  },
+  {
+    "build_number": "2025-01-20",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4510931,
+    "previous": 4555236,
+    "deviation": -0.973
+  },
+  {
+    "build_number": "2025-01-20",
+    "metric": "Gravy IP-PID Count",
+    "current": 4746352,
+    "previous": 4727122,
+    "deviation": 0.407
+  },
+  {
+    "build_number": "2025-01-20",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5246713,
+    "previous": 5224316,
+    "deviation": 0.429
+  },
+  {
+    "build_number": "2025-01-20",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9128985,
+    "previous": 9077636,
+    "deviation": 0.566
+  },
+  {
+    "build_number": "2025-01-20",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72275586,
+    "previous": 72082202,
+    "deviation": 0.268
+  },
+  {
+    "build_number": "2025-01-20",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3211073,
+    "previous": 3240615,
+    "deviation": -0.912
+  },
+  {
+    "build_number": "2025-01-27",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4510754,
+    "previous": 4510931,
+    "deviation": -0.004
+  },
+  {
+    "build_number": "2025-01-27",
+    "metric": "Gravy IP-PID Count",
+    "current": 4761990,
+    "previous": 4746352,
+    "deviation": 0.329
+  },
+  {
+    "build_number": "2025-01-27",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5274554,
+    "previous": 5246713,
+    "deviation": 0.531
+  },
+  {
+    "build_number": "2025-01-27",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9198863,
+    "previous": 9128985,
+    "deviation": 0.765
+  },
+  {
+    "build_number": "2025-01-27",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72335672,
+    "previous": 72275586,
+    "deviation": 0.083
+  },
+  {
+    "build_number": "2025-01-27",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3220808,
+    "previous": 3211073,
+    "deviation": 0.303
+  },
+  {
+    "build_number": "2025-02-03",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4550952,
+    "previous": 4510754,
+    "deviation": 0.891
+  },
+  {
+    "build_number": "2025-02-03",
+    "metric": "Gravy IP-PID Count",
+    "current": 4696653,
+    "previous": 4761990,
+    "deviation": -1.372
+  },
+  {
+    "build_number": "2025-02-03",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5255901,
+    "previous": 5274554,
+    "deviation": -0.354
+  },
+  {
+    "build_number": "2025-02-03",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9247545,
+    "previous": 9198863,
+    "deviation": 0.529
+  },
+  {
+    "build_number": "2025-02-03",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72522949,
+    "previous": 72335672,
+    "deviation": 0.259
+  },
+  {
+    "build_number": "2025-02-03",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3240950,
+    "previous": 3220808,
+    "deviation": 0.625
+  },
+  {
+    "build_number": "2025-02-10",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4598599,
+    "previous": 4550952,
+    "deviation": 1.047
+  },
+  {
+    "build_number": "2025-02-10",
+    "metric": "Gravy IP-PID Count",
+    "current": 4769898,
+    "previous": 4696653,
+    "deviation": 1.56
+  },
+  {
+    "build_number": "2025-02-10",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5243348,
+    "previous": 5255901,
+    "deviation": -0.239
+  },
+  {
+    "build_number": "2025-02-10",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9281114,
+    "previous": 9247545,
+    "deviation": 0.363
+  },
+  {
+    "build_number": "2025-02-10",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72925880,
+    "previous": 72522949,
+    "deviation": 0.556
+  },
+  {
+    "build_number": "2025-02-10",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3256283,
+    "previous": 3240950,
+    "deviation": 0.473
+  },
+  {
+    "build_number": "2025-02-17",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4626703,
+    "previous": 4598599,
+    "deviation": 0.611
+  },
+  {
+    "build_number": "2025-02-17",
+    "metric": "Gravy IP-PID Count",
+    "current": 4834922,
+    "previous": 4769898,
+    "deviation": 1.363
+  },
+  {
+    "build_number": "2025-02-17",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5277814,
+    "previous": 5243348,
+    "deviation": 0.657
+  },
+  {
+    "build_number": "2025-02-17",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9377952,
+    "previous": 9281114,
+    "deviation": 1.043
+  },
+  {
+    "build_number": "2025-02-17",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72542850,
+    "previous": 72925880,
+    "deviation": -0.525
+  },
+  {
+    "build_number": "2025-02-17",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3216708,
+    "previous": 3256283,
+    "deviation": -1.215
+  },
+  {
+    "build_number": "2025-02-24",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4611225,
+    "previous": 4626703,
+    "deviation": -0.335
+  },
+  {
+    "build_number": "2025-02-24",
+    "metric": "Gravy IP-PID Count",
+    "current": 4888007,
+    "previous": 4834922,
+    "deviation": 1.098
+  },
+  {
+    "build_number": "2025-02-24",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5256931,
+    "previous": 5277814,
+    "deviation": -0.396
+  },
+  {
+    "build_number": "2025-02-24",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9330095,
+    "previous": 9377952,
+    "deviation": -0.51
+  },
+  {
+    "build_number": "2025-02-24",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72608429,
+    "previous": 72542850,
+    "deviation": 0.09
+  },
+  {
+    "build_number": "2025-02-24",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3176782,
+    "previous": 3216708,
+    "deviation": -1.241
+  },
+  {
+    "build_number": "2025-03-03",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4575887,
+    "previous": 4611225,
+    "deviation": -0.766
+  },
+  {
+    "build_number": "2025-03-03",
+    "metric": "Gravy IP-PID Count",
+    "current": 4888619,
+    "previous": 4888007,
+    "deviation": 0.013
+  },
+  {
+    "build_number": "2025-03-03",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5271295,
+    "previous": 5256931,
+    "deviation": 0.273
+  },
+  {
+    "build_number": "2025-03-03",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9357494,
+    "previous": 9330095,
+    "deviation": 0.294
+  },
+  {
+    "build_number": "2025-03-03",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72667011,
+    "previous": 72608429,
+    "deviation": 0.081
+  },
+  {
+    "build_number": "2025-03-03",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3199078,
+    "previous": 3176782,
+    "deviation": 0.702
+  },
+  {
+    "build_number": "2025-03-10",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4595050,
+    "previous": 4575887,
+    "deviation": 0.419
+  },
+  {
+    "build_number": "2025-03-10",
+    "metric": "Gravy IP-PID Count",
+    "current": 4864140,
+    "previous": 4888619,
+    "deviation": -0.501
+  },
+  {
+    "build_number": "2025-03-10",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5301717,
+    "previous": 5271295,
+    "deviation": 0.577
+  },
+  {
+    "build_number": "2025-03-10",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9433572,
+    "previous": 9357494,
+    "deviation": 0.813
+  },
+  {
+    "build_number": "2025-03-10",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72709728,
+    "previous": 72667011,
+    "deviation": 0.059
+  },
+  {
+    "build_number": "2025-03-10",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3167470,
+    "previous": 3199078,
+    "deviation": -0.988
+  },
+  {
+    "build_number": "2025-03-17",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4575211,
+    "previous": 4595050,
+    "deviation": -0.432
+  },
+  {
+    "build_number": "2025-03-17",
+    "metric": "Gravy IP-PID Count",
+    "current": 4799573,
+    "previous": 4864140,
+    "deviation": -1.327
+  },
+  {
+    "build_number": "2025-03-17",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5354391,
+    "previous": 5301717,
+    "deviation": 0.994
+  },
+  {
+    "build_number": "2025-03-17",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9406573,
+    "previous": 9433572,
+    "deviation": -0.286
+  },
+  {
+    "build_number": "2025-03-17",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72348467,
+    "previous": 72709728,
+    "deviation": -0.497
+  },
+  {
+    "build_number": "2025-03-17",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3202995,
+    "previous": 3167470,
+    "deviation": 1.122
+  },
+  {
+    "build_number": "2025-03-24",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4578565,
+    "previous": 4575211,
+    "deviation": 0.073
+  },
+  {
+    "build_number": "2025-03-24",
+    "metric": "Gravy IP-PID Count",
+    "current": 4832570,
+    "previous": 4799573,
+    "deviation": 0.687
+  },
+  {
+    "build_number": "2025-03-24",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5407615,
+    "previous": 5354391,
+    "deviation": 0.994
+  },
+  {
+    "build_number": "2025-03-24",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9475965,
+    "previous": 9406573,
+    "deviation": 0.738
+  },
+  {
+    "build_number": "2025-03-24",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72204251,
+    "previous": 72348467,
+    "deviation": -0.199
+  },
+  {
+    "build_number": "2025-03-24",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3188107,
+    "previous": 3202995,
+    "deviation": -0.465
+  },
+  {
+    "build_number": "2025-03-31",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4583861,
+    "previous": 4578565,
+    "deviation": 0.116
+  },
+  {
+    "build_number": "2025-03-31",
+    "metric": "Gravy IP-PID Count",
+    "current": 4772331,
+    "previous": 4832570,
+    "deviation": -1.247
+  },
+  {
+    "build_number": "2025-03-31",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5419747,
+    "previous": 5407615,
+    "deviation": 0.224
+  },
+  {
+    "build_number": "2025-03-31",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9517676,
+    "previous": 9475965,
+    "deviation": 0.44
+  },
+  {
+    "build_number": "2025-03-31",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72675617,
+    "previous": 72204251,
+    "deviation": 0.653
+  },
+  {
+    "build_number": "2025-03-31",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3201376,
+    "previous": 3188107,
+    "deviation": 0.416
+  },
+  {
+    "build_number": "2025-04-07",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4586426,
+    "previous": 4583861,
+    "deviation": 0.056
+  },
+  {
+    "build_number": "2025-04-07",
+    "metric": "Gravy IP-PID Count",
+    "current": 4692896,
+    "previous": 4772331,
+    "deviation": -1.664
+  },
+  {
+    "build_number": "2025-04-07",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5462516,
+    "previous": 5419747,
+    "deviation": 0.789
+  },
+  {
+    "build_number": "2025-04-07",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9600283,
+    "previous": 9517676,
+    "deviation": 0.868
+  },
+  {
+    "build_number": "2025-04-07",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72758382,
+    "previous": 72675617,
+    "deviation": 0.114
+  },
+  {
+    "build_number": "2025-04-07",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3186266,
+    "previous": 3201376,
+    "deviation": -0.472
+  },
+  {
+    "build_number": "2025-04-14",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4612340,
+    "previous": 4586426,
+    "deviation": 0.565
+  },
+  {
+    "build_number": "2025-04-14",
+    "metric": "Gravy IP-PID Count",
+    "current": 4695105,
+    "previous": 4692896,
+    "deviation": 0.047
+  },
+  {
+    "build_number": "2025-04-14",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5468425,
+    "previous": 5462516,
+    "deviation": 0.108
+  },
+  {
+    "build_number": "2025-04-14",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9515193,
+    "previous": 9600283,
+    "deviation": -0.886
+  },
+  {
+    "build_number": "2025-04-14",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72453233,
+    "previous": 72758382,
+    "deviation": -0.419
+  },
+  {
+    "build_number": "2025-04-14",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3177094,
+    "previous": 3186266,
+    "deviation": -0.288
+  },
+  {
+    "build_number": "2025-04-21",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4637008,
+    "previous": 4612340,
+    "deviation": 0.535
+  },
+  {
+    "build_number": "2025-04-21",
+    "metric": "Gravy IP-PID Count",
+    "current": 4636596,
+    "previous": 4695105,
+    "deviation": -1.246
+  },
+  {
+    "build_number": "2025-04-21",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5476947,
+    "previous": 5468425,
+    "deviation": 0.156
+  },
+  {
+    "build_number": "2025-04-21",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9590757,
+    "previous": 9515193,
+    "deviation": 0.794
+  },
+  {
+    "build_number": "2025-04-21",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72368244,
+    "previous": 72453233,
+    "deviation": -0.117
+  },
+  {
+    "build_number": "2025-04-21",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3197023,
+    "previous": 3177094,
+    "deviation": 0.627
+  },
+  {
+    "build_number": "2025-04-28",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4596516,
+    "previous": 4637008,
+    "deviation": -0.873
+  },
+  {
+    "build_number": "2025-04-28",
+    "metric": "Gravy IP-PID Count",
+    "current": 4704181,
+    "previous": 4636596,
+    "deviation": 1.458
+  },
+  {
+    "build_number": "2025-04-28",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5444885,
+    "previous": 5476947,
+    "deviation": -0.585
+  },
+  {
+    "build_number": "2025-04-28",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9582247,
+    "previous": 9590757,
+    "deviation": -0.089
+  },
+  {
+    "build_number": "2025-04-28",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72255721,
+    "previous": 72368244,
+    "deviation": -0.155
+  },
+  {
+    "build_number": "2025-04-28",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3228223,
+    "previous": 3197023,
+    "deviation": 0.976
+  },
+  {
+    "build_number": "2025-05-05",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4632233,
+    "previous": 4596516,
+    "deviation": 0.777
+  },
+  {
+    "build_number": "2025-05-05",
+    "metric": "Gravy IP-PID Count",
+    "current": 4769566,
+    "previous": 4704181,
+    "deviation": 1.39
+  },
+  {
+    "build_number": "2025-05-05",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5499982,
+    "previous": 5444885,
+    "deviation": 1.012
+  },
+  {
+    "build_number": "2025-05-05",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9510305,
+    "previous": 9582247,
+    "deviation": -0.751
+  },
+  {
+    "build_number": "2025-05-05",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72051163,
+    "previous": 72255721,
+    "deviation": -0.283
+  },
+  {
+    "build_number": "2025-05-05",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3214908,
+    "previous": 3228223,
+    "deviation": -0.412
+  },
+  {
+    "build_number": "2025-05-12",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4648477,
+    "previous": 4632233,
+    "deviation": 0.351
+  },
+  {
+    "build_number": "2025-05-12",
+    "metric": "Gravy IP-PID Count",
+    "current": 4702882,
+    "previous": 4769566,
+    "deviation": -1.398
+  },
+  {
+    "build_number": "2025-05-12",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5476247,
+    "previous": 5499982,
+    "deviation": -0.432
+  },
+  {
+    "build_number": "2025-05-12",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9444598,
+    "previous": 9510305,
+    "deviation": -0.691
+  },
+  {
+    "build_number": "2025-05-12",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72328399,
+    "previous": 72051163,
+    "deviation": 0.385
+  },
+  {
+    "build_number": "2025-05-12",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3248427,
+    "previous": 3214908,
+    "deviation": 1.043
+  },
+  {
+    "build_number": "2025-05-19",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4689050,
+    "previous": 4648477,
+    "deviation": 0.873
+  },
+  {
+    "build_number": "2025-05-19",
+    "metric": "Gravy IP-PID Count",
+    "current": 4719669,
+    "previous": 4702882,
+    "deviation": 0.357
+  },
+  {
+    "build_number": "2025-05-19",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5432951,
+    "previous": 5476247,
+    "deviation": -0.791
+  },
+  {
+    "build_number": "2025-05-19",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9355056,
+    "previous": 9444598,
+    "deviation": -0.948
+  },
+  {
+    "build_number": "2025-05-19",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72090049,
+    "previous": 72328399,
+    "deviation": -0.33
+  },
+  {
+    "build_number": "2025-05-19",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3281812,
+    "previous": 3248427,
+    "deviation": 1.028
+  },
+  {
+    "build_number": "2025-05-26",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4720401,
+    "previous": 4689050,
+    "deviation": 0.669
+  },
+  {
+    "build_number": "2025-05-26",
+    "metric": "Gravy IP-PID Count",
+    "current": 4701728,
+    "previous": 4719669,
+    "deviation": -0.38
+  },
+  {
+    "build_number": "2025-05-26",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5479220,
+    "previous": 5432951,
+    "deviation": 0.852
+  },
+  {
+    "build_number": "2025-05-26",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9302074,
+    "previous": 9355056,
+    "deviation": -0.566
+  },
+  {
+    "build_number": "2025-05-26",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72566080,
+    "previous": 72090049,
+    "deviation": 0.66
+  },
+  {
+    "build_number": "2025-05-26",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3274339,
+    "previous": 3281812,
+    "deviation": -0.228
+  },
+  {
+    "build_number": "2025-06-02",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4684569,
+    "previous": 4720401,
+    "deviation": -0.759
+  },
+  {
+    "build_number": "2025-06-02",
+    "metric": "Gravy IP-PID Count",
+    "current": 4745116,
+    "previous": 4701728,
+    "deviation": 0.923
+  },
+  {
+    "build_number": "2025-06-02",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5479552,
+    "previous": 5479220,
+    "deviation": 0.006
+  },
+  {
+    "build_number": "2025-06-02",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9261736,
+    "previous": 9302074,
+    "deviation": -0.434
+  },
+  {
+    "build_number": "2025-06-02",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72483901,
+    "previous": 72566080,
+    "deviation": -0.113
+  },
+  {
+    "build_number": "2025-06-02",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3270924,
+    "previous": 3274339,
+    "deviation": -0.104
+  },
+  {
+    "build_number": "2025-06-09",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4723634,
+    "previous": 4684569,
+    "deviation": 0.834
+  },
+  {
+    "build_number": "2025-06-09",
+    "metric": "Gravy IP-PID Count",
+    "current": 4672351,
+    "previous": 4745116,
+    "deviation": -1.533
+  },
+  {
+    "build_number": "2025-06-09",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5442957,
+    "previous": 5479552,
+    "deviation": -0.668
+  },
+  {
+    "build_number": "2025-06-09",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9171764,
+    "previous": 9261736,
+    "deviation": -0.971
+  },
+  {
+    "build_number": "2025-06-09",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72747835,
+    "previous": 72483901,
+    "deviation": 0.364
+  },
+  {
+    "build_number": "2025-06-09",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3297957,
+    "previous": 3270924,
+    "deviation": 0.826
+  },
+  {
+    "build_number": "2025-06-16",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4698548,
+    "previous": 4723634,
+    "deviation": -0.531
+  },
+  {
+    "build_number": "2025-06-16",
+    "metric": "Gravy IP-PID Count",
+    "current": 4592794,
+    "previous": 4672351,
+    "deviation": -1.703
+  },
+  {
+    "build_number": "2025-06-16",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5472984,
+    "previous": 5442957,
+    "deviation": 0.552
+  },
+  {
+    "build_number": "2025-06-16",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9247565,
+    "previous": 9171764,
+    "deviation": 0.826
+  },
+  {
+    "build_number": "2025-06-16",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73242802,
+    "previous": 72747835,
+    "deviation": 0.68
+  },
+  {
+    "build_number": "2025-06-16",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3299102,
+    "previous": 3297957,
+    "deviation": 0.035
+  },
+  {
+    "build_number": "2025-06-23",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4687911,
+    "previous": 4698548,
+    "deviation": -0.226
+  },
+  {
+    "build_number": "2025-06-23",
+    "metric": "Gravy IP-PID Count",
+    "current": 4598300,
+    "previous": 4592794,
+    "deviation": 0.12
+  },
+  {
+    "build_number": "2025-06-23",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5429667,
+    "previous": 5472984,
+    "deviation": -0.791
+  },
+  {
+    "build_number": "2025-06-23",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9246955,
+    "previous": 9247565,
+    "deviation": -0.007
+  },
+  {
+    "build_number": "2025-06-23",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73388216,
+    "previous": 73242802,
+    "deviation": 0.199
+  },
+  {
+    "build_number": "2025-06-23",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3259155,
+    "previous": 3299102,
+    "deviation": -1.211
+  },
+  {
+    "build_number": "2025-06-30",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4713930,
+    "previous": 4687911,
+    "deviation": 0.555
+  },
+  {
+    "build_number": "2025-06-30",
+    "metric": "Gravy IP-PID Count",
+    "current": 4634111,
+    "previous": 4598300,
+    "deviation": 0.779
+  },
+  {
+    "build_number": "2025-06-30",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5431688,
+    "previous": 5429667,
+    "deviation": 0.037
+  },
+  {
+    "build_number": "2025-06-30",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9339882,
+    "previous": 9246955,
+    "deviation": 1.005
+  },
+  {
+    "build_number": "2025-06-30",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73428706,
+    "previous": 73388216,
+    "deviation": 0.055
+  },
+  {
+    "build_number": "2025-06-30",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3231395,
+    "previous": 3259155,
+    "deviation": -0.852
+  },
+  {
+    "build_number": "2025-07-07",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4752114,
+    "previous": 4713930,
+    "deviation": 0.81
+  },
+  {
+    "build_number": "2025-07-07",
+    "metric": "Gravy IP-PID Count",
+    "current": 4592738,
+    "previous": 4634111,
+    "deviation": -0.893
+  },
+  {
+    "build_number": "2025-07-07",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5433965,
+    "previous": 5431688,
+    "deviation": 0.042
+  },
+  {
+    "build_number": "2025-07-07",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9359266,
+    "previous": 9339882,
+    "deviation": 0.208
+  },
+  {
+    "build_number": "2025-07-07",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73132586,
+    "previous": 73428706,
+    "deviation": -0.403
+  },
+  {
+    "build_number": "2025-07-07",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3243778,
+    "previous": 3231395,
+    "deviation": 0.383
+  },
+  {
+    "build_number": "2025-07-14",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4702840,
+    "previous": 4752114,
+    "deviation": -1.037
+  },
+  {
+    "build_number": "2025-07-14",
+    "metric": "Gravy IP-PID Count",
+    "current": 4540679,
+    "previous": 4592738,
+    "deviation": -1.134
+  },
+  {
+    "build_number": "2025-07-14",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5479361,
+    "previous": 5433965,
+    "deviation": 0.835
+  },
+  {
+    "build_number": "2025-07-14",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9272430,
+    "previous": 9359266,
+    "deviation": -0.928
+  },
+  {
+    "build_number": "2025-07-14",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72759839,
+    "previous": 73132586,
+    "deviation": -0.51
+  },
+  {
+    "build_number": "2025-07-14",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3273394,
+    "previous": 3243778,
+    "deviation": 0.913
+  },
+  {
+    "build_number": "2025-07-21",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4751832,
+    "previous": 4702840,
+    "deviation": 1.042
+  },
+  {
+    "build_number": "2025-07-21",
+    "metric": "Gravy IP-PID Count",
+    "current": 4593003,
+    "previous": 4540679,
+    "deviation": 1.152
+  },
+  {
+    "build_number": "2025-07-21",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5477807,
+    "previous": 5479361,
+    "deviation": -0.028
+  },
+  {
+    "build_number": "2025-07-21",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9296863,
+    "previous": 9272430,
+    "deviation": 0.264
+  },
+  {
+    "build_number": "2025-07-21",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73140499,
+    "previous": 72759839,
+    "deviation": 0.523
+  },
+  {
+    "build_number": "2025-07-21",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3301721,
+    "previous": 3273394,
+    "deviation": 0.865
+  },
+  {
+    "build_number": "2025-07-28",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4759486,
+    "previous": 4751832,
+    "deviation": 0.161
+  },
+  {
+    "build_number": "2025-07-28",
+    "metric": "Gravy IP-PID Count",
+    "current": 4584231,
+    "previous": 4593003,
+    "deviation": -0.191
+  },
+  {
+    "build_number": "2025-07-28",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5428368,
+    "previous": 5477807,
+    "deviation": -0.903
+  },
+  {
+    "build_number": "2025-07-28",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9378777,
+    "previous": 9296863,
+    "deviation": 0.881
+  },
+  {
+    "build_number": "2025-07-28",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73075519,
+    "previous": 73140499,
+    "deviation": -0.089
+  },
+  {
+    "build_number": "2025-07-28",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3316217,
+    "previous": 3301721,
+    "deviation": 0.439
+  },
+  {
+    "build_number": "2025-08-04",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4760535,
+    "previous": 4759486,
+    "deviation": 0.022
+  },
+  {
+    "build_number": "2025-08-04",
+    "metric": "Gravy IP-PID Count",
+    "current": 4509351,
+    "previous": 4584231,
+    "deviation": -1.633
+  },
+  {
+    "build_number": "2025-08-04",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5418225,
+    "previous": 5428368,
+    "deviation": -0.187
+  },
+  {
+    "build_number": "2025-08-04",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9357056,
+    "previous": 9378777,
+    "deviation": -0.232
+  },
+  {
+    "build_number": "2025-08-04",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73575263,
+    "previous": 73075519,
+    "deviation": 0.684
+  },
+  {
+    "build_number": "2025-08-04",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3347799,
+    "previous": 3316217,
+    "deviation": 0.952
+  },
+  {
+    "build_number": "2025-08-11",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4774528,
+    "previous": 4760535,
+    "deviation": 0.294
+  },
+  {
+    "build_number": "2025-08-11",
+    "metric": "Gravy IP-PID Count",
+    "current": 4436959,
+    "previous": 4509351,
+    "deviation": -1.605
+  },
+  {
+    "build_number": "2025-08-11",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5462839,
+    "previous": 5418225,
+    "deviation": 0.823
+  },
+  {
+    "build_number": "2025-08-11",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9379579,
+    "previous": 9357056,
+    "deviation": 0.241
+  },
+  {
+    "build_number": "2025-08-11",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73635332,
+    "previous": 73575263,
+    "deviation": 0.082
+  },
+  {
+    "build_number": "2025-08-11",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3381774,
+    "previous": 3347799,
+    "deviation": 1.015
+  },
+  {
+    "build_number": "2025-08-18",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4780707,
+    "previous": 4774528,
+    "deviation": 0.129
+  },
+  {
+    "build_number": "2025-08-18",
+    "metric": "Gravy IP-PID Count",
+    "current": 4370140,
+    "previous": 4436959,
+    "deviation": -1.506
+  },
+  {
+    "build_number": "2025-08-18",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5462437,
+    "previous": 5462839,
+    "deviation": -0.007
+  },
+  {
+    "build_number": "2025-08-18",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9378964,
+    "previous": 9379579,
+    "deviation": -0.007
+  },
+  {
+    "build_number": "2025-08-18",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73577374,
+    "previous": 73635332,
+    "deviation": -0.079
+  },
+  {
+    "build_number": "2025-08-18",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3344314,
+    "previous": 3381774,
+    "deviation": -1.108
+  },
+  {
+    "build_number": "2025-08-25",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4776577,
+    "previous": 4780707,
+    "deviation": -0.086
+  },
+  {
+    "build_number": "2025-08-25",
+    "metric": "Gravy IP-PID Count",
+    "current": 4300693,
+    "previous": 4370140,
+    "deviation": -1.589
+  },
+  {
+    "build_number": "2025-08-25",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5428567,
+    "previous": 5462437,
+    "deviation": -0.62
+  },
+  {
+    "build_number": "2025-08-25",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9341497,
+    "previous": 9378964,
+    "deviation": -0.399
+  },
+  {
+    "build_number": "2025-08-25",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73668738,
+    "previous": 73577374,
+    "deviation": 0.124
+  },
+  {
+    "build_number": "2025-08-25",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3337900,
+    "previous": 3344314,
+    "deviation": -0.192
+  },
+  {
+    "build_number": "2025-09-01",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4806170,
+    "previous": 4776577,
+    "deviation": 0.62
+  },
+  {
+    "build_number": "2025-09-01",
+    "metric": "Gravy IP-PID Count",
+    "current": 4263623,
+    "previous": 4300693,
+    "deviation": -0.862
+  },
+  {
+    "build_number": "2025-09-01",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5371932,
+    "previous": 5428567,
+    "deviation": -1.043
+  },
+  {
+    "build_number": "2025-09-01",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9339881,
+    "previous": 9341497,
+    "deviation": -0.017
+  },
+  {
+    "build_number": "2025-09-01",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73248426,
+    "previous": 73668738,
+    "deviation": -0.571
+  },
+  {
+    "build_number": "2025-09-01",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3329730,
+    "previous": 3337900,
+    "deviation": -0.245
+  },
+  {
+    "build_number": "2025-09-08",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4845857,
+    "previous": 4806170,
+    "deviation": 0.826
+  },
+  {
+    "build_number": "2025-09-08",
+    "metric": "Gravy IP-PID Count",
+    "current": 4331978,
+    "previous": 4263623,
+    "deviation": 1.603
+  },
+  {
+    "build_number": "2025-09-08",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5368080,
+    "previous": 5371932,
+    "deviation": -0.072
+  },
+  {
+    "build_number": "2025-09-08",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9409630,
+    "previous": 9339881,
+    "deviation": 0.747
+  },
+  {
+    "build_number": "2025-09-08",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73610702,
+    "previous": 73248426,
+    "deviation": 0.495
+  },
+  {
+    "build_number": "2025-09-08",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3337202,
+    "previous": 3329730,
+    "deviation": 0.224
+  },
+  {
+    "build_number": "2025-09-15",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4888565,
+    "previous": 4845857,
+    "deviation": 0.881
+  },
+  {
+    "build_number": "2025-09-15",
+    "metric": "Gravy IP-PID Count",
+    "current": 4388750,
+    "previous": 4331978,
+    "deviation": 1.311
+  },
+  {
+    "build_number": "2025-09-15",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5414012,
+    "previous": 5368080,
+    "deviation": 0.856
+  },
+  {
+    "build_number": "2025-09-15",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9431493,
+    "previous": 9409630,
+    "deviation": 0.232
+  },
+  {
+    "build_number": "2025-09-15",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73392135,
+    "previous": 73610702,
+    "deviation": -0.297
+  },
+  {
+    "build_number": "2025-09-15",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3308561,
+    "previous": 3337202,
+    "deviation": -0.858
+  },
+  {
+    "build_number": "2025-09-22",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4936931,
+    "previous": 4888565,
+    "deviation": 0.989
+  },
+  {
+    "build_number": "2025-09-22",
+    "metric": "Gravy IP-PID Count",
+    "current": 4408099,
+    "previous": 4388750,
+    "deviation": 0.441
+  },
+  {
+    "build_number": "2025-09-22",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5396612,
+    "previous": 5414012,
+    "deviation": -0.321
+  },
+  {
+    "build_number": "2025-09-22",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9399218,
+    "previous": 9431493,
+    "deviation": -0.342
+  },
+  {
+    "build_number": "2025-09-22",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73627379,
+    "previous": 73392135,
+    "deviation": 0.321
+  },
+  {
+    "build_number": "2025-09-22",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3336276,
+    "previous": 3308561,
+    "deviation": 0.838
+  },
+  {
+    "build_number": "2025-09-29",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 4981312,
+    "previous": 4936931,
+    "deviation": 0.899
+  },
+  {
+    "build_number": "2025-09-29",
+    "metric": "Gravy IP-PID Count",
+    "current": 4391098,
+    "previous": 4408099,
+    "deviation": -0.386
+  },
+  {
+    "build_number": "2025-09-29",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5400944,
+    "previous": 5396612,
+    "deviation": 0.08
+  },
+  {
+    "build_number": "2025-09-29",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9376350,
+    "previous": 9399218,
+    "deviation": -0.243
+  },
+  {
+    "build_number": "2025-09-29",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73448459,
+    "previous": 73627379,
+    "deviation": -0.243
+  },
+  {
+    "build_number": "2025-09-29",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3368820,
+    "previous": 3336276,
+    "deviation": 0.975
+  },
+  {
+    "build_number": "2025-10-06",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5029083,
+    "previous": 4981312,
+    "deviation": 0.959
+  },
+  {
+    "build_number": "2025-10-06",
+    "metric": "Gravy IP-PID Count",
+    "current": 4430044,
+    "previous": 4391098,
+    "deviation": 0.887
+  },
+  {
+    "build_number": "2025-10-06",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5356758,
+    "previous": 5400944,
+    "deviation": -0.818
+  },
+  {
+    "build_number": "2025-10-06",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9471091,
+    "previous": 9376350,
+    "deviation": 1.01
+  },
+  {
+    "build_number": "2025-10-06",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73142602,
+    "previous": 73448459,
+    "deviation": -0.416
+  },
+  {
+    "build_number": "2025-10-06",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3365061,
+    "previous": 3368820,
+    "deviation": -0.112
+  },
+  {
+    "build_number": "2025-10-13",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5047848,
+    "previous": 5029083,
+    "deviation": 0.373
+  },
+  {
+    "build_number": "2025-10-13",
+    "metric": "Gravy IP-PID Count",
+    "current": 4400930,
+    "previous": 4430044,
+    "deviation": -0.657
+  },
+  {
+    "build_number": "2025-10-13",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5336376,
+    "previous": 5356758,
+    "deviation": -0.38
+  },
+  {
+    "build_number": "2025-10-13",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9443000,
+    "previous": 9471091,
+    "deviation": -0.297
+  },
+  {
+    "build_number": "2025-10-13",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72948929,
+    "previous": 73142602,
+    "deviation": -0.265
+  },
+  {
+    "build_number": "2025-10-13",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3389401,
+    "previous": 3365061,
+    "deviation": 0.723
+  },
+  {
+    "build_number": "2025-10-20",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5035116,
+    "previous": 5047848,
+    "deviation": -0.252
+  },
+  {
+    "build_number": "2025-10-20",
+    "metric": "Gravy IP-PID Count",
+    "current": 4369259,
+    "previous": 4400930,
+    "deviation": -0.72
+  },
+  {
+    "build_number": "2025-10-20",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5389323,
+    "previous": 5336376,
+    "deviation": 0.992
+  },
+  {
+    "build_number": "2025-10-20",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9448043,
+    "previous": 9443000,
+    "deviation": 0.053
+  },
+  {
+    "build_number": "2025-10-20",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73168725,
+    "previous": 72948929,
+    "deviation": 0.301
+  },
+  {
+    "build_number": "2025-10-20",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3423173,
+    "previous": 3389401,
+    "deviation": 0.996
+  },
+  {
+    "build_number": "2025-10-27",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5017646,
+    "previous": 5035116,
+    "deviation": -0.347
+  },
+  {
+    "build_number": "2025-10-27",
+    "metric": "Gravy IP-PID Count",
+    "current": 4448201,
+    "previous": 4369259,
+    "deviation": 1.807
+  },
+  {
+    "build_number": "2025-10-27",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5430994,
+    "previous": 5389323,
+    "deviation": 0.773
+  },
+  {
+    "build_number": "2025-10-27",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9464099,
+    "previous": 9448043,
+    "deviation": 0.17
+  },
+  {
+    "build_number": "2025-10-27",
+    "metric": "DIG IP-PID Final Count",
+    "current": 73118385,
+    "previous": 73168725,
+    "deviation": -0.069
+  },
+  {
+    "build_number": "2025-10-27",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3463078,
+    "previous": 3423173,
+    "deviation": 1.166
+  },
+  {
+    "build_number": "2025-11-03",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5067619,
+    "previous": 5017646,
+    "deviation": 0.996
+  },
+  {
+    "build_number": "2025-11-03",
+    "metric": "Gravy IP-PID Count",
+    "current": 4389483,
+    "previous": 4448201,
+    "deviation": -1.32
+  },
+  {
+    "build_number": "2025-11-03",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5380832,
+    "previous": 5430994,
+    "deviation": -0.924
+  },
+  {
+    "build_number": "2025-11-03",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9544813,
+    "previous": 9464099,
+    "deviation": 0.853
+  },
+  {
+    "build_number": "2025-11-03",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72861105,
+    "previous": 73118385,
+    "deviation": -0.352
+  },
+  {
+    "build_number": "2025-11-03",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3482588,
+    "previous": 3463078,
+    "deviation": 0.563
+  },
+  {
+    "build_number": "2025-11-10",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5052294,
+    "previous": 5067619,
+    "deviation": -0.302
+  },
+  {
+    "build_number": "2025-11-10",
+    "metric": "Gravy IP-PID Count",
+    "current": 4361340,
+    "previous": 4389483,
+    "deviation": -0.641
+  },
+  {
+    "build_number": "2025-11-10",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5405718,
+    "previous": 5380832,
+    "deviation": 0.462
+  },
+  {
+    "build_number": "2025-11-10",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9482099,
+    "previous": 9544813,
+    "deviation": -0.657
+  },
+  {
+    "build_number": "2025-11-10",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72683659,
+    "previous": 72861105,
+    "deviation": -0.244
+  },
+  {
+    "build_number": "2025-11-10",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3480416,
+    "previous": 3482588,
+    "deviation": -0.062
+  },
+  {
+    "build_number": "2025-11-17",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5042151,
+    "previous": 5052294,
+    "deviation": -0.201
+  },
+  {
+    "build_number": "2025-11-17",
+    "metric": "Gravy IP-PID Count",
+    "current": 4412535,
+    "previous": 4361340,
+    "deviation": 1.174
+  },
+  {
+    "build_number": "2025-11-17",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5424103,
+    "previous": 5405718,
+    "deviation": 0.34
+  },
+  {
+    "build_number": "2025-11-17",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9466593,
+    "previous": 9482099,
+    "deviation": -0.164
+  },
+  {
+    "build_number": "2025-11-17",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72423703,
+    "previous": 72683659,
+    "deviation": -0.358
+  },
+  {
+    "build_number": "2025-11-17",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3515808,
+    "previous": 3480416,
+    "deviation": 1.017
+  },
+  {
+    "build_number": "2025-11-24",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5080268,
+    "previous": 5042151,
+    "deviation": 0.756
+  },
+  {
+    "build_number": "2025-11-24",
+    "metric": "Gravy IP-PID Count",
+    "current": 4378460,
+    "previous": 4412535,
+    "deviation": -0.772
+  },
+  {
+    "build_number": "2025-11-24",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5400561,
+    "previous": 5424103,
+    "deviation": -0.434
+  },
+  {
+    "build_number": "2025-11-24",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9532998,
+    "previous": 9466593,
+    "deviation": 0.701
+  },
+  {
+    "build_number": "2025-11-24",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72416544,
+    "previous": 72423703,
+    "deviation": -0.01
+  },
+  {
+    "build_number": "2025-11-24",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3489518,
+    "previous": 3515808,
+    "deviation": -0.748
+  },
+  {
+    "build_number": "2025-12-01",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5121189,
+    "previous": 5080268,
+    "deviation": 0.805
+  },
+  {
+    "build_number": "2025-12-01",
+    "metric": "Gravy IP-PID Count",
+    "current": 4403436,
+    "previous": 4378460,
+    "deviation": 0.57
+  },
+  {
+    "build_number": "2025-12-01",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5400175,
+    "previous": 5400561,
+    "deviation": -0.007
+  },
+  {
+    "build_number": "2025-12-01",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9463386,
+    "previous": 9532998,
+    "deviation": -0.73
+  },
+  {
+    "build_number": "2025-12-01",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72456137,
+    "previous": 72416544,
+    "deviation": 0.055
+  },
+  {
+    "build_number": "2025-12-01",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3520636,
+    "previous": 3489518,
+    "deviation": 0.892
+  },
+  {
+    "build_number": "2025-12-08",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5139141,
+    "previous": 5121189,
+    "deviation": 0.351
+  },
+  {
+    "build_number": "2025-12-08",
+    "metric": "Gravy IP-PID Count",
+    "current": 4439314,
+    "previous": 4403436,
+    "deviation": 0.815
+  },
+  {
+    "build_number": "2025-12-08",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5412162,
+    "previous": 5400175,
+    "deviation": 0.222
+  },
+  {
+    "build_number": "2025-12-08",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9546428,
+    "previous": 9463386,
+    "deviation": 0.878
+  },
+  {
+    "build_number": "2025-12-08",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72616763,
+    "previous": 72456137,
+    "deviation": 0.222
+  },
+  {
+    "build_number": "2025-12-08",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3501394,
+    "previous": 3520636,
+    "deviation": -0.547
+  },
+  {
+    "build_number": "2025-12-15",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5142617,
+    "previous": 5139141,
+    "deviation": 0.068
+  },
+  {
+    "build_number": "2025-12-15",
+    "metric": "Gravy IP-PID Count",
+    "current": 4389057,
+    "previous": 4439314,
+    "deviation": -1.132
+  },
+  {
+    "build_number": "2025-12-15",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5461232,
+    "previous": 5412162,
+    "deviation": 0.907
+  },
+  {
+    "build_number": "2025-12-15",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9522937,
+    "previous": 9546428,
+    "deviation": -0.246
+  },
+  {
+    "build_number": "2025-12-15",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72992034,
+    "previous": 72616763,
+    "deviation": 0.517
+  },
+  {
+    "build_number": "2025-12-15",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3521265,
+    "previous": 3501394,
+    "deviation": 0.568
+  },
+  {
+    "build_number": "2025-12-22",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5171178,
+    "previous": 5142617,
+    "deviation": 0.555
+  },
+  {
+    "build_number": "2025-12-22",
+    "metric": "Gravy IP-PID Count",
+    "current": 4327357,
+    "previous": 4389057,
+    "deviation": -1.406
+  },
+  {
+    "build_number": "2025-12-22",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5455619,
+    "previous": 5461232,
+    "deviation": -0.103
+  },
+  {
+    "build_number": "2025-12-22",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9492974,
+    "previous": 9522937,
+    "deviation": -0.315
+  },
+  {
+    "build_number": "2025-12-22",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72805092,
+    "previous": 72992034,
+    "deviation": -0.256
+  },
+  {
+    "build_number": "2025-12-22",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3545443,
+    "previous": 3521265,
+    "deviation": 0.687
+  },
+  {
+    "build_number": "2025-12-29",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5184661,
+    "previous": 5171178,
+    "deviation": 0.261
+  },
+  {
+    "build_number": "2025-12-29",
+    "metric": "Gravy IP-PID Count",
+    "current": 4389813,
+    "previous": 4327357,
+    "deviation": 1.443
+  },
+  {
+    "build_number": "2025-12-29",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5509599,
+    "previous": 5455619,
+    "deviation": 0.989
+  },
+  {
+    "build_number": "2025-12-29",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9542867,
+    "previous": 9492974,
+    "deviation": 0.526
+  },
+  {
+    "build_number": "2025-12-29",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72735820,
+    "previous": 72805092,
+    "deviation": -0.095
+  },
+  {
+    "build_number": "2025-12-29",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3555411,
+    "previous": 3545443,
+    "deviation": 0.281
+  },
+  {
+    "build_number": "2026-01-05",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5220122,
+    "previous": 5184661,
+    "deviation": 0.684
+  },
+  {
+    "build_number": "2026-01-05",
+    "metric": "Gravy IP-PID Count",
+    "current": 4319517,
+    "previous": 4389813,
+    "deviation": -1.601
+  },
+  {
+    "build_number": "2026-01-05",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5493114,
+    "previous": 5509599,
+    "deviation": -0.299
+  },
+  {
+    "build_number": "2026-01-05",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9558290,
+    "previous": 9542867,
+    "deviation": 0.162
+  },
+  {
+    "build_number": "2026-01-05",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72251913,
+    "previous": 72735820,
+    "deviation": -0.665
+  },
+  {
+    "build_number": "2026-01-05",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3535643,
+    "previous": 3555411,
+    "deviation": -0.556
+  },
+  {
+    "build_number": "2026-01-12",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5204859,
+    "previous": 5220122,
+    "deviation": -0.292
+  },
+  {
+    "build_number": "2026-01-12",
+    "metric": "Gravy IP-PID Count",
+    "current": 4260571,
+    "previous": 4319517,
+    "deviation": -1.365
+  },
+  {
+    "build_number": "2026-01-12",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5545749,
+    "previous": 5493114,
+    "deviation": 0.958
+  },
+  {
+    "build_number": "2026-01-12",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9622601,
+    "previous": 9558290,
+    "deviation": 0.673
+  },
+  {
+    "build_number": "2026-01-12",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72666672,
+    "previous": 72251913,
+    "deviation": 0.574
+  },
+  {
+    "build_number": "2026-01-12",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3526414,
+    "previous": 3535643,
+    "deviation": -0.261
+  },
+  {
+    "build_number": "2026-01-19",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5184676,
+    "previous": 5204859,
+    "deviation": -0.388
+  },
+  {
+    "build_number": "2026-01-19",
+    "metric": "Gravy IP-PID Count",
+    "current": 4206377,
+    "previous": 4260571,
+    "deviation": -1.272
+  },
+  {
+    "build_number": "2026-01-19",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5498922,
+    "previous": 5545749,
+    "deviation": -0.844
+  },
+  {
+    "build_number": "2026-01-19",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9530189,
+    "previous": 9622601,
+    "deviation": -0.96
+  },
+  {
+    "build_number": "2026-01-19",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72474290,
+    "previous": 72666672,
+    "deviation": -0.265
+  },
+  {
+    "build_number": "2026-01-19",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3518421,
+    "previous": 3526414,
+    "deviation": -0.227
+  },
+  {
+    "build_number": "2026-01-26",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5158276,
+    "previous": 5184676,
+    "deviation": -0.509
+  },
+  {
+    "build_number": "2026-01-26",
+    "metric": "Gravy IP-PID Count",
+    "current": 4226658,
+    "previous": 4206377,
+    "deviation": 0.482
+  },
+  {
+    "build_number": "2026-01-26",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5558568,
+    "previous": 5498922,
+    "deviation": 1.085
+  },
+  {
+    "build_number": "2026-01-26",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9597411,
+    "previous": 9530189,
+    "deviation": 0.705
+  },
+  {
+    "build_number": "2026-01-26",
+    "metric": "DIG IP-PID Final Count",
+    "current": 71984143,
+    "previous": 72474290,
+    "deviation": -0.676
+  },
+  {
+    "build_number": "2026-01-26",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3516121,
+    "previous": 3518421,
+    "deviation": -0.065
+  },
+  {
+    "build_number": "2026-02-02",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5166174,
+    "previous": 5158276,
+    "deviation": 0.153
+  },
+  {
+    "build_number": "2026-02-02",
+    "metric": "Gravy IP-PID Count",
+    "current": 4225079,
+    "previous": 4226658,
+    "deviation": -0.037
+  },
+  {
+    "build_number": "2026-02-02",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5531348,
+    "previous": 5558568,
+    "deviation": -0.49
+  },
+  {
+    "build_number": "2026-02-02",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9598256,
+    "previous": 9597411,
+    "deviation": 0.009
+  },
+  {
+    "build_number": "2026-02-02",
+    "metric": "DIG IP-PID Final Count",
+    "current": 71884032,
+    "previous": 71984143,
+    "deviation": -0.139
+  },
+  {
+    "build_number": "2026-02-02",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3514817,
+    "previous": 3516121,
+    "deviation": -0.037
+  },
+  {
+    "build_number": "2026-02-09",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5168053,
+    "previous": 5166174,
+    "deviation": 0.036
+  },
+  {
+    "build_number": "2026-02-09",
+    "metric": "Gravy IP-PID Count",
+    "current": 4157935,
+    "previous": 4225079,
+    "deviation": -1.589
+  },
+  {
+    "build_number": "2026-02-09",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5580509,
+    "previous": 5531348,
+    "deviation": 0.889
+  },
+  {
+    "build_number": "2026-02-09",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9558580,
+    "previous": 9598256,
+    "deviation": -0.413
+  },
+  {
+    "build_number": "2026-02-09",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72051574,
+    "previous": 71884032,
+    "deviation": 0.233
+  },
+  {
+    "build_number": "2026-02-09",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3492744,
+    "previous": 3514817,
+    "deviation": -0.628
+  },
+  {
+    "build_number": "2026-02-16",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5202770,
+    "previous": 5168053,
+    "deviation": 0.672
+  },
+  {
+    "build_number": "2026-02-16",
+    "metric": "Gravy IP-PID Count",
+    "current": 4086681,
+    "previous": 4157935,
+    "deviation": -1.714
+  },
+  {
+    "build_number": "2026-02-16",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5532322,
+    "previous": 5580509,
+    "deviation": -0.863
+  },
+  {
+    "build_number": "2026-02-16",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9567501,
+    "previous": 9558580,
+    "deviation": 0.093
+  },
+  {
+    "build_number": "2026-02-16",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72117184,
+    "previous": 72051574,
+    "deviation": 0.091
+  },
+  {
+    "build_number": "2026-02-16",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3518515,
+    "previous": 3492744,
+    "deviation": 0.738
+  },
+  {
+    "build_number": "2026-02-23",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5186451,
+    "previous": 5202770,
+    "deviation": -0.314
+  },
+  {
+    "build_number": "2026-02-23",
+    "metric": "Gravy IP-PID Count",
+    "current": 4084050,
+    "previous": 4086681,
+    "deviation": -0.064
+  },
+  {
+    "build_number": "2026-02-23",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5487417,
+    "previous": 5532322,
+    "deviation": -0.812
+  },
+  {
+    "build_number": "2026-02-23",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9665197,
+    "previous": 9567501,
+    "deviation": 1.021
+  },
+  {
+    "build_number": "2026-02-23",
+    "metric": "DIG IP-PID Final Count",
+    "current": 72376580,
+    "previous": 72117184,
+    "deviation": 0.36
+  },
+  {
+    "build_number": "2026-02-23",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3551563,
+    "previous": 3518515,
+    "deviation": 0.939
+  },
+  {
+    "build_number": "2026-03-02",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5138275,
+    "previous": 5186451,
+    "deviation": -0.929
+  },
+  {
+    "build_number": "2026-03-02",
+    "metric": "Gravy IP-PID Count",
+    "current": 4100672,
+    "previous": 4084050,
+    "deviation": 0.407
+  },
+  {
+    "build_number": "2026-03-02",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5504036,
+    "previous": 5487417,
+    "deviation": 0.303
+  },
+  {
+    "build_number": "2026-03-02",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9662576,
+    "previous": 9665197,
+    "deviation": -0.027
+  },
+  {
+    "build_number": "2026-03-02",
+    "metric": "DIG IP-PID Final Count",
+    "current": 71902820,
+    "previous": 72376580,
+    "deviation": -0.655
+  },
+  {
+    "build_number": "2026-03-02",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3554555,
+    "previous": 3551563,
+    "deviation": 0.084
+  },
+  {
+    "build_number": "2026-03-09",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5096560,
+    "previous": 5138275,
+    "deviation": -0.812
+  },
+  {
+    "build_number": "2026-03-09",
+    "metric": "Gravy IP-PID Count",
+    "current": 4099889,
+    "previous": 4100672,
+    "deviation": -0.019
+  },
+  {
+    "build_number": "2026-03-09",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5449979,
+    "previous": 5504036,
+    "deviation": -0.982
+  },
+  {
+    "build_number": "2026-03-09",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9691714,
+    "previous": 9662576,
+    "deviation": 0.302
+  },
+  {
+    "build_number": "2026-03-09",
+    "metric": "DIG IP-PID Final Count",
+    "current": 71966478,
+    "previous": 71902820,
+    "deviation": 0.089
+  },
+  {
+    "build_number": "2026-03-09",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3585359,
+    "previous": 3554555,
+    "deviation": 0.867
+  },
+  {
+    "build_number": "2026-03-16",
+    "metric": "Maid #1 IP-PID Count",
+    "current": 5066813,
+    "previous": 5096560,
+    "deviation": -0.584
+  },
+  {
+    "build_number": "2026-03-16",
+    "metric": "Gravy IP-PID Count",
+    "current": 4148168,
+    "previous": 4099889,
+    "deviation": 1.178
+  },
+  {
+    "build_number": "2026-03-16",
+    "metric": "Cookie #1 IP-PID Count",
+    "current": 5426645,
+    "previous": 5449979,
+    "deviation": -0.428
+  },
+  {
+    "build_number": "2026-03-16",
+    "metric": "Cookie #2 IP-PID Count",
+    "current": 9707944,
+    "previous": 9691714,
+    "deviation": 0.167
+  },
+  {
+    "build_number": "2026-03-16",
+    "metric": "DIG IP-PID Final Count",
+    "current": 71846781,
+    "previous": 71966478,
+    "deviation": -0.166
+  },
+  {
+    "build_number": "2026-03-16",
+    "metric": "LiveIntent IP-PID Count",
+    "current": 3616723,
+    "previous": 3585359,
+    "deviation": 0.875
+  }
+]

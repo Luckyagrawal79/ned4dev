@@ -1,0 +1,9 @@
+streamlit
+plotly
+python-dotenv
+anthropic
+google-cloud-aiplatform
+google-cloud-storage
+requests
+openai
+
