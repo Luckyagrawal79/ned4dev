@@ -2,67 +2,74 @@ import plotly.express as px
 import pandas as pd
 import plotly.graph_objects as go
 
+
 def create_trend(metric_names, build_data, value_field="current", build_filter=None):
     """
-    Create a trend chart for one or more metrics.
-    
-    Args:
-        metric_names: Single metric name (str) or list of metric names
-        build_data: Dictionary of weekly data
-        value_field: Which field to plot
-        build_filter: Optional list of week keys (YYYY-MM-DD) to restrict to.
-                     If None, uses all weeks.
+    Create a trend chart for metrics. Supports asset-based filtering.
+
+    metric_names can contain:
+      - plain metric names: "IP-PID Count"
+      - asset filter dicts: {"type": "asset_filter", "asset": "Gravy", "metrics": [...]}
     """
-    # Handle both single metric and multiple metrics
     if isinstance(metric_names, str):
         metric_names = [metric_names]
-    
-    # Set the label suffix based on the value field
+
     label_suffix = f" ({value_field})" if value_field != "current" else ""
 
-    # Determine which weeks to iterate over
+    # Check for asset filter
+    asset_filter = None
+    actual_metrics = []
+    for m in metric_names:
+        if isinstance(m, dict) and m.get("type") == "asset_filter":
+            asset_filter = m["asset"]
+            actual_metrics = m.get("metrics", [])
+        elif isinstance(m, str):
+            actual_metrics.append(m)
+
     builds_to_use = sorted(build_filter) if build_filter else sorted(build_data.keys())
 
-    # Collect data for all metrics
     all_rows = []
-    for week in builds_to_use:
-        metrics = build_data.get(week, [])
-        for m in metrics:
-            for metric_name in metric_names:
-                if metric_name.lower() in m["metric"].lower():
-                    all_rows.append({
-                        "build_number": week,
-                        "value": m.get(value_field, 0),
-                        "metric": metric_name
-                    })
-    
+    for build in builds_to_use:
+        for row in build_data.get(build, []):
+            # Apply asset filter if present
+            if asset_filter and row.get("asset", "").lower() != asset_filter.lower():
+                continue
+
+            # If we have specific metrics, filter by them
+            if actual_metrics:
+                if not any(mn.lower() in row["metric"].lower() for mn in actual_metrics):
+                    continue
+
+            label = f"{row.get('asset', '')} - {row['metric']}" if row.get("asset") else row["metric"]
+            all_rows.append({
+                "build_number": build,
+                "value": row.get(value_field, 0),
+                "label": label,
+            })
+
     if not all_rows:
         return None
-    
+
     df = pd.DataFrame(all_rows).sort_values("build_number")
-    
-    # Create figure with multiple lines if multiple metrics
-    if len(metric_names) > 1:
+
+    unique_labels = df["label"].unique()
+    if len(unique_labels) > 1:
         fig = go.Figure()
-        for metric_name in metric_names:
-            metric_data = df[df["metric"] == metric_name]
-            if not metric_data.empty:
-                fig.add_trace(go.Scatter(
-                    x=metric_data["build_number"],
-                    y=metric_data["value"],
-                    mode="lines+markers",
-                    name=metric_name,
-                    line=dict(width=2)
-                ))
-        fig.update_layout(
-            title=f"Trend Comparison{label_suffix}: {', '.join(metric_names)}",
-            xaxis_title="Week",
-            yaxis_title=value_field,
-            hovermode="x unified"
-        )
+        for label in unique_labels:
+            label_data = df[df["label"] == label]
+            fig.add_trace(go.Scatter(
+                x=label_data["build_number"],
+                y=label_data["value"],
+                mode="lines+markers",
+                name=label,
+                line=dict(width=2),
+            ))
+        title = f"Trend{label_suffix}"
+        if asset_filter:
+            title += f" — {asset_filter}"
+        fig.update_layout(title=title, xaxis_title="Build", yaxis_title=value_field, hovermode="x unified")
     else:
-        # Single metric - use simpler plot
-        fig = px.line(df, x="build_number", y="value", title=f"{metric_names[0]} Trend{label_suffix}")
-    
+        title = f"{unique_labels[0]} Trend{label_suffix}"
+        fig = px.line(df, x="build_number", y="value", title=title)
+
     return fig
- 

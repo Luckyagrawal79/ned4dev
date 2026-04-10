@@ -1,61 +1,89 @@
-from difflib import SequenceMatcher
+"""
+Query parser that extracts build range, metric, and asset from a user query.
+
+Search funnel:
+  ① build_number (date/range) — handled by date_range_parser
+  ② metric name             — resolved here via asset_resolver
+  ③ asset name              — resolved here via asset_resolver
+"""
+
+from nlp.asset_resolver import AssetResolver
+
+
+def parse_query_filters(query, resolver: AssetResolver):
+    """
+    Extract metric and asset from a query string using the asset resolver.
+
+    Returns:
+        dict with:
+          - metric: resolved metric dict (match, confident, suggestions)
+          - asset:  resolved asset dict  (match, confident, suggestions)
+    """
+    metric_result = resolver.resolve_metric(query)
+    asset_result = resolver.resolve_asset(query)
+    return {"metric": metric_result, "asset": asset_result}
 
 
 def extract_metric_from_query(q, build_data=None):
-    # Dynamically match query words against actual metric names in the data.
-    # Falls back to hardcoded list if no data is passed.
+    """
+    Legacy wrapper — still used by charts and main.py.
+    Returns list of matched metric names for backwards compat.
+    """
+    if not build_data:
+        return []
+
+    all_metrics = set()
+    all_assets = set()
+    for _, rows in build_data.items():
+        for row in rows:
+            all_metrics.add(row["metric"])
+            if row.get("asset"):
+                all_assets.add(row["asset"])
+
     q_lower = q.lower()
 
-    # Remove common chart/plot words so they don't accidentally match metric names
-    ignore_words = ['plot', 'trend', 'chart', 'graph', 'pie', 'bar', 'barchart',
-                    'show', 'display', 'the', 'for', 'and', 'current', 'previous',
-                    'deviation', 
-                    'past', 'last', 'builds', 'build_number']
+    ignore_words = [
+        "plot", "trend", "chart", "graph", "pie", "bar", "barchart",
+        "show", "display", "the", "for", "and", "current", "previous",
+        "deviation", "past", "last", "builds", "build_number",
+    ]
 
-    if build_data:
-        # Get all unique metric names from the data
-        all_metrics = set()
-        for week, rows in build_data.items():
-            for row in rows:
-                all_metrics.add(row["metric"])
+    # Check for asset name matches first — return all metrics for that asset
+    for asset in all_assets:
+        if asset.lower() in q_lower:
+            return [{"type": "asset_filter", "asset": asset, "metrics": list(all_metrics)}]
 
-        # Step 1: Exact substring match
-        matched = []
-        for metric in all_metrics:
-            metric_lower = metric.lower()
-            for word in q_lower.split():
-                if len(word) > 3 and word not in ignore_words and word in metric_lower:
-                    matched.append(metric)
-                    break
+    # Check for metric name matches
+    matched = []
+    for metric in all_metrics:
+        metric_lower = metric.lower()
+        for word in q_lower.split():
+            if len(word) > 3 and word not in ignore_words and word in metric_lower:
+                matched.append(metric)
+                break
 
-        if matched:
-            return matched
+    if matched:
+        return matched
 
-        # Step 2: Fuzzy match — check each query word against metric name words
-        best_metric = None
-        best_score = 0
+    # Fuzzy fallback
+    from difflib import SequenceMatcher
 
-        for metric in all_metrics:
-            metric_words = metric.lower().replace("-", " ").split()
-            for q_word in q_lower.split():
-                if len(q_word) <= 3 or q_word in ignore_words:
-                    continue
-                for m_word in metric_words:
-                    score = SequenceMatcher(None, q_word, m_word).ratio()
-                    if score > best_score:
-                        best_score = score
-                        best_metric = metric
+    best_metric = None
+    best_score = 0
+    for metric in all_metrics:
+        metric_words = metric.lower().replace("-", " ").split()
+        for q_word in q_lower.split():
+            if len(q_word) <= 3 or q_word in ignore_words:
+                continue
+            for m_word in metric_words:
+                score = SequenceMatcher(None, q_word, m_word).ratio()
+                if score > best_score:
+                    best_score = score
+                    best_metric = metric
 
-        if best_metric and best_score >= 0.8:
-            # High confidence
-            return [best_metric]
-        elif best_metric and best_score >= 0.6:
-            # Low confidence — return with suggestion flag
-            return [{"suggestion": best_metric, "score": best_score, "all_metrics": list(all_metrics)}]
+    if best_metric and best_score >= 0.8:
+        return [best_metric]
+    elif best_metric and best_score >= 0.6:
+        return [{"suggestion": best_metric, "score": best_score, "all_metrics": list(all_metrics)}]
 
-    # Fallback: hardcoded keywords
-    metrics = []
-    for m in ['maid', 'gravy', 'cookie', 'dig', 'liveintent']:
-        if m in q_lower:
-            metrics.append(m.capitalize())
-    return metrics
+    return []

@@ -1,0 +1,14 @@
+{
+  "assets": [
+    "Cookie #1",
+    "Cookie #2",
+    "DIG",
+    "Gravy",
+    "LiveIntent",
+    "Maid #1"
+  ],
+  "metrics": [
+    "IP-PID Count",
+    "IP-PID Final Count"
+  ]
+}
