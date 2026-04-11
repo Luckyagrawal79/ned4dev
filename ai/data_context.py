@@ -59,7 +59,20 @@ def build_data_context(query: str, build_data: dict, selected_build: str, resolv
     # ── Step 2: Parse metric ──────────────────────────────────────────
     metric_filter = None
     asset_filter = None
+    
+    if resolver:
+        metric_result = resolver.resolve_metric(query)
+        asset_result = resolver.resolve_asset(query)
 
+        # If a word matches both metric and asset, prefer metric
+        if metric_result["match"] and metric_result["confident"]:
+            metric_filter = metric_result["match"]
+            # Don't also filter by asset if the same word triggered both
+            if asset_result["match"] and asset_result["confident"]:
+                if asset_result["match"].lower() not in metric_filter.lower():
+                    asset_filter = asset_result["match"]
+        elif asset_result["match"] and asset_result["confident"]:
+            asset_filter = asset_result["match"]
 
     # if resolver:
     #     metric_result = resolver.resolve_metric(query)
@@ -151,10 +164,7 @@ def build_ai_prompt(query: str, data_context: str) -> str:
         "\nFORMATTING RULES: "
         "Present data in a clean table or bullet format. "
         "Group by build number. Use bold for headers. "
-        "Example format:\n"
-        "**Build: 2026-04-07**\n"
-        "• Device IP Signals  |  liv  |  Current: 663,920,267  | Previous: 683,694,670  |  Deviation: -2.89%\n"
-        "• Cookie IP Signals |  liv  |  Current: 123,456  |  Previous: 234,567  |  Deviation: -1.5%\n\n"
+        "Format it nicely not like wiritng paragraphs"
         "IMPORTANT DATE RULES: "
         "'last week' or 'latest build' = the MOST RECENT build (highest date). "
         "'current week' or 'this week' = the MOST RECENT build. "
