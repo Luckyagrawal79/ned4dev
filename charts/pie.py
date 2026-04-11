@@ -20,4 +20,3 @@ def create_pie(selected_build, build_data, keyword=None):
 
     fig = px.pie(names=labels, values=values, title=f"Distribution — {selected_build}")
     return fig
-s
