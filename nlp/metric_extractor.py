@@ -54,16 +54,21 @@ def extract_metric_from_query(q, build_data=None):
             return [{"type": "asset_filter", "asset": asset, "metrics": list(all_metrics)}]
 
     # Check for metric name matches
-    matched = []
+    # Step 1: Score each metric by how many query words match
+    scored = []
+    query_words = [w for w in q_lower.split() if w not in ignore_words and len(w) > 1]
+
     for metric in all_metrics:
         metric_lower = metric.lower()
-        for word in q_lower.split():
-            if len(word) > 3 and word not in ignore_words and word in metric_lower:
-                matched.append(metric)
-                break
+        hits = sum(1 for w in query_words if w in metric_lower)
+        if hits > 0:
+            scored.append((metric, hits))
 
-    if matched:
-        return matched
+    if scored:
+        # Return metrics with the highest match count
+        max_score = max(s[1] for s in scored)
+        best = [s[0] for s in scored if s[1] == max_score]
+        return best
 
     # Fuzzy fallback
     from difflib import SequenceMatcher
