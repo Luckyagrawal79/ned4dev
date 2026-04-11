@@ -96,6 +96,14 @@ def build_data_context(query: str, build_data: dict, selected_build: str, resolv
     parts.append(f"Available metrics: {', '.join(all_metric_names)}")
     parts.append(f"Available assets: {', '.join(all_asset_names)}")
 
+    parts.append(
+        "NOTE: Users may refer to assets by informal names. "
+        "Match user queries to the closest asset name above. "
+        "For example: 'liveintent' could mean 'liv', 'truedata ctv' could mean 'truedata-ctv', "
+        "or truedata could just mean 'truedata', etc."
+        "Always try to find the closest matching asset before saying data is not available."
+    )
+
     if metric_filter:
         parts.append(f"Metric filter: {metric_filter}")
     if asset_filter:
@@ -105,6 +113,7 @@ def build_data_context(query: str, build_data: dict, selected_build: str, resolv
 
     parts.append(f"\nData fields: build_number, metric, asset, current, previous, deviation (%)")
     parts.append(f"Total rows matching: {len(rows)}")
+    
 
     if rows:
         display_rows = rows[:100]
