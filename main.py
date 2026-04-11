@@ -44,7 +44,7 @@ with st.sidebar:
         model = st.selectbox("Model", ["gemini-2.5-flash-lite", "gemini-1.5-pro"], key="gemini_model")
 
 # ───────────────────── DATA LOAD ───────────────────────────────────────
-st.markdown("## 🧠 N.E.D – Neural Executive Dashboard 3")
+st.markdown("## 🧠 N.E.D – Neural Executive Dashboard 4")
 
 GCS_METRICS_URI = "gs://oneid-media-dev/Lucky/NedJsonStore/source_stats1/"
 
@@ -105,111 +105,6 @@ if "chart_fig" not in st.session_state:
     st.session_state.chart_fig = None
 if "messages" not in st.session_state:
     st.session_state.messages = []
-
-# ───────────────────── DATA ANALYSIS ───────────────────────────────────
-def analyze_data_query(query, selected_build, build_data):
-    query_lower = query.lower()
-
-    # ── "Which build did X increase/decrease" pattern ──
-    if "which build" in query_lower and any(w in query_lower for w in ["increased", "increase", "decreased", "decrease"]):
-        conditions = []
-        parts = re.split(r'\s+(but|and|,)\s+', query_lower)
-
-        # Resolve asset from query
-        asset_result = resolver.resolve_asset(query)
-        target_asset = asset_result["match"] if asset_result["match"] else None
-
-        for part in parts:
-            part = part.strip()
-            if "increased" in part or "increase" in part:
-                conditions.append(("increased",))
-            elif "decreased" in part or "decrease" in part:
-                conditions.append(("decreased",))
-
-        matching_builds = []
-        for build, build_rows in build_data.items():
-            rows = build_rows
-            if target_asset:
-                rows = [r for r in rows if r.get("asset", "").lower() == target_asset.lower()]
-
-            for row in rows:
-                current = row.get("current", 0)
-                previous = row.get("previous", 0)
-                for cond in conditions:
-                    if cond[0] == "increased" and current > previous:
-                        matching_builds.append({
-                            "build_number": build,
-                            "metric": row["metric"],
-                            "asset": row.get("asset", ""),
-                            "current": current,
-                            "previous": previous,
-                            "change": current - previous,
-                        })
-                    elif cond[0] == "decreased" and current < previous:
-                        matching_builds.append({
-                            "build_number": build,
-                            "metric": row["metric"],
-                            "asset": row.get("asset", ""),
-                            "current": current,
-                            "previous": previous,
-                            "change": current - previous,
-                        })
-
-        if not matching_builds:
-            return "No matching builds found for that condition."
-
-        response = "**Matching builds:**\n\n"
-        for b in matching_builds[:20]:
-            bp = datetime.strptime(b["build_number"], "%Y-%m-%d").strftime("%d-%m-%Y")
-            sign = "+" if b["change"] >= 0 else ""
-            response += (
-                f"• **Build {bp}** — {b['asset']} / {b['metric']}: "
-                f"{sign}{b['change']:,} ({b['current']:,} vs {b['previous']:,})\n"
-            )
-        return response
-
-    # ── Deviation filtering ──
-    build_rows = build_data.get(selected_build, [])
-    if not build_rows:
-        return f"No data found for build {selected_build}."
-
-    # Apply asset filter if mentioned
-    asset_result = resolver.resolve_asset(query)
-    if asset_result["match"]:
-        build_rows = [r for r in build_rows if r.get("asset", "").lower() == asset_result["match"].lower()]
-
-    deviation_threshold = None
-    patterns = [
-        r'more than\s+([\d.]+)\s*%', r'greater than\s+([\d.]+)\s*%',
-        r'>\s*([\d.]+)\s*%', r'([\d.]+)\s*%\s*deviation',
-    ]
-    for pattern in patterns:
-        match = re.search(pattern, query_lower)
-        if match:
-            deviation_threshold = abs(float(match.group(1)))
-            break
-
-    filtered = []
-    for m in build_rows:
-        dev = abs(m.get("deviation", 0))
-        if deviation_threshold is not None:
-            if dev > deviation_threshold:
-                filtered.append(m)
-        elif dev > 1.0:
-            filtered.append(m)
-
-    if not filtered:
-        return f"No metrics with deviation > {deviation_threshold or 1}% for build {selected_build}."
-
-    response = f"**Metrics from {selected_build} with deviation > {deviation_threshold or 1}%:**\n\n"
-    for m in filtered:
-        sign = "+" if m["deviation"] >= 0 else ""
-        asset_label = f" [{m.get('asset', '')}]" if m.get("asset") else ""
-        response += (
-            f"• **{m['metric']}{asset_label}**: {sign}{m['deviation']:.3f}% "
-            f"(Current: {m['current']:,}, Previous: {m['previous']:,})\n"
-        )
-    return response
 
 
 # ───────────────────── KPI SUMMARY ─────────────────────────────────────
@@ -388,7 +283,7 @@ if query:
                                 st.session_state.messages.append({"role": "assistant", "content": msg, "type": "error"})
 
         else:
-            # Non-plot → AI
+            # Non-plot query — send to AI with actual data context
             if api_key or ai_provider == "gemini":
                 try:
                     from ai.router import call_ai

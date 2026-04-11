@@ -56,6 +56,11 @@ class AssetResolver:
             "plot", "trend", "chart", "graph", "pie", "bar", "show", "display",
             "the", "for", "and", "current", "previous", "deviation", "past",
             "last", "build", "builds", "data", "metric", "compare", "versus",
+            "more", "than", "less", "greater", "where", "which", "what",
+            "percent", "percentage", "drop", "drops", "dropped", "increase",
+            "increased", "decrease", "decreased", "any", "are", "there",
+            "tell", "about", "from", "with", "all", "every", "week",
+            "weeks", "that", "this", "has", "have", "does", "did",
         ]
 
         # Step 1: exact substring match against known assets
@@ -101,8 +106,13 @@ class AssetResolver:
 
         ignore_words = [
             "plot", "trend", "chart", "graph", "pie", "bar", "show", "display",
-            "the", "for", "and", "past", "last", "build", "builds", "data",
-            "compare", "versus",
+            "the", "for", "and", "current", "previous", "deviation", "past",
+            "last", "build", "builds", "data", "metric", "compare", "versus",
+            "more", "than", "less", "greater", "where", "which", "what",
+            "percent", "percentage", "drop", "drops", "dropped", "increase",
+            "increased", "decrease", "decreased", "any", "are", "there",
+            "tell", "about", "from", "with", "all", "every", "week",
+            "weeks", "that", "this", "has", "have", "does", "did",
         ]
 
         # Step 1: exact substring match

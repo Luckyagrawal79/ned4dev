@@ -19,9 +19,30 @@ def build_data_context(query: str, build_data: dict, selected_build: str, resolv
         return "No data available."
 
     # ── Step 1: Parse build range ─────────────────────────────────────
-    date_range = parse_date_range(query, latest_build=all_builds[-1])
+    q_lower = query.lower()
     builds_to_use = all_builds
     range_note = ""
+    skip_date_parse = False
+
+    # Handle "last N weeks/builds" patterns
+    import re
+    n_match = re.search(r'(?:last|past|recent)\s+(\d+)\s+(?:weeks?|builds?)', q_lower)
+    if n_match:
+        n = int(n_match.group(1))
+        builds_to_use = all_builds[-n:]
+        range_note = f"Showing last {n} builds: {builds_to_use[0]} to {builds_to_use[-1]}"
+        skip_date_parse = True
+    elif any(phrase in q_lower for phrase in ["last week", "latest week", "this week", "recent week", "last build", "latest build", "current build", "current week"]):
+        builds_to_use = [all_builds[-1]]
+        range_note = f"Showing latest build only: {all_builds[-1]}"
+        skip_date_parse = True
+
+    if not skip_date_parse:
+        date_range = parse_date_range(query, latest_build=all_builds[-1] if all_builds else None)
+    else:
+        date_range = None
+
+    
 
     if date_range:
         filtered = filter_builds_by_range(all_builds, date_range["start_date"], date_range["end_date"])
