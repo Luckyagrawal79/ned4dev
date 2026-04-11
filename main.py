@@ -41,7 +41,8 @@ with st.sidebar:
         model = st.selectbox("Model", ["gpt-4o-mini", "gpt-4o"], key="openai_model")
     else:
         api_key = None
-        model = st.selectbox("Model", ["gemini-2.5-flash-lite", "gemini-1.5-pro"], key="gemini_model")
+        # model = st.selectbox("Model", ["gemini-2.5-flash-lite", "gemini-1.5-pro"], key="gemini_model")
+        model = st.selectbox("Model", ["gemini-2.5-flash", "gemini-2.5-flash-lite"], key="gemini_model")
 
 # ───────────────────── DATA LOAD ───────────────────────────────────────
 st.markdown("## 🧠 N.E.D – Neural Executive Dashboard 4")
