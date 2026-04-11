@@ -42,7 +42,7 @@ with st.sidebar:
     else:
         api_key = None
         # model = st.selectbox("Model", ["gemini-2.5-flash-lite", "gemini-1.5-pro"], key="gemini_model")
-        model = st.selectbox("Model", ["gemini-2.5-flash", "gemini-2.5-flash-lite"], key="gemini_model")
+        model = st.selectbox("Model", ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-3-flash-preview"], key="gemini_model")
 
 # ───────────────────── DATA LOAD ───────────────────────────────────────
 st.markdown("## 🧠 N.E.D – Neural Executive Dashboard 4")

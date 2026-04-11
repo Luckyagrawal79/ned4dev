@@ -19,13 +19,13 @@ def build_data_context(query: str, build_data: dict, selected_build: str, resolv
         return "No data available."
 
     # ── Step 1: Parse build range ─────────────────────────────────────
+    import re
     q_lower = query.lower()
     builds_to_use = all_builds
     range_note = ""
     skip_date_parse = False
 
     # Handle "last N weeks/builds" patterns
-    import re
     n_match = re.search(r'(?:last|past|recent)\s+(\d+)\s+(?:weeks?|builds?)', q_lower)
     if n_match:
         n = int(n_match.group(1))
@@ -85,6 +85,9 @@ def build_data_context(query: str, build_data: dict, selected_build: str, resolv
     parts.append("=== NED DASHBOARD DATA CONTEXT ===")
     parts.append(f"Currently selected build: {selected_build}")
     parts.append(f"Data range: {all_builds[0]} to {all_builds[-1]} ({len(all_builds)} builds)")
+    parts.append(f"Builds included in this response: {', '.join(builds_to_use)}")
+    parts.append(f"IMPORTANT: Show data for ALL builds listed above. Do not skip any.")
+
 
     all_metric_names = sorted(set(
         row["metric"] for b in all_builds for row in build_data.get(b, [])
@@ -138,16 +141,26 @@ def build_data_context(query: str, build_data: dict, selected_build: str, resolv
 def build_ai_prompt(query: str, data_context: str) -> str:
     return (
         "You are NED (Neural Executive Dashboard), a data analyst assistant. "
-        "You have access to build metric data from the dashboard. "
         "Data has: build_number (date), metric (what is measured), asset (partner/source). "
         "CRITICAL: ONLY use numbers that appear in the data below. "
         "NEVER estimate, round, or make up numbers. Copy exact values from the data rows. "
         "If a value is not in the data, say 'data not available' — do not guess. "
-        "When asked to find or filter data (e.g. 'deviation > 2%', 'drops more than 5%'), "
-        "list ALL matching rows — do not stop at just one. "
-        "NOTE: Users may refer to assets by informal names. "
+        "When asked to find or filter data, list ALL matching rows. "
         "Match user queries to the closest asset name in the data. "
-        "Format results clearly with build, metric, asset, and relevant values.\n\n"
+        "For example: 'liveintent' means 'liv', 'truedata' means 'truedata-ctv'. "
+        "\nFORMATTING RULES: "
+        "Present data in a clean table or bullet format. "
+        "Group by build number. Use bold for headers. "
+        "Example format:\n"
+        "**Build: 2026-04-07**\n"
+        "• Device IP Signals  |  liv  |  Current: 663,920,267  | Previous: 683,694,670  |  Deviation: -2.89%\n"
+        "• Cookie IP Signals |  liv  |  Current: 123,456  |  Previous: 234,567  |  Deviation: -1.5%\n\n"
+        "IMPORTANT DATE RULES: "
+        "'last week' or 'latest build' = the MOST RECENT build (highest date). "
+        "'current week' or 'this week' = the MOST RECENT build. "
+        "'last 2 weeks' = the 2 MOST RECENT builds (highest dates). "
+        "'last N builds' = the N MOST RECENT builds. "
+        "Always pick from the END of the data (newest), not the beginning.\n\n"
         f"{data_context}\n\n"
         f"User's question: {query}"
     )
