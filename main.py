@@ -44,7 +44,7 @@ with st.sidebar:
         model = st.selectbox("Model", ["gemini-2.5-flash-lite", "gemini-1.5-pro"], key="gemini_model")
 
 # ───────────────────── DATA LOAD ───────────────────────────────────────
-st.markdown("## 🧠 N.E.D – Neural Executive Dashboard")
+st.markdown("## 🧠 N.E.D – Neural Executive Dashboard 1")
 
 GCS_METRICS_URI = "gs://oneid-media-dev/Lucky/NedJsonStore/source_stats1/"
 store = JSONMetricStore(gcs_uri=GCS_METRICS_URI)
