@@ -27,6 +27,8 @@ class JSONMetricStore:
     ):
         self.local_path = path
         self.gcs_uri = gcs_uri or os.getenv("DATA_STORE_GCS_URI")
+        self._cache = None
+
 
     def _load_from_local(self):
         """Load from a single JSON file or a directory of Spark JSON part files."""
@@ -110,10 +112,18 @@ class JSONMetricStore:
         return all_rows
 
     def load(self):
+        if self._cache is not None:
+            return self._cache
         if self.gcs_uri:
-            return self._load_from_gcs()
-        return self._load_from_local()
+            self._cache = self._load_from_gcs()
+        else:
+            self._cache = self._load_from_local()
+        return self._cache
 
+    def reload(self):
+        """Force refresh from source."""
+        self._cache = None
+        return self.load()
     # ── Grouping helpers ──────────────────────────────────────────────
 
     def group_by_build(self):

@@ -44,7 +44,7 @@ with st.sidebar:
         model = st.selectbox("Model", ["gemini-2.5-flash-lite", "gemini-1.5-pro"], key="gemini_model")
 
 # ───────────────────── DATA LOAD ───────────────────────────────────────
-st.markdown("## 🧠 N.E.D – Neural Executive Dashboard 1")
+st.markdown("## 🧠 N.E.D – Neural Executive Dashboard 2")
 
 GCS_METRICS_URI = "gs://oneid-media-dev/Lucky/NedJsonStore/source_stats1/"
 store = JSONMetricStore(gcs_uri=GCS_METRICS_URI)
@@ -78,6 +78,12 @@ def pretty_build(w):
 pretty_map = {pretty_build(w): w for w in RAW_BUILDS.keys()}
 selected_pretty = st.selectbox("📅 Select Build", list(pretty_map.keys()), key="build_selector")
 selected_build = pretty_map[selected_pretty]
+
+if st.button("🔄 Refresh Data"):
+    store.reload()
+    RAW_BUILDS = store.group_by_build()
+    resolver.rebuild_from_data(store.load())
+    st.rerun()
 
 # Buttons
 c1, c2, c3 = st.columns(3)
