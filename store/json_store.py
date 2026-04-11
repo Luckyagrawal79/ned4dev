@@ -74,7 +74,7 @@ class JSONMetricStore:
 
         # Check if it's a single file or a directory
         blob = bucket.blob(prefix)
-        if blob.exists():
+        if blob.exists() and prefix.endswith(".json"):
             # Single file — load directly
             return json.loads(blob.download_as_bytes().decode("utf-8"))
 
