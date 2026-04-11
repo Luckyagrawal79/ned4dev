@@ -60,14 +60,15 @@ def build_data_context(query: str, build_data: dict, selected_build: str, resolv
     metric_filter = None
     asset_filter = None
 
-    if resolver:
-        metric_result = resolver.resolve_metric(query)
-        if metric_result["match"]:
-            metric_filter = metric_result["match"]
 
-        asset_result = resolver.resolve_asset(query)
-        if asset_result["match"]:
-            asset_filter = asset_result["match"]
+    # if resolver:
+    #     metric_result = resolver.resolve_metric(query)
+    #     if metric_result["match"]:
+    #         metric_filter = metric_result["match"]
+
+    #     asset_result = resolver.resolve_asset(query)
+    #     if asset_result["match"]:
+    #         asset_filter = asset_result["match"]
 
     # ── Step 3: Filter rows through the funnel ────────────────────────
     rows = []

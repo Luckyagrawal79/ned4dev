@@ -219,6 +219,10 @@ if query:
 
                     elif "bar" in query_lower or "barchart" in query_lower:
                         num_builds = None
+                        n_match = re.search(r'(?:last|past|recent)\s+(\d+)\s+(?:weeks?|builds?)', query_lower)
+                        if n_match:
+                            num_builds = int(n_match.group(1))
+                            
                         for pattern in [r'past\s+(\d+)\s+builds?', r'last\s+(\d+)\s+builds?', r'(\d+)\s+builds?']:
                             match = re.search(pattern, query_lower)
                             if match:
@@ -237,8 +241,17 @@ if query:
 
                     else:
                         # Trend chart
-                        date_range = parse_date_range(query, latest_build=sorted(RAW_BUILDS.keys())[-1])
                         build_filter = None
+                        n_match = re.search(r'(?:last|past|recent)\s+(\d+)\s+(?:weeks?|builds?)', query_lower)
+                        if n_match:
+                            n = int(n_match.group(1))
+                            build_filter = sorted(RAW_BUILDS.keys())[-n:]
+                            date_range = None
+                        elif any(p in query_lower for p in ["last week", "latest week", "this week", "last build", "latest build"]):
+                            build_filter = [sorted(RAW_BUILDS.keys())[-1]]
+                            date_range = None
+                        else:
+                            date_range = parse_date_range(query, latest_build=sorted(RAW_BUILDS.keys())[-1])
                         range_info_msg = None
 
                         if date_range:
