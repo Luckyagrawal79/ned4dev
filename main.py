@@ -44,10 +44,15 @@ with st.sidebar:
         model = st.selectbox("Model", ["gemini-2.5-flash-lite", "gemini-1.5-pro"], key="gemini_model")
 
 # ───────────────────── DATA LOAD ───────────────────────────────────────
-st.markdown("## 🧠 N.E.D – Neural Executive Dashboard 2")
+st.markdown("## 🧠 N.E.D – Neural Executive Dashboard 3")
 
 GCS_METRICS_URI = "gs://oneid-media-dev/Lucky/NedJsonStore/source_stats1/"
-store = JSONMetricStore(gcs_uri=GCS_METRICS_URI)
+
+@st.cache_resource
+def get_store():
+    return JSONMetricStore(path="data/data_store.json", gcs_uri=GCS_METRICS_URI)
+
+store = get_store()
 
 # Initialize asset resolver
 resolver = AssetResolver(registry_path="data/asset_registry.json")
@@ -68,7 +73,11 @@ with st.sidebar.expander("Data Source Debug", expanded=False):
         st.error(f"Load failed: {e}")
         st.text(traceback.format_exc())
 
-RAW_BUILDS = store.group_by_build()
+@st.cache_data(ttl=3600)  # cache for 1 hour
+def load_builds():
+    return store.group_by_build()
+
+RAW_BUILDS = load_builds()
 
 
 def pretty_build(w):
@@ -81,9 +90,9 @@ selected_build = pretty_map[selected_pretty]
 
 if st.button("🔄 Refresh Data"):
     store.reload()
-    RAW_BUILDS = store.group_by_build()
-    resolver.rebuild_from_data(store.load())
+    load_builds.clear()
     st.rerun()
+
 
 # Buttons
 c1, c2, c3 = st.columns(3)
