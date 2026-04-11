@@ -166,6 +166,7 @@ def build_ai_prompt(query: str, data_context: str) -> str:
         "Group by build number. Use bold for headers. "
         "Format it nicely not like wiritng paragraphs"
         "IMPORTANT DATE RULES: "
+        "always Sort data from the newest date"
         "'last week' or 'latest build' = the MOST RECENT build (highest date). "
         "'current week' or 'this week' = the MOST RECENT build. "
         "'last 2 weeks' = the 2 MOST RECENT builds (highest dates). "
