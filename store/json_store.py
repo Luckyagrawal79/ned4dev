@@ -11,7 +11,8 @@ except ImportError:
 
 class JSONMetricStore:
     """
-    Metric store that reads JSON data from local file or GCS.
+    Metric store that reads JSON data from local file/directory or GCS.
+    Handles Spark output directories with part files and _SUCCESS markers.
 
     Configuration precedence:
     - Explicit `gcs_uri` argument
@@ -28,8 +29,34 @@ class JSONMetricStore:
         self.gcs_uri = gcs_uri or os.getenv("DATA_STORE_GCS_URI")
 
     def _load_from_local(self):
+        """Load from a single JSON file or a directory of Spark JSON part files."""
+        if os.path.isdir(self.local_path):
+            return self._read_json_parts_local(self.local_path)
         with open(self.local_path, "r") as f:
             return json.load(f)
+
+    def _read_json_parts_local(self, directory):
+        """Read all JSON part files from a directory, skip _SUCCESS and other markers."""
+        all_rows = []
+        for filename in sorted(os.listdir(directory)):
+            if filename.startswith("_") or not filename.endswith(".json"):
+                continue
+            filepath = os.path.join(directory, filename)
+            with open(filepath, "r") as f:
+                content = f.read().strip()
+                if not content:
+                    continue
+                # Spark JSON can be newline-delimited (one JSON object per line)
+                # or a standard JSON array
+                if content.startswith("["):
+                    all_rows.extend(json.loads(content))
+                else:
+                    for line in content.splitlines():
+                        line = line.strip()
+                        if line:
+                            all_rows.append(json.loads(line))
+        print(f"DEBUG >> Loaded {len(all_rows)} rows from {len(os.listdir(directory))} files in {directory}")
+        return all_rows
 
     def _load_from_gcs(self):
         if storage is None:
@@ -43,8 +70,44 @@ class JSONMetricStore:
 
         client = storage.Client()
         bucket = client.bucket(parsed.netloc)
-        blob = bucket.blob(parsed.path.lstrip("/"))
-        return json.loads(blob.download_as_bytes().decode("utf-8"))
+        prefix = parsed.path.lstrip("/")
+
+        # Check if it's a single file or a directory
+        blob = bucket.blob(prefix)
+        if blob.exists():
+            # Single file — load directly
+            return json.loads(blob.download_as_bytes().decode("utf-8"))
+
+        # Directory — list all part files under the prefix
+        return self._read_json_parts_gcs(bucket, prefix)
+
+    def _read_json_parts_gcs(self, bucket, prefix):
+        """Read all JSON part files from a GCS directory prefix."""
+        if not prefix.endswith("/"):
+            prefix += "/"
+
+        all_rows = []
+        blobs = list(bucket.list_blobs(prefix=prefix))
+        json_blobs = [
+            b for b in blobs
+            if b.name.endswith(".json") and not b.name.split("/")[-1].startswith("_")
+        ]
+
+        for blob in sorted(json_blobs, key=lambda b: b.name):
+            content = blob.download_as_bytes().decode("utf-8").strip()
+            if not content:
+                continue
+            # Handle both JSON arrays and newline-delimited JSON (Spark default)
+            if content.startswith("["):
+                all_rows.extend(json.loads(content))
+            else:
+                for line in content.splitlines():
+                    line = line.strip()
+                    if line:
+                        all_rows.append(json.loads(line))
+
+        print(f"DEBUG >> Loaded {len(all_rows)} rows from {len(json_blobs)} part files in gs://.../{prefix}")
+        return all_rows
 
     def load(self):
         if self.gcs_uri:

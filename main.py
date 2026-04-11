@@ -46,8 +46,8 @@ with st.sidebar:
 # ───────────────────── DATA LOAD ───────────────────────────────────────
 st.markdown("## 🧠 N.E.D – Neural Executive Dashboard")
 
-GCS_METRICS_URI = None
-store = JSONMetricStore(path="data/data_store.json", gcs_uri=GCS_METRICS_URI)
+GCS_METRICS_URI = "gs://oneid-media-dev/Lucky/NedJsonStore/source_stats/"
+store = JSONMetricStore(gcs_uri=GCS_METRICS_URI)
 
 # Initialize asset resolver
 resolver = AssetResolver(registry_path="data/asset_registry.json")
