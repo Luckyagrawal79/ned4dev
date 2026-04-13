@@ -26,9 +26,31 @@ st.markdown("""
     header {visibility: hidden;}
     section[data-testid="stSidebar"] { visibility: visible !important; display: block !important; }
     div[data-testid="stChatInput"] { position: sticky !important; bottom: 0 !important; z-index: 1000 !important; padding: 0.5rem 0 !important; }
-    div[data-testid="stChatInput"] > div { border: none !important; box-shadow: none !important; }
+    div[data-testid="stChatInput"] > div { border: none !important; box-shadow: none !important; background: transparent !important; }
+
+    /* TransUnion Theme */
+    .stApp { background-color: #1a1f2e; color: #e0e0e0; }
+    section[data-testid="stSidebar"] { background-color: #2E3644 !important; }
+    h2, h3 { color: #00A2D1 !important; }
+
+    /* KPI Cards */
+    .kpi-container { display: flex; gap: 12px; margin: 10px 0 15px 0; }
+    .kpi-card {
+        flex: 1; padding: 14px 16px; border-radius: 10px;
+        background: linear-gradient(135deg, #2E3644 0%, #1a1f2e 100%);
+        border-left: 3px solid #00A2D1;
+    }
+    .kpi-label { font-size: 12px; color: #8899aa; margin-bottom: 4px; }
+    .kpi-value { font-size: 22px; font-weight: 700; }
+    .kpi-positive { color: #4ade80; }
+    .kpi-negative { color: #f87171; }
+    .kpi-neutral { color: #94a3b8; }
+
+    /* Action Buttons */
+    .action-row { display: flex; gap: 8px; margin: 8px 0; flex-wrap: wrap; }
     </style>
 """, unsafe_allow_html=True)
+
 
 # ───────────────────── SIDEBAR ─────────────────────────────────────────
 with st.sidebar:
@@ -46,7 +68,7 @@ with st.sidebar:
         model = st.selectbox("Model", ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-3-flash-preview"], key="gemini_model")
 
 # ───────────────────── DATA LOAD ───────────────────────────────────────
-st.markdown("## 🧠 N.E.D – Neural Executive Dashboard 4")
+st.markdown("##N.E.D – Neural Executive Dashboard")
 
 GCS_METRICS_URI = "gs://oneid-media-dev/Lucky/NedJsonStore/source_stats1/"
 
@@ -91,20 +113,61 @@ RAW_BUILDS = load_builds()
 def pretty_build(w):
     return "Build " + datetime.strptime(w, "%Y-%m-%d").strftime("%d-%m-%Y")
 
-# Sort builds descending so latest is first in dropdown
 sorted_builds = sorted(RAW_BUILDS.keys(), reverse=True)
 pretty_map = {pretty_build(w): w for w in sorted_builds}
 selected_pretty = st.selectbox("📅 Select Build", list(pretty_map.keys()), key="build_selector")
 selected_build = pretty_map[selected_pretty]
 
-c1, c2 = st.columns(2)
-with c1:
-    if st.button("🔄 Refresh Data"):
-        store.reload()
-        load_builds.clear()
-        st.rerun()
-with c2:
-    build_review_clicked = st.button("📋 Build Review")
+# ───────────────────── REFRESH ─────────────────────────────────────────
+if st.button("🔄 Refresh Data", use_container_width=True):
+    store.reload()
+    load_builds.clear()
+    st.rerun()
+
+# ───────────────────── KPI CARDS ───────────────────────────────────────
+build_rows = RAW_BUILDS.get(selected_build, [])
+
+def get_deviation(rows, metric, asset):
+    for r in rows:
+        if r["metric"] == metric and r.get("asset", "") == asset:
+            return r.get("deviation", None)
+    return None
+
+kpi_configs = [
+    ("Device IP", "Device IP Signals", "Total"),
+    ("Cookie IP", "Cookie IP Signals", "Total"),
+    ("Device Email", "Device Email Signals", "Total_Device"),
+    ("Cookie Email", "Cookie Email Signals", "Total_Cookie"),
+]
+
+kpi_html = '<div class="kpi-container">'
+for label, metric, asset in kpi_configs:
+    dev = get_deviation(build_rows, metric, asset)
+    if dev is not None:
+        sign = "+" if dev >= 0 else ""
+        css_class = "kpi-positive" if dev >= 0 else "kpi-negative"
+        val_str = f"{sign}{dev:.2f}%"
+    else:
+        css_class = "kpi-neutral"
+        val_str = "N/A"
+    kpi_html += f'''
+        <div class="kpi-card">
+            <div class="kpi-label">{label} Deviation</div>
+            <div class="kpi-value {css_class}">{val_str}</div>
+        </div>'''
+kpi_html += '</div>'
+st.markdown(kpi_html, unsafe_allow_html=True)
+
+# ───────────────────── ACTION BUTTONS ──────────────────────────────────
+b1, b2, b3, b4 = st.columns(4)
+with b1:
+    build_review_clicked = st.button("📋 Build Review", use_container_width=True)
+with b2:
+    ops_check_clicked = st.button("⚠️ Ops Failure Check", use_container_width=True)
+with b3:
+    delivery_clicked = st.button("🚚 Delivery Status", use_container_width=True)
+with b4:
+    availability_clicked = st.button("🔍 Asset Availability", use_container_width=True)
 
 # ───────────────────── SESSION STATE ───────────────────────────────────
 if "chart_fig" not in st.session_state:
@@ -114,11 +177,9 @@ if "messages" not in st.session_state:
 
 # ───────────────────── BUILD REVIEW ────────────────────────────────────
 if build_review_clicked:
-    build_rows = RAW_BUILDS.get(selected_build, [])
     flagged = [r for r in build_rows if abs(r.get("deviation", 0)) > 5]
-
     if flagged:
-        msg = f"**Build Review — {selected_build}**\n\n"
+        msg = f"**📋 Build Review — {selected_build}**\n\n"
         msg += f"**{len(flagged)} metrics with deviation > 5%:**\n\n"
         msg += "| Metric | Asset | Current | Previous | Deviation |\n"
         msg += "|--------|-------|---------|----------|-----------|\n"
@@ -130,13 +191,25 @@ if build_review_clicked:
                 f"{sign}{r['deviation']:.2f}% |\n"
             )
     else:
-        msg = f"**Build Review — {selected_build}**\n\n✅ No metrics with deviation > 5%. All clear."
-
+        msg = f"**📋 Build Review — {selected_build}**\n\n✅ All clear — no metrics with deviation > 5%."
     st.session_state.messages.append({"role": "user", "content": f"Build Review for {selected_build}"})
     st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
     st.rerun()
 
-    
+if ops_check_clicked:
+    st.session_state.messages.append({"role": "user", "content": "Ops Assist Fail Check"})
+    st.session_state.messages.append({"role": "assistant", "content": "🚧 Ops Failure Checker — coming soon.", "type": "info"})
+    st.rerun()
+
+if delivery_clicked:
+    st.session_state.messages.append({"role": "user", "content": "Delivery Status"})
+    st.session_state.messages.append({"role": "assistant", "content": "🚧 Delivery Status — coming soon.", "type": "info"})
+    st.rerun()
+
+if availability_clicked:
+    st.session_state.messages.append({"role": "user", "content": "Asset Availability in OneTru"})
+    st.session_state.messages.append({"role": "assistant", "content": "🚧 Asset Availability — coming soon.", "type": "info"})
+    st.rerun()
 # ───────────────────── KPI SUMMARY ─────────────────────────────────────
 # data = RAW_BUILDS.get(selected_build, [])
 # if data:
