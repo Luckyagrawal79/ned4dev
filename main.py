@@ -25,7 +25,8 @@ st.markdown("""
     footer {visibility: hidden;}
     header {visibility: hidden;}
     section[data-testid="stSidebar"] { visibility: visible !important; display: block !important; }
-    div[data-testid="stChatInput"] { position: sticky !important; bottom: 0 !important; background: white !important; z-index: 1000 !important; padding: 1rem 0 !important; }
+    div[data-testid="stChatInput"] { position: sticky !important; bottom: 0 !important; z-index: 1000 !important; padding: 0.5rem 0 !important; }
+    div[data-testid="stChatInput"] > div { border: none !important; box-shadow: none !important; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -58,21 +59,28 @@ store = get_store()
 # Initialize asset resolver
 resolver = AssetResolver(registry_path="data/asset_registry.json")
 
-with st.sidebar.expander("Data Source Debug", expanded=False):
-    st.code(f"gcs_uri = {store.gcs_uri}\nlocal_path = {os.path.abspath(store.local_path)}", language="bash")
-    source = "GCS" if store.gcs_uri else "LOCAL"
-    st.write("Source:", f"**{source}**")
-    try:
-        data = store.load()
-        # Rebuild registry on every load so it stays current
-        resolver.rebuild_from_data(data)
-        st.success(f"Loaded {len(data)} rows from **{source}**")
-        st.write(f"**Assets:** {resolver.assets}")
-        st.write(f"**Metrics:** {resolver.metrics}")
-        st.json(data[:3])
-    except Exception as e:
-        st.error(f"Load failed: {e}")
-        st.text(traceback.format_exc())
+# Rebuild registry silently on load
+try:
+    _data = store.load()
+    resolver.rebuild_from_data(_data)
+except Exception:
+    pass
+
+# with st.sidebar.expander("Data Source Debug", expanded=False):
+#     st.code(f"gcs_uri = {store.gcs_uri}\nlocal_path = {os.path.abspath(store.local_path)}", language="bash")
+#     source = "GCS" if store.gcs_uri else "LOCAL"
+#     st.write("Source:", f"**{source}**")
+#     try:
+#         data = store.load()
+#         # Rebuild registry on every load so it stays current
+#         resolver.rebuild_from_data(data)
+#         st.success(f"Loaded {len(data)} rows from **{source}**")
+#         st.write(f"**Assets:** {resolver.assets}")
+#         st.write(f"**Metrics:** {resolver.metrics}")
+#         st.json(data[:3])
+#     except Exception as e:
+#         st.error(f"Load failed: {e}")
+#         st.text(traceback.format_exc())
 
 @st.cache_data(ttl=3600)  # cache for 1 hour
 def load_builds():
@@ -80,26 +88,23 @@ def load_builds():
 
 RAW_BUILDS = load_builds()
 
-
 def pretty_build(w):
     return "Build " + datetime.strptime(w, "%Y-%m-%d").strftime("%d-%m-%Y")
 
-
-pretty_map = {pretty_build(w): w for w in RAW_BUILDS.keys()}
+# Sort builds descending so latest is first in dropdown
+sorted_builds = sorted(RAW_BUILDS.keys(), reverse=True)
+pretty_map = {pretty_build(w): w for w in sorted_builds}
 selected_pretty = st.selectbox("📅 Select Build", list(pretty_map.keys()), key="build_selector")
 selected_build = pretty_map[selected_pretty]
 
-if st.button("🔄 Refresh Data"):
-    store.reload()
-    load_builds.clear()
-    st.rerun()
-
-
-# Buttons
-c1, c2, c3 = st.columns(3)
-with c1: st.button("Executive Snapshot", key="btn_snapshot")
-with c2: st.button("System Alerts", key="btn_alerts")
-with c3: st.button("Key Performance Metrics", key="btn_metrics")
+c1, c2 = st.columns(2)
+with c1:
+    if st.button("🔄 Refresh Data"):
+        store.reload()
+        load_builds.clear()
+        st.rerun()
+with c2:
+    build_review_clicked = st.button("📋 Build Review")
 
 # ───────────────────── SESSION STATE ───────────────────────────────────
 if "chart_fig" not in st.session_state:
@@ -107,14 +112,38 @@ if "chart_fig" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# ───────────────────── BUILD REVIEW ────────────────────────────────────
+if build_review_clicked:
+    build_rows = RAW_BUILDS.get(selected_build, [])
+    flagged = [r for r in build_rows if abs(r.get("deviation", 0)) > 5]
 
+    if flagged:
+        msg = f"**Build Review — {selected_build}**\n\n"
+        msg += f"**{len(flagged)} metrics with deviation > 5%:**\n\n"
+        msg += "| Metric | Asset | Current | Previous | Deviation |\n"
+        msg += "|--------|-------|---------|----------|-----------|\n"
+        for r in sorted(flagged, key=lambda x: abs(x.get("deviation", 0)), reverse=True):
+            sign = "+" if r["deviation"] >= 0 else ""
+            msg += (
+                f"| {r['metric']} | {r.get('asset', '-')} | "
+                f"{r.get('current', 0):,} | {r.get('previous', 0):,} | "
+                f"{sign}{r['deviation']:.2f}% |\n"
+            )
+    else:
+        msg = f"**Build Review — {selected_build}**\n\n✅ No metrics with deviation > 5%. All clear."
+
+    st.session_state.messages.append({"role": "user", "content": f"Build Review for {selected_build}"})
+    st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
+    st.rerun()
+
+    
 # ───────────────────── KPI SUMMARY ─────────────────────────────────────
-data = RAW_BUILDS.get(selected_build, [])
-if data:
-    m1, m2, m3 = st.columns(3)
-    m1.metric("User Satisfaction", "0.0%")
-    m2.metric("System Health", "98.2%")
-    m3.metric("Active Metrics", len(data))
+# data = RAW_BUILDS.get(selected_build, [])
+# if data:
+#     m1, m2, m3 = st.columns(3)
+#     m1.metric("User Satisfaction", "0.0%")
+#     m2.metric("System Health", "98.2%")
+#     m3.metric("Active Metrics", len(data))
 
 # ───────────────────── CHAT HISTORY ────────────────────────────────────
 st.divider()
