@@ -56,6 +56,11 @@ st.markdown("""
     }
     .stChatMessage [data-testid="stMarkdownContainer"] { color: #e0e0e0 !important; }
 
+    /* Chat input bar — match page background */
+    div[data-testid="stBottom"] { background-color: #1a1f2e !important; }
+    div[data-testid="stChatInput"] { background-color: #1a1f2e !important; }
+    div[data-testid="stChatInput"] textarea { background-color: #232b3a !important; color: #e0e0e0 !important; border: 1px solid #2E3644 !important; }
+
     /* Conversation header */
     .stDivider { border-color: #2E3644 !important; }
 
@@ -67,7 +72,7 @@ st.markdown("""
 
 # ───────────────────── SIDEBAR ─────────────────────────────────────────
 with st.sidebar:
-    st.markdown('<h1 style="color: #00A2D1; font-size: 2.2rem; margin-bottom: 0;">N.E.D – Neural Executive Dashboard</h1>', unsafe_allow_html=True)
+    st.markdown("**Configuration**")
     ai_provider = st.selectbox("Provider", ["gemini", "claude", "openai"], index=0, key="ai_provider")
     if ai_provider == "claude":
         api_key = st.text_input("Claude API Key", type="password", key="claude_key")
@@ -81,7 +86,7 @@ with st.sidebar:
         model = st.selectbox("Model", ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-3-flash-preview"], key="gemini_model")
 
 # ───────────────────── DATA LOAD ───────────────────────────────────────
-st.markdown("##N.E.D – Neural Executive Dashboard")
+st.markdown('<h1 style="color: #00A2D1; font-size: 2.4rem; margin-bottom: 5px;">N.E.D – Neural Executive Dashboard</h1>', unsafe_allow_html=True)
 
 GCS_METRICS_URI = "gs://oneid-media-dev/Lucky/NedJsonStore/source_stats1/"
 
