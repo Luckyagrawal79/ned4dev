@@ -263,8 +263,30 @@ for idx, message in enumerate(st.session_state.messages):
         else:
             st.write(message["content"])
 
+
+# Scroll anchor at bottom of messages
+st.markdown('<div id="chat-bottom"></div>', unsafe_allow_html=True)
+
+# Auto-scroll to latest message
+if st.session_state.messages:
+    import streamlit.components.v1 as components
+    components.html("""
+        <script>
+        const chatBottom = parent.document.querySelector('#chat-bottom');
+        if (chatBottom) chatBottom.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Fix scroll-to-top arrow
+        const topBtn = parent.document.querySelector('button[title="Scroll to top"]');
+        if (topBtn) {
+            topBtn.onclick = function() {
+                parent.document.querySelector('.main').scrollTo({ top: 0, behavior: 'smooth' });
+            };
+        }
+        </script>
+    """, height=0)
+
 # ───────────────────── CHAT INPUT ──────────────────────────────────────
-query = st.chat_input("Ask about your data (e.g. 'show gravy trend', 'plot DIG bar chart')")
+query = st.chat_input("Ask about your data (e.g. 'show gravy trend')")
 
 if query:
     st.session_state.messages.append({"role": "user", "content": query})
