@@ -17,7 +17,7 @@ from nlp.field_detector import detect_value_field
 from nlp.date_range_parser import parse_date_range, filter_builds_by_range
 from nlp.asset_resolver import AssetResolver
 
-st.set_page_config(layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="NED", layout="wide", initial_sidebar_state="expanded")
 
 # ───────────────────── CSS ─────────────────────────────────────────────
 st.markdown("""
@@ -46,6 +46,19 @@ st.markdown("""
     .kpi-negative { color: #f87171; }
     .kpi-neutral { color: #94a3b8; }
 
+
+    /* Chat area */
+    div[data-testid="stChatMessage"] {
+        background-color: #232b3a !important;
+        border-radius: 10px !important;
+        border: 1px solid #2E3644 !important;
+        margin-bottom: 8px !important;
+    }
+    .stChatMessage [data-testid="stMarkdownContainer"] { color: #e0e0e0 !important; }
+
+    /* Conversation header */
+    .stDivider { border-color: #2E3644 !important; }
+
     /* Action Buttons */
     .action-row { display: flex; gap: 8px; margin: 8px 0; flex-wrap: wrap; }
     </style>
@@ -54,7 +67,7 @@ st.markdown("""
 
 # ───────────────────── SIDEBAR ─────────────────────────────────────────
 with st.sidebar:
-    st.markdown("## 🤖 AI Configuration")
+    st.markdown('<h1 style="color: #00A2D1; font-size: 2.2rem; margin-bottom: 0;">N.E.D – Neural Executive Dashboard</h1>', unsafe_allow_html=True)
     ai_provider = st.selectbox("Provider", ["gemini", "claude", "openai"], index=0, key="ai_provider")
     if ai_provider == "claude":
         api_key = st.text_input("Claude API Key", type="password", key="claude_key")
@@ -198,7 +211,7 @@ if build_review_clicked:
 
 if ops_check_clicked:
     st.session_state.messages.append({"role": "user", "content": "Ops Assist Fail Check"})
-    st.session_state.messages.append({"role": "assistant", "content": "🚧 Ops Failure Checker — coming soon.", "type": "info"})
+    st.session_state.messages.append({"role": "assistant", "content": "🚧 Ops Assist Fail Check — coming soon.", "type": "info"})
     st.rerun()
 
 if delivery_clicked:
@@ -208,7 +221,7 @@ if delivery_clicked:
 
 if availability_clicked:
     st.session_state.messages.append({"role": "user", "content": "Asset Availability in OneTru"})
-    st.session_state.messages.append({"role": "assistant", "content": "🚧 Asset Availability — coming soon.", "type": "info"})
+    st.session_state.messages.append({"role": "assistant", "content": "🚧 Asset Availability in OneTru— coming soon.", "type": "info"})
     st.rerun()
 # ───────────────────── KPI SUMMARY ─────────────────────────────────────
 # data = RAW_BUILDS.get(selected_build, [])
