@@ -25,8 +25,6 @@ st.markdown("""
     footer {visibility: hidden;}
     header {visibility: hidden;}
     section[data-testid="stSidebar"] { visibility: visible !important; display: block !important; }
-    div[data-testid="stChatInput"] { position: sticky !important; bottom: 0 !important; z-index: 1000 !important; padding: 0.5rem 0 !important; }
-    div[data-testid="stChatInput"] > div { border: none !important; box-shadow: none !important; background: transparent !important; }
 
     /* TransUnion Theme */
     .stApp { background-color: #1a1f2e; color: #e0e0e0; }
@@ -46,8 +44,7 @@ st.markdown("""
     .kpi-negative { color: #f87171; }
     .kpi-neutral { color: #94a3b8; }
 
-
-    /* Chat area */
+    /* Chat messages */
     div[data-testid="stChatMessage"] {
         background-color: #232b3a !important;
         border-radius: 10px !important;
@@ -56,19 +53,30 @@ st.markdown("""
     }
     .stChatMessage [data-testid="stMarkdownContainer"] { color: #e0e0e0 !important; }
 
-    /* Chat input bar — match page background */
-    div[data-testid="stBottom"] { background-color: #1a1f2e !important; }
-    div[data-testid="stChatInput"] { background-color: #1a1f2e !important; }
-    div[data-testid="stChatInput"] textarea { background-color: #232b3a !important; color: #e0e0e0 !important; border: 1px solid #2E3644 !important; }
+    /* Chat input — full width, match page background */
+    div[data-testid="stBottom"] { background-color: #1a1f2e !important; padding: 0 !important; }
+    div[data-testid="stBottom"] > div { background-color: #1a1f2e !important; }
+    div[data-testid="stChatInput"] {
+        background-color: #1a1f2e !important;
+        position: sticky !important; bottom: 0 !important;
+        z-index: 1000 !important; padding: 8px 0 !important;
+    }
+    div[data-testid="stChatInput"] > div { border: none !important; box-shadow: none !important; background: #1a1f2e !important; }
+    div[data-testid="stChatInput"] textarea {
+        background-color: #2E3644 !important;
+        color: #e0e0e0 !important;
+        border: 1px solid #3a4556 !important;
+        border-radius: 8px !important;
+        font-size: 16px !important;
+        min-height: 50px !important;
+        padding: 14px !important;
+    }
+    div[data-testid="stChatInput"] button { background-color: #00A2D1 !important; }
 
-    /* Conversation header */
+    /* Divider */
     .stDivider { border-color: #2E3644 !important; }
-
-    /* Action Buttons */
-    .action-row { display: flex; gap: 8px; margin: 8px 0; flex-wrap: wrap; }
     </style>
 """, unsafe_allow_html=True)
-
 
 # ───────────────────── SIDEBAR ─────────────────────────────────────────
 with st.sidebar:
