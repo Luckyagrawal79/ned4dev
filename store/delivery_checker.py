@@ -1,11 +1,15 @@
 """
 Check GCP Dataproc job status for delivery jobs.
-Uses gcloud CLI — no extra pip dependencies needed.
+Uses google-cloud-dataproc Python SDK.
 """
 
-import subprocess
 import json
 from datetime import datetime, timedelta
+
+try:
+    from google.cloud import dataproc_v1
+except ImportError:
+    dataproc_v1 = None
 
 
 DELIVERY_JOBS = {
@@ -24,34 +28,14 @@ DELIVERY_JOBS = {
 }
 
 
-def _run_gcloud(prefix: str, project_id: str) -> dict | None:
-    """Find most recent successful job matching the prefix."""
-    cmd = [
-        "gcloud", "dataproc", "jobs", "list",
-        f"--project={project_id}",
-        "--state-filter=done",
-        f"--filter=reference.job_id:{prefix}",
-        "--sort-by=~status.stateStartTime",
-        "--limit=1",
-        "--format=json",
-    ]
+def check_delivery_status(project_id: str, region: str = "us-central1") -> list[dict]:
+    if dataproc_v1 is None:
+        raise RuntimeError("pip install google-cloud-dataproc")
 
-    try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
-        if result.returncode != 0:
-            return {"error": result.stderr.strip()}
+    client = dataproc_v1.JobControllerClient(
+        client_options={"api_endpoint": f"{region}-dataproc.googleapis.com:443"}
+    )
 
-        jobs = json.loads(result.stdout)
-        if not jobs:
-            return None
-
-        return jobs[0]
-    except Exception as e:
-        return {"error": str(e)}
-
-
-def check_delivery_status(project_id: str) -> list[dict]:
-    """Check latest successful run for each delivery job."""
     results = []
     today = datetime.utcnow().date()
 
@@ -59,43 +43,46 @@ def check_delivery_status(project_id: str) -> list[dict]:
         prefix = config["prefix"]
         schedule = config["schedule"]
 
-        job = _run_gcloud(prefix, project_id)
-
-        if job is None:
-            results.append({
-                "job": display_name,
-                "last_delivered": "No runs found",
-                "on_time": False,
-            })
-            continue
-
-        if "error" in job:
-            results.append({
-                "job": display_name,
-                "last_delivered": f"Error: {job['error'][:50]}",
-                "on_time": False,
-            })
-            continue
-
-        # Extract end time
         try:
-            state_time = job.get("status", {}).get("stateStartTime", "")
-            job_date = datetime.fromisoformat(state_time.replace("Z", "+00:00")).date()
+            request = dataproc_v1.ListJobsRequest(
+                project_id=project_id,
+                region=region,
+                filter="status.state = DONE",
+            )
 
-            if schedule == "weekly":
-                on_time = (today - job_date) <= timedelta(days=7)
+            latest_date = None
+            for job in client.list_jobs(request=request):
+                job_id = job.reference.job_id if job.reference else ""
+                if not job_id.lower().startswith(prefix.lower()):
+                    continue
+
+                if job.status and job.status.state_start_time:
+                    job_date = job.status.state_start_time.date()
+                    if latest_date is None or job_date > latest_date:
+                        latest_date = job_date
+                        break  # already sorted by most recent
+
+            if latest_date:
+                if schedule == "weekly":
+                    on_time = (today - latest_date) <= timedelta(days=7)
+                else:
+                    on_time = (today - latest_date) <= timedelta(days=31)
+                results.append({
+                    "job": display_name,
+                    "last_delivered": latest_date.strftime("%Y-%m-%d"),
+                    "on_time": on_time,
+                })
             else:
-                on_time = (today - job_date) <= timedelta(days=31)
+                results.append({
+                    "job": display_name,
+                    "last_delivered": "No successful runs",
+                    "on_time": False,
+                })
 
-            results.append({
-                "job": display_name,
-                "last_delivered": job_date.strftime("%Y-%m-%d"),
-                "on_time": on_time,
-            })
         except Exception as e:
             results.append({
                 "job": display_name,
-                "last_delivered": f"Parse error: {str(e)[:50]}",
+                "last_delivered": f"Error: {str(e)[:80]}",
                 "on_time": False,
             })
 

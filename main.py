@@ -232,9 +232,8 @@ if delivery_clicked:
     try:
         from store.delivery_checker import check_delivery_status, format_delivery_status
         results = check_delivery_status(
-            project_id="your-gcp-project-id",
-            region="your-region",           # e.g. "us-central1"
-            cluster_name="your-cluster"     # optional, remove if not needed
+            project_id="pon-build-prod-mig-wkly-0441",
+            region="us-central1"
         )
         msg = format_delivery_status(results)
     except Exception as e:
@@ -293,7 +292,8 @@ if query:
             try:
                 from store.delivery_checker import check_delivery_status, format_delivery_status
                 results = check_delivery_status(
-                    project_id="pon-build-prod-mig-wkly-0441"
+                    project_id="pon-build-prod-mig-wkly-0441",
+                    region="us-central1"
                 )
                 msg = format_delivery_status(results)
             except Exception as e:
