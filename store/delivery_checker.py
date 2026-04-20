@@ -47,7 +47,7 @@ def check_delivery_status(project_id: str, region: str = "us-central1") -> list[
             request = dataproc_v1.ListJobsRequest(
                 project_id=project_id,
                 region=region,
-                filter="status.state = DONE",
+                job_state_matcher=dataproc_v1.ListJobsRequest.JobStateMatcher.NON_ACTIVE,
             )
 
             latest_date = None
@@ -56,12 +56,15 @@ def check_delivery_status(project_id: str, region: str = "us-central1") -> list[
                 if not job_id.lower().startswith(prefix.lower()):
                     continue
 
-                if job.status and job.status.state_start_time:
-                    job_date = job.status.state_start_time.date()
-                    if latest_date is None or job_date > latest_date:
-                        latest_date = job_date
-                        break  # already sorted by most recent
+                # Only count DONE (successful), skip ERROR/CANCELLED
+                if job.status and job.status.state == dataproc_v1.JobStatus.State.DONE:
+                    if job.status.state_start_time:
+                        job_date = job.status.state_start_time.date()
+                        if latest_date is None or job_date > latest_date:
+                            latest_date = job_date
+                            break
 
+                            
             if latest_date:
                 if schedule == "weekly":
                     on_time = (today - latest_date) <= timedelta(days=7)
