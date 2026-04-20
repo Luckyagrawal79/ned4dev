@@ -298,7 +298,7 @@ if query:
                 msg = format_delivery_status(results)
             except Exception as e:
                 msg = f"Error checking delivery: {str(e)}"
-            st.write(msg)r
+            st.write(msg)
             st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
 
         elif detect_plot_request(query):
