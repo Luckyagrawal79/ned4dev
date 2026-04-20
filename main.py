@@ -228,8 +228,18 @@ if ops_check_clicked:
     st.rerun()
 
 if delivery_clicked:
-    st.session_state.messages.append({"role": "user", "content": "Delivery Status"})
-    st.session_state.messages.append({"role": "assistant", "content": "🚧 Delivery Status — coming soon.", "type": "info"})
+    st.session_state.messages.append({"role": "user", "content": "Delivery Status Check"})
+    try:
+        from store.delivery_checker import check_delivery_status, format_delivery_status
+        results = check_delivery_status(
+            project_id="your-gcp-project-id",
+            region="your-region",           # e.g. "us-central1"
+            cluster_name="your-cluster"     # optional, remove if not needed
+        )
+        msg = format_delivery_status(results)
+    except Exception as e:
+        msg = f"**🚚 Delivery Status**\n\nError checking jobs: {str(e)}"
+    st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
     st.rerun()
 
 if availability_clicked:
@@ -278,6 +288,18 @@ if query:
             msg = "Harness integration coming soon..."
             st.info(msg)
             st.session_state.messages.append({"role": "assistant", "content": msg, "type": "info"})
+        
+        elif any(phrase in query.lower() for phrase in ["delivery status", "delivery done", "delivery check", "is delivery"]):
+            try:
+                from store.delivery_checker import check_delivery_status, format_delivery_status
+                results = check_delivery_status(
+                    project_id="pon-build-prod-mig-wkly-0441"
+                )
+                msg = format_delivery_status(results)
+            except Exception as e:
+                msg = f"Error checking delivery: {str(e)}"
+            st.write(msg)r
+            st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
 
         elif detect_plot_request(query):
             query_lower = query.lower()
