@@ -242,8 +242,15 @@ if delivery_clicked:
     st.rerun()
 
 if availability_clicked:
-    st.session_state.messages.append({"role": "user", "content": "Asset Availability in OneTru"})
-    st.session_state.messages.append({"role": "assistant", "content": "🚧 Asset Availability in OneTru— coming soon.", "type": "info"})
+    from store.asset_availability import ASSET_PATHS, get_visible_assets
+    st.session_state.messages.append({"role": "user", "content": "Asset Availability Check"})
+    msg = "**🔍 Available assets to check:**\n\n"
+    msg += ", ".join(f"`{asset}`" for asset in get_visible_assets())
+    msg += "\n\n**Usage — type in chat:**\n"
+    msg += "• **`check all-asset`** — check all assets\n"
+    msg += "• **`check liv`** — single asset\n"
+    msg += "• **`check liv, gry, fbk`** — multiple assets\n"
+    st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
     st.rerun()
 # ───────────────────── KPI SUMMARY ─────────────────────────────────────
 # data = RAW_BUILDS.get(selected_build, [])
@@ -298,6 +305,22 @@ if query:
                 msg = format_delivery_status(results)
             except Exception as e:
                 msg = f"Error checking delivery: {str(e)}"
+            st.write(msg)
+            st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
+        
+        elif query.lower().startswith("check "):
+            asset_input = query[6:].strip()  # remove "check "
+            if asset_input.lower() in ["all", "all-asset", "all assets"]:
+                asset_list = ["all"]
+            else:
+                asset_list = [a.strip() for a in asset_input.replace(",", " ").split() if a.strip()]
+
+            try:
+                from store.asset_availability import check_asset_availability, format_availability
+                results = check_asset_availability(asset_list)
+                msg = format_availability(results)
+            except Exception as e:
+                msg = f"Error checking availability: {str(e)}"
             st.write(msg)
             st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
 
