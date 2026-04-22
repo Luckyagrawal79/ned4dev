@@ -41,51 +41,94 @@ def _list_prefixes(client, bucket_name, prefix):
     return list(blobs.prefixes)
 
 
+def _normalize_date(val):
+    """Convert any date format to yyyy-mm-dd. Returns original if not a date."""
+    import re
+    val = val.strip()
+    
+    # Already yyyy-mm-dd
+    if re.match(r'^\d{4}-\d{2}-\d{2}$', val):
+        return val
+    
+    # yyyymmdd (no dashes)
+    if re.match(r'^\d{8}$', val):
+        return f"{val[:4]}-{val[4:6]}-{val[6:8]}"
+    
+    # yyyy/mm/dd
+    if re.match(r'^\d{4}/\d{2}/\d{2}$', val):
+        return val.replace("/", "-")
+    
+    # dd-mm-yyyy
+    if re.match(r'^\d{2}-\d{2}-\d{4}$', val):
+        return f"{val[6:10]}-{val[3:5]}-{val[0:2]}"
+    
+    # Not a date — return as-is
+    return val
+
+
+def _extract_value(folder_name):
+    """Extract value after '=' or return folder name."""
+    if "=" in folder_name:
+        return folder_name.split("=", 1)[1]
+    return folder_name
+
+
+def _sort_key(val):
+    """Sort numerically if possible, else alphabetically."""
+    try:
+        return (1, int(val))
+    except ValueError:
+        return (0, val)
+
+
 def _get_latest_obs_date(client, bucket_name, base_prefix):
-    # Step 1: List instance_id folders
-    instance_dirs = _list_prefixes(client, bucket_name, base_prefix)
-    if not instance_dirs:
+    """
+    Navigate: base_prefix → highest instance_id → latest date/partition.
+    Handles missing obs_date — returns whatever is after instance_id.
+    """
+    # Step 1: List first level folders
+    first_level = _list_prefixes(client, bucket_name, base_prefix)
+    if not first_level:
         return None
 
+    # Check if first level IS obs_date (no instance_id layer)
+    first_folder = first_level[0].rstrip("/").split("/")[-1]
+    if first_folder.startswith("obs_date"):
+        # No instance_id, directly obs_date
+        dates = []
+        for d in first_level:
+            val = _extract_value(d.rstrip("/").split("/")[-1])
+            dates.append((_normalize_date(val), d))
+        dates.sort(key=lambda x: x[0], reverse=True)
+        return dates[0][0]
+
+    # First level is instance_id — pick highest
     instances = []
-    for d in instance_dirs:
-        folder_name = d.rstrip("/").split("/")[-1]
-        if "=" in folder_name:
-            val = folder_name.split("=", 1)[1]
-            try:
-                instances.append((int(val), d))
-            except ValueError:
-                instances.append((0, d))
-        else:
-            instances.append((0, d))
-
-    if not instances:
-        return None
+    for d in first_level:
+        val = _extract_value(d.rstrip("/").split("/")[-1])
+        instances.append((_sort_key(val), d))
 
     instances.sort(key=lambda x: x[0], reverse=True)
-    highest_instance_prefix = instances[0][1]
+    highest_prefix = instances[0][1]
 
-    # Step 2: List obs_date folders under highest instance
-    obs_dirs = _list_prefixes(client, bucket_name, highest_instance_prefix)
-    if not obs_dirs:
+    # Step 2: List inside highest instance_id
+    second_level = _list_prefixes(client, bucket_name, highest_prefix)
+    if not second_level:
         return None
 
-    dates = []
-    for d in obs_dirs:
-        folder_name = d.rstrip("/").split("/")[-1]
-        if "=" in folder_name:
-            val = folder_name.split("=", 1)[1]
-            dates.append(val)
-        else:
-            dates.append(folder_name)
+    # Whatever is here — could be obs_date, process_date, or anything
+    values = []
+    for d in second_level:
+        folder = d.rstrip("/").split("/")[-1]
+        val = _extract_value(folder)
+        normalized = _normalize_date(val)
+        values.append((normalized, folder))
 
-    if not dates:
-        return None
+    # Sort — dates sort correctly as strings in yyyy-mm-dd
+    values.sort(key=lambda x: x[0], reverse=True)
+    return values[0][0]
 
-    dates.sort(reverse=True)
-    return dates[0]
-
-
+    
 def check_asset_availability(asset_names: list[str]) -> dict:
     """
     Returns dict with:
