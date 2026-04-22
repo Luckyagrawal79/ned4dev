@@ -242,16 +242,18 @@ if delivery_clicked:
     st.rerun()
 
 if availability_clicked:
-    from store.asset_availability import ASSET_PATHS, get_visible_assets
+    from store.asset_availability import ASSET_PATHS, get_visible_assets, HIDDEN_ASSETS
     st.session_state.messages.append({"role": "user", "content": "Asset Availability Check"})
+    visible = {k: v["display"] for k, v in ASSET_PATHS.items() if k not in {h.lower() for h in HIDDEN_ASSETS}}
     msg = "**🔍 Available assets to check:**\n\n"
-    msg += ", ".join(f"`{asset}`" for asset in get_visible_assets())
+    msg += ", ".join(f"`{k}` ({v})" for k, v in sorted(visible.items()))
     msg += "\n\n**Usage — type in chat:**\n"
     msg += "• **`check all-asset`** — check all assets\n"
-    msg += "• **`check liv`** — single asset\n"
+    msg += "• **`check liv`** — single asset (LiveIntent)\n"
     msg += "• **`check liv, gry, fbk`** — multiple assets\n"
     st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
     st.rerun()
+    
 # ───────────────────── KPI SUMMARY ─────────────────────────────────────
 # data = RAW_BUILDS.get(selected_build, [])
 # if data:
