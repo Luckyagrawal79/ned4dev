@@ -7,20 +7,13 @@ from google.cloud import storage
 
 # Map asset name → GCS base path
 ASSET_PATHS = {
-    "liv": "gs://your-bucket/path/to/liv/",
-    "gry": "gs://your-bucket/path/to/gry/",
-    "truedata-ctv": "gs://your-bucket/path/to/truedata-ctv/",
-    "stirista-ctv": "gs://your-bucket/path/to/stirista-ctv/",
-    "fbk": "gs://your-bucket/path/to/fbk/",
-    "ibt": "gs://your-bucket/path/to/ibt/",
-    "idy": "gs://your-bucket/path/to/idy/",
-    "zeta": "gs://your-bucket/path/to/zeta/",
-    "scn": "gs://your-bucket/path/to/scn/",
-    "next": "gs://your-bucket/path/to/next/",
-    "audacq": "gs://your-bucket/path/to/audacq/",
-    "startapp": "gs://your-bucket/path/to/startapp/",
-    "identity_event": "gs://your-bucket/path/to/identity_event/",
-    "adadvisor": "gs://your-bucket/path/to/adadvisor/",
+    "truedata": "gs://fe8f7b53-6cab-4a29-8efa-831ed8849353-2183-a/version=300/",
+    "adadvisor": "gs://a6c6cfa9-9556-4504-8d31-dcd47d5aaa8a-2499-a/version=2200/",
+    "truedata-ctv": "gs://4980a90f-a83b-4565-bce5-dabd5cd38339-2652-a/version=900/",
+    "identity_event": "gs://927bbfd7-25b4-4ac6-8a0c-a05606c89d47-2525-a/version=1100/",
+    "liv": "gs://457bb09e-1849-4683-81ac-989ca9ec29da-6252-a/version=100/",
+    "gry": "gs://7e846dd6-16a9-4bab-af56-f639a3f8f383-2516-a/version=900/",
+    "audacq": "gs://54fdbe34-9fa9-4262-8110-de5fba26b4ea-3775-a/version=100/",
 }
 
 # Assets to hide from user-facing list (internal/aggregate assets)
