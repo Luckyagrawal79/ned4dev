@@ -317,15 +317,39 @@ if query:
                 asset_list = ["all"]
             else:
                 display_map = get_display_to_key_map()
-                # Split by comma, match each against display names
                 raw_names = [a.strip() for a in asset_input.split(",") if a.strip()]
                 asset_list = []
                 for name in raw_names:
-                    key = display_map.get(name.lower())
+                    name_lower = name.lower().strip()
+                    name_nospace = name_lower.replace(" ", "").replace("-", "")
+
+                    # 1. Exact match (display name or key)
+                    key = display_map.get(name_lower)
                     if key:
                         asset_list.append(key)
+                        continue
+
+                    # 2. No-space match: "live intent" → "liveintent"
+                    key = display_map.get(name_nospace)
+                    if key:
+                        asset_list.append(key)
+                        continue
+
+                    # 3. Partial match — only if ONE result
+                    partial_matches = []
+                    for display, asset_key in display_map.items():
+                        if name_nospace in display.replace(" ", "").replace("-", ""):
+                            if asset_key not in partial_matches:
+                                partial_matches.append(asset_key)
+                    
+                    if len(partial_matches) == 1:
+                        asset_list.append(partial_matches[0])
+                    elif len(partial_matches) > 1:
+                        # Ambiguous — show options
+                        names = [ASSET_PATHS[k]["display"] for k in partial_matches if k in ASSET_PATHS]
+                        asset_list.append(f"__ambiguous__{name}||{'||'.join(names)}")
                     else:
-                        asset_list.append(name)  # pass as-is, will show "not mapped"
+                        asset_list.append(name)
 
             try:
                 from store.asset_availability import check_asset_availability, format_availability

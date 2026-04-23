@@ -43,13 +43,17 @@ ASSET_PATHS = {
 HIDDEN_ASSETS = {"Total", "Total_Cookie", "Total_Device", "Total_cookie", "total", "total_device", "total_cookie"}
 
 def get_display_to_key_map():
-    """Map display names (lowercase) → asset key."""
     mapping = {}
     for key, config in ASSET_PATHS.items():
-        mapping[config["display"].lower()] = key
-        mapping[key.lower()] = key  # also allow short names
+        display = config["display"]
+        mapping[display.lower()] = key                                    # "truedata ctv" → key
+        mapping[display.lower().replace(" ", "")] = key                   # "truedatactv" → key
+        mapping[display.lower().replace(" ", "").replace("-", "")] = key  # "truedatactv" → key
+        mapping[key.lower()] = key                                        # "truedata-ctv" → key
+        mapping[key.lower().replace("-", "")] = key                       # "truedatactv" → key
     return mapping
     
+
 def get_visible_assets():
     return sorted(k for k in ASSET_PATHS.keys() if k not in {h.lower() for h in HIDDEN_ASSETS})
 
@@ -180,8 +184,13 @@ def check_asset_availability(asset_names: list[str]) -> dict:
                     matched = True
                     break
             if not matched:
-                not_mapped.append(asset)
-                continue
+                if asset.startswith("__ambiguous__"):
+                    parts = asset.replace("__ambiguous__", "").split("||")
+                    original = parts[0]
+                    options = parts[1:]
+                    not_mapped.append(f"{original} (did you mean: {', '.join(options)}?)")
+                else:
+                    not_mapped.append(asset)
 
         gs_path = config["path"]
         display = config["display"]
