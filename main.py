@@ -244,13 +244,13 @@ if delivery_clicked:
 if availability_clicked:
     from store.asset_availability import ASSET_PATHS, get_visible_assets, HIDDEN_ASSETS
     st.session_state.messages.append({"role": "user", "content": "Asset Availability Check"})
-    visible = {k: v["display"] for k, v in ASSET_PATHS.items() if k not in {h.lower() for h in HIDDEN_ASSETS}}
+    msg += ", ".join(f"`{v['display']}`" for k, v in sorted(ASSET_PATHS.items(), key=lambda x: x[1]["display"]))
     msg = "**🔍 Available assets to check:**\n\n"
     msg += ", ".join(f"`{k}` ({v})" for k, v in sorted(visible.items()))
     msg += "\n\n**Usage — type in chat:**\n"
     msg += "• **`check all-asset`** — check all assets\n"
-    msg += "• **`check liv`** — single asset (LiveIntent)\n"
-    msg += "• **`check liv, gry, fbk`** — multiple assets\n"
+    msg += "• **`check LiveIntent`** — single asset\n"
+    msg += "• **`check LiveIntent, Gravy, TrueData`** — multiple assets\n"
     st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
     st.rerun()
     
@@ -311,11 +311,21 @@ if query:
             st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
         
         elif query.lower().startswith("check "):
-            asset_input = query[6:].strip()  # remove "check "
+            from store.asset_availability import get_display_to_key_map
+            asset_input = query[6:].strip()
             if asset_input.lower() in ["all", "all-asset", "all assets"]:
                 asset_list = ["all"]
             else:
-                asset_list = [a.strip() for a in asset_input.replace(",", " ").split() if a.strip()]
+                display_map = get_display_to_key_map()
+                # Split by comma, match each against display names
+                raw_names = [a.strip() for a in asset_input.split(",") if a.strip()]
+                asset_list = []
+                for name in raw_names:
+                    key = display_map.get(name.lower())
+                    if key:
+                        asset_list.append(key)
+                    else:
+                        asset_list.append(name)  # pass as-is, will show "not mapped"
 
             try:
                 from store.asset_availability import check_asset_availability, format_availability

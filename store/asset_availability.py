@@ -10,7 +10,7 @@ ASSET_PATHS = {
     "truedata": {
         "path": "gs://fe8f7b53-6cab-4a29-8efa-831ed8849353-2183-a/",
         "display": "TrueData",
-        "cadence": "weekly",
+        "cadence": "daily",
     },
     "adadvisor": {
         "path": "gs://a6c6cfa9-9556-4504-8d31-dcd47d5aaa8a-2499-a/",
@@ -34,15 +34,22 @@ ASSET_PATHS = {
     },
     "audacq": {
         "path": "gs://54fdbe34-9fa9-4262-8110-de5fba26b4ea-3775-a/",
-        "display": "AudAcq",
-        "cadence": "weekly",
+        "display": "Audience Acuity",
+        "cadence": "daily",
     },
 }
 
 # Assets to hide from user-facing list (internal/aggregate assets)
 HIDDEN_ASSETS = {"Total", "Total_Cookie", "Total_Device", "Total_cookie", "total", "total_device", "total_cookie"}
 
-
+def get_display_to_key_map():
+    """Map display names (lowercase) → asset key."""
+    mapping = {}
+    for key, config in ASSET_PATHS.items():
+        mapping[config["display"].lower()] = key
+        mapping[key.lower()] = key  # also allow short names
+    return mapping
+    
 def get_visible_assets():
     return sorted(k for k in ASSET_PATHS.keys() if k not in {h.lower() for h in HIDDEN_ASSETS})
 
@@ -58,12 +65,11 @@ def _parse_gs_uri(uri):
 
 
 def _list_prefixes(client, bucket_name, prefix):
-    if not prefix.endswith("/"):
+    if prefix and not prefix.endswith("/"):
         prefix += "/"
-    blobs = client.list_blobs(bucket_name, prefix=prefix, delimiter="/")
+    blobs = client.list_blobs(bucket_name, prefix=prefix or None, delimiter="/")
     _ = list(blobs)
     return list(blobs.prefixes)
-
 
 def _normalize_date(val):
     """Convert any date format to yyyy-mm-dd. Returns original if not a date."""
@@ -107,48 +113,41 @@ def _sort_key(val):
 
 def _get_latest_obs_date(client, bucket_name, base_prefix):
     """
-    Navigate: base → latest version → latest instance_id → latest date.
-    Auto-detects how many levels exist.
+    Tries: version → instanceid → date
+    Skips any level that doesn't exist.
     """
-    current_prefix = base_prefix
-    max_depth = 4  # version → instance → obs_date (+ safety)
 
-    for _ in range(max_depth):
-        folders = _list_prefixes(client, bucket_name, current_prefix)
-        if not folders:
-            return None
-
-        # Extract folder names and values
+    def _pick_latest(folders):
         entries = []
         for d in folders:
             folder = d.rstrip("/").split("/")[-1]
             val = _extract_value(folder)
-            entries.append((val, d))
+            entries.append((_sort_key(val), _normalize_date(val), d))
+        entries.sort(key=lambda x: x[0], reverse=True)
+        return entries
 
-        if not entries:
+    def _looks_like_date(val):
+        import re
+        return bool(re.match(r'^\d{4}-\d{2}-\d{2}$', val))
+
+    current_prefix = base_prefix
+
+    for step in range(4):  # max 4 levels deep
+        folders = _list_prefixes(client, bucket_name, current_prefix)
+        if not folders:
             return None
 
-        # Check if any value looks like a date — means we're at the last level
-        for val, path in entries:
-            normalized = _normalize_date(val)
-            if normalized != val:
-                # It's a date — sort and return latest
-                dates = [(_normalize_date(_extract_value(d.rstrip("/").split("/")[-1])), d) for _, d in entries]
-                dates.sort(key=lambda x: x[0], reverse=True)
-                return dates[0][0]
+        entries = _pick_latest(folders)
 
-        # Check if raw value is yyyy-mm-dd
-        import re
-        if re.match(r'^\d{4}-\d{2}-\d{2}$', entries[0][0]):
-            entries_dated = [(e[0], e[1]) for e in entries]
-            entries_dated.sort(key=lambda x: x[0], reverse=True)
-            return entries_dated[0][0]
+        # Check if this level has dates
+        if _looks_like_date(entries[0][1]):
+            return entries[0][1]
 
-        # Not dates — pick highest value and go deeper
-        entries.sort(key=lambda x: _sort_key(x[0]), reverse=True)
-        current_prefix = entries[0][1]
+        # Not dates — go deeper into highest value
+        current_prefix = entries[0][2]
 
     return None
+
 
 
 def check_asset_availability(asset_names: list[str]) -> dict:
