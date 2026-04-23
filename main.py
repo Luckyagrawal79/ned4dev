@@ -338,18 +338,19 @@ if query:
                     # 3. Partial match — only if ONE result
                     partial_matches = []
                     for display, asset_key in display_map.items():
-                        if name_nospace in display.replace(" ", "").replace("-", ""):
+                        display_clean = display.replace(" ", "").replace("-", "")
+                        if name_nospace in display_clean:
                             if asset_key not in partial_matches:
                                 partial_matches.append(asset_key)
-                    
+
                     if len(partial_matches) == 1:
                         asset_list.append(partial_matches[0])
                     elif len(partial_matches) > 1:
-                        # Ambiguous — show options
                         names = [ASSET_PATHS[k]["display"] for k in partial_matches if k in ASSET_PATHS]
                         asset_list.append(f"__ambiguous__{name}||{'||'.join(names)}")
                     else:
                         asset_list.append(name)
+
 
             try:
                 from store.asset_availability import check_asset_availability, format_availability

@@ -175,14 +175,17 @@ def check_asset_availability(asset_names: list[str]) -> dict:
 
         config = ASSET_PATHS.get(asset_lower)
         if not config:
-            # Try fuzzy match
+            # Try without spaces/dashes
+            clean = asset_lower.replace(" ", "").replace("-", "")
             matched = False
             for key in ASSET_PATHS:
-                if asset_lower in key or key in asset_lower:
+                key_clean = key.replace(" ", "").replace("-", "")
+                if clean in key_clean or key_clean in clean:
                     config = ASSET_PATHS[key]
                     asset_lower = key
                     matched = True
                     break
+                    
             if not matched:
                 if asset.startswith("__ambiguous__"):
                     parts = asset.replace("__ambiguous__", "").split("||")
