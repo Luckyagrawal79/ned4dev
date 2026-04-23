@@ -244,9 +244,9 @@ if delivery_clicked:
 if availability_clicked:
     from store.asset_availability import ASSET_PATHS, get_visible_assets, HIDDEN_ASSETS
     st.session_state.messages.append({"role": "user", "content": "Asset Availability Check"})
-    msg += ", ".join(f"`{v['display']}`" for k, v in sorted(ASSET_PATHS.items(), key=lambda x: x[1]["display"]))
+    visible = {k: v["display"] for k, v in ASSET_PATHS.items() if k not in {h.lower() for h in HIDDEN_ASSETS}}
     msg = "**🔍 Available assets to check:**\n\n"
-    msg += ", ".join(f"`{k}` ({v})" for k, v in sorted(visible.items()))
+    msg += ", ".join(f"`{v['display']}`" for k, v in sorted(ASSET_PATHS.items(), key=lambda x: x[1]["display"]))
     msg += "\n\n**Usage — type in chat:**\n"
     msg += "• **`check all-asset`** — check all assets\n"
     msg += "• **`check LiveIntent`** — single asset\n"
