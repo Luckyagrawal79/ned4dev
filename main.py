@@ -311,7 +311,7 @@ if query:
             st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
         
         elif query.lower().startswith("check "):
-            from store.asset_availability import get_display_to_key_map
+            from store.asset_availability import get_display_to_key_map, ASSET_PATHS
             asset_input = query[6:].strip()
             if asset_input.lower() in ["all", "all-asset", "all assets"]:
                 asset_list = ["all"]
