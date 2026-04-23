@@ -185,7 +185,7 @@ def check_asset_availability(asset_names: list[str]) -> dict:
                     asset_lower = key
                     matched = True
                     break
-                    
+
             if not matched:
                 if asset.startswith("__ambiguous__"):
                     parts = asset.replace("__ambiguous__", "").split("||")
@@ -208,7 +208,7 @@ def check_asset_availability(asset_names: list[str]) -> dict:
                 try:
                     latest_date = datetime.strptime(latest_date_str, "%Y-%m-%d").date()
                     if cadence == "daily":
-                        on_time = (today - latest_date) <= timedelta(days=2)
+                        on_time = (today - latest_date) <= timedelta(days=1)
                     elif cadence == "weekly":
                         on_time = (today - latest_date) <= timedelta(days=7)
                     else:  # monthly
