@@ -17,7 +17,7 @@ from nlp.field_detector import detect_value_field
 from nlp.date_range_parser import parse_date_range, filter_builds_by_range
 from nlp.asset_resolver import AssetResolver
 
-st.set_page_config(page_title="NED", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="NED", layout="wide", initial_sidebar_state="collapsed")
 
 # ───────────────────── CSS ─────────────────────────────────────────────
 st.markdown("""
@@ -187,13 +187,13 @@ st.markdown(kpi_html, unsafe_allow_html=True)
 # ───────────────────── ACTION BUTTONS ──────────────────────────────────
 b1, b2, b3, b4 = st.columns(4)
 with b1:
-    source_review_clicked = st.button("📋 Source-Stats Review", use_container_width=True)
+    source_review_clicked = st.button("📋 Source Stats Review", use_container_width=True)
 with b2:
-    ops_check_clicked = st.button("⚠️ Ops Failure Check", use_container_width=True)
+    ops_check_clicked = st.button("⚠️ Jobs Failure Check", use_container_width=True)
 with b3:
-    delivery_clicked = st.button("🚚 Delivery Status", use_container_width=True)
+    delivery_clicked = st.button("🚚 Build Delivery Status", use_container_width=True)
 with b4:
-    availability_clicked = st.button("🔍 Asset Availability", use_container_width=True)
+    availability_clicked = st.button("🔍 OneTru Asset Check", use_container_width=True)
 
 # ───────────────────── SESSION STATE ───────────────────────────────────
 if "chart_fig" not in st.session_state:
