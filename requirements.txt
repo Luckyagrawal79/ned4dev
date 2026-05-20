@@ -6,6 +6,5 @@ google-cloud-aiplatform
 google-cloud-storage
 requests
 openai
-google-cloud-dataproc
-
+redis
 

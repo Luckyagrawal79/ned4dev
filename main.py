@@ -231,10 +231,7 @@ if delivery_clicked:
     st.session_state.messages.append({"role": "user", "content": "Delivery Status Check"})
     try:
         from store.delivery_checker import check_delivery_status, format_delivery_status
-        results = check_delivery_status(
-            project_id="pon-build-prod-mig-wkly-0441",
-            region="us-central1"
-        )
+        results = check_delivery_status()
         msg = format_delivery_status(results)
     except Exception as e:
         msg = f"**🚚 Delivery Status**\n\nError checking jobs: {str(e)}"
@@ -300,10 +297,7 @@ if query:
         elif any(phrase in query.lower() for phrase in ["delivery status", "delivery done", "delivery check", "is delivery"]):
             try:
                 from store.delivery_checker import check_delivery_status, format_delivery_status
-                results = check_delivery_status(
-                    project_id="pon-build-prod-mig-wkly-0441",
-                    region="us-central1"
-                )
+                results = check_delivery_status()
                 msg = format_delivery_status(results)
             except Exception as e:
                 msg = f"Error checking delivery: {str(e)}"
