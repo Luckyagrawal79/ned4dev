@@ -61,6 +61,12 @@ class AssetResolver:
             "increased", "decrease", "decreased", "any", "are", "there",
             "tell", "about", "from", "with", "all", "every", "week",
             "weeks", "that", "this", "has", "have", "does", "did",
+            "source", "stats", "stat", "review", "status", "check",
+            "give", "get", "fetch", "find", "list", "available",
+            "update", "latest", "recent", "report", "summary",
+            "delivery", "done", "failed", "success", "asset",
+            "please", "can", "could", "would", "want", "need",
+            "how", "when", "why", "much", "many",
         ]
 
         # Step 1: exact substring match against known assets
@@ -113,6 +119,12 @@ class AssetResolver:
             "increased", "decrease", "decreased", "any", "are", "there",
             "tell", "about", "from", "with", "all", "every", "week",
             "weeks", "that", "this", "has", "have", "does", "did",
+            "source", "stats", "stat", "review", "status", "check",
+            "give", "get", "fetch", "find", "list", "available",
+            "update", "latest", "recent", "report", "summary",
+            "delivery", "done", "failed", "success", "asset",
+            "please", "can", "could", "would", "want", "need",
+            "how", "when", "why", "much", "many",
         ]
 
         # Step 1: exact substring match
