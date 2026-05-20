@@ -23,7 +23,7 @@ def check_delivery_status() -> list[dict]:
 
     for key, config in DELIVERY_KEYS.items():
         try:
-            val = r.get(key)
+            val = r.hget("DELIVERY", key)
             if val:
                 results.append({
                     "file": config["display"],
