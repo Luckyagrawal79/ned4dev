@@ -187,7 +187,7 @@ st.markdown(kpi_html, unsafe_allow_html=True)
 # ───────────────────── ACTION BUTTONS ──────────────────────────────────
 b1, b2, b3, b4 = st.columns(4)
 with b1:
-    build_review_clicked = st.button("📋 Build Review", use_container_width=True)
+    source_review_clicked = st.button("📋 Source-Stats Review", use_container_width=True)
 with b2:
     ops_check_clicked = st.button("⚠️ Ops Failure Check", use_container_width=True)
 with b3:
@@ -202,10 +202,11 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 # ───────────────────── BUILD REVIEW ────────────────────────────────────
-if build_review_clicked:
+if source_review_clicked:
+    build_rows = RAW_BUILDS.get(selected_build, [])
     flagged = [r for r in build_rows if abs(r.get("deviation", 0)) > 5]
     if flagged:
-        msg = f"**📋 Build Review — {selected_build}**\n\n"
+        msg = f"**📋 Source-Stats Review — {selected_build}**\n\n"
         msg += f"**{len(flagged)} metrics with deviation > 5%:**\n\n"
         msg += "| Metric | Asset | Current | Previous | Deviation |\n"
         msg += "|--------|-------|---------|----------|-----------|\n"
@@ -217,8 +218,8 @@ if build_review_clicked:
                 f"{sign}{r['deviation']:.2f}% |\n"
             )
     else:
-        msg = f"**📋 Build Review — {selected_build}**\n\n✅ All clear — no metrics with deviation > 5%."
-    st.session_state.messages.append({"role": "user", "content": f"Build Review for {selected_build}"})
+        msg = f"**📋 Source-Stats Review — {selected_build}**\n\n✅ All clear — no metrics with deviation > 5%."
+    st.session_state.messages.append({"role": "user", "content": f"Source-Stats Review for {selected_build}"})
     st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
     st.rerun()
 
@@ -294,7 +295,7 @@ if query:
             st.info(msg)
             st.session_state.messages.append({"role": "assistant", "content": msg, "type": "info"})
         
-        elif any(phrase in query.lower() for phrase in ["delivery status", "delivery done", "delivery check", "is delivery"]):
+        elif "delivery" in query.lower():
             try:
                 from store.delivery_checker import check_delivery_status, format_delivery_status
                 results = check_delivery_status()
