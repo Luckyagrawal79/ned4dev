@@ -228,6 +228,7 @@ if source_review_clicked:
         msg = f"**📋 Source-Stats Review — {selected_build}**\n\n✅ All clear — no metrics with deviation > 5%."
     st.session_state.messages.append({"role": "user", "content": f"Source-Stats Review for {selected_build}"})
     st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
+    st.session_state.last_response = msg
     st.rerun()
 
 if ops_check_clicked:
@@ -244,6 +245,7 @@ if delivery_clicked:
     except Exception as e:
         msg = f"**🚚 Delivery Status**\n\nError checking jobs: {str(e)}"
     st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
+    st.session_state.last_response = msg
     st.rerun()
 
 if availability_clicked:
@@ -285,6 +287,10 @@ for idx, message in enumerate(st.session_state.messages):
             st.warning(message["content"])
         else:
             st.write(message["content"])
+            # Show email hint for the last assistant message only
+            if message["role"] == "assistant" and idx == len(st.session_state.messages) - 1 and message.get("type") == "text":
+                st.caption("📧 *To email this, type:* `send email your@email.com` *or* `send email team`")
+        
 
 
 
@@ -343,6 +349,8 @@ if query:
                 msg = f"Error checking delivery: {str(e)}"
             st.write(msg)
             st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
+            st.session_state.last_response = msg
+
         
         elif query.lower().startswith("check "):
             from store.asset_availability import get_display_to_key_map, ASSET_PATHS
@@ -409,6 +417,7 @@ if query:
                 msg = f"Error checking availability: {str(e)}"
             st.write(msg)
             st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
+            st.session_state.last_response = msg
 
         elif detect_plot_request(query):
             query_lower = query.lower()
@@ -570,6 +579,7 @@ if query:
                     response = call_ai(ai_provider, enhanced_query, api_key, model)
                     st.write(response)
                     st.session_state.messages.append({"role": "assistant", "content": response, "type": "text"})
+                    st.session_state.last_response = response
                 except Exception as e:
                     msg = f"Error calling AI: {str(e)}"
                     st.error(msg)
