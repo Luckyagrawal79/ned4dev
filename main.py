@@ -307,6 +307,7 @@ if query:
         
         elif query.lower().startswith("check "):
             from store.asset_availability import get_display_to_key_map, ASSET_PATHS
+            from difflib import SequenceMatcher
             asset_input = query[6:].strip()
             if asset_input.lower() in ["all", "all-asset", "all assets"]:
                 asset_list = ["all"]
@@ -316,36 +317,50 @@ if query:
                 asset_list = []
                 for name in raw_names:
                     name_lower = name.lower().strip()
-                    name_nospace = name_lower.replace(" ", "").replace("-", "")
+                    name_nospace = name_lower.replace(" ", "").replace("-", "").replace("_", "")
 
-                    # 1. Exact match (display name or key)
-                    key = display_map.get(name_lower)
+                    # 1. Exact match
+                    key = display_map.get(name_lower) or display_map.get(name_nospace)
                     if key:
-                        asset_list.append(key)
+                        if key not in asset_list:
+                            asset_list.append(key)
                         continue
 
-                    # 2. No-space match: "live intent" → "liveintent"
-                    key = display_map.get(name_nospace)
-                    if key:
-                        asset_list.append(key)
+                    # 2. Contains match — find ALL assets containing the search term
+                    contains_matches = []
+                    for k, config in ASSET_PATHS.items():
+                        k_clean = k.lower().replace(" ", "").replace("-", "").replace("_", "")
+                        d_clean = config["display"].lower().replace(" ", "").replace("-", "").replace("_", "")
+                        if name_nospace in k_clean or name_nospace in d_clean:
+                            if k not in contains_matches:
+                                contains_matches.append(k)
+
+                    if contains_matches:
+                        for m in contains_matches:
+                            if m not in asset_list:
+                                asset_list.append(m)
                         continue
 
-                    # 3. Partial match — only if ONE result
-                    partial_matches = []
-                    for display, asset_key in display_map.items():
-                        display_clean = display.replace(" ", "").replace("-", "")
-                        if name_nospace in display_clean:
-                            if asset_key not in partial_matches:
-                                partial_matches.append(asset_key)
+                    # 3. Fuzzy match — 70%+ confidence
+                    fuzzy_matches = []
+                    for k, config in ASSET_PATHS.items():
+                        k_clean = k.lower().replace("_", "").replace("-", "")
+                        d_clean = config["display"].lower().replace(" ", "").replace("-", "")
+                        score = max(
+                            SequenceMatcher(None, name_nospace, k_clean).ratio(),
+                            SequenceMatcher(None, name_nospace, d_clean).ratio()
+                        )
+                        if score >= 0.7:
+                            fuzzy_matches.append(k)
 
-                    if len(partial_matches) == 1:
-                        asset_list.append(partial_matches[0])
-                    elif len(partial_matches) > 1:
-                        names = [ASSET_PATHS[k]["display"] for k in partial_matches if k in ASSET_PATHS]
-                        asset_list.append(f"__ambiguous__{name}||{'||'.join(names)}")
-                    else:
-                        asset_list.append(name)
+                    if fuzzy_matches:
+                        for m in fuzzy_matches:
+                            if m not in asset_list:
+                                asset_list.append(m)
+                        continue
 
+                    # 4. No match
+                    asset_list.append(name)
 
             try:
                 from store.asset_availability import check_asset_availability, format_availability

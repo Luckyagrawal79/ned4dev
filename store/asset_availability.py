@@ -435,7 +435,7 @@ def format_availability(result: dict) -> str:
             msg += f"| {r['asset']} | {r['cadence']} | {r['last_available']} | {tick} |\n"
 
     if not_mapped:
-        msg += f"\n⚠️ Unable to find mapping for: {', '.join(f'`{a}`' for a in not_mapped)}\n"
+        msg += f"\n⚠️ Asset not found: {', '.join(f'`{a}`' for a in not_mapped)}\n"
 
     if not found and not not_mapped:
         msg += "No assets to check.\n"
