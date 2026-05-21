@@ -7,4 +7,4 @@ google-cloud-storage
 requests
 openai
 redis
-
+kaleido

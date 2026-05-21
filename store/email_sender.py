@@ -1,6 +1,8 @@
 import smtplib
+import re
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.image import MIMEImage
 import redis
 from datetime import datetime
 
@@ -29,14 +31,58 @@ def _get_smtp_credentials():
     return username, password
 
 
-def _wrap_html(content, subject="NED Report"):
-    today = datetime.utcnow().strftime("%Y-%m-%d")
+def _md_table_to_html(md_text):
+    """Convert markdown tables in text to styled HTML tables."""
+    lines = md_text.split("\n")
+    result = []
+    table_rows = []
+    in_table = False
+
+    for line in lines:
+        stripped = line.strip()
+        if "|" in stripped and stripped.startswith("|"):
+            cells = [c.strip() for c in stripped.strip("|").split("|")]
+            # Skip separator rows like |---|---|
+            if all(re.match(r'^[-:]+$', c) for c in cells):
+                continue
+            table_rows.append(cells)
+            in_table = True
+        else:
+            if in_table and table_rows:
+                result.append(_build_html_table(table_rows))
+                table_rows = []
+                in_table = False
+            result.append(stripped)
+
+    if table_rows:
+        result.append(_build_html_table(table_rows))
+
+    return "<br>".join(result)
+
+
+def _build_html_table(rows):
+    """Build a styled HTML table from rows."""
+    if not rows:
+        return ""
+    html = '<table style="border-collapse:collapse; margin:10px 0; font-family:Arial;">'
+    for i, row in enumerate(rows):
+        if i == 0:
+            html += '<tr style="background:#00A2D1; color:white;">'
+            for cell in row:
+                html += f'<th style="padding:8px 12px; border:1px solid #ddd; text-align:left;">{cell}</th>'
+        else:
+            bg = "#f9f9f9" if i % 2 == 0 else "#ffffff"
+            html += f'<tr style="background:{bg};">'
+            for cell in row:
+                html += f'<td style="padding:8px 12px; border:1px solid #ddd;">{cell}</td>'
+        html += '</tr>'
+    html += '</table>'
+    return html
+
+
+def _wrap_html(content):
     return f"""
     <html><body style="font-family: Arial, sans-serif; color: #2E3644;">
-    <div style="background: #00A2D1; padding: 15px 20px; color: white;">
-        <h2 style="margin:0;">{subject}</h2>
-        <p style="margin:4px 0 0 0; font-size:13px;">{today}</p>
-    </div>
     <div style="padding: 20px;">
         <p>Hi All,</p>
         {content}
@@ -47,18 +93,27 @@ def _wrap_html(content, subject="NED Report"):
     """
 
 
-def send_email(to: list[str], subject: str, body_html: str, important: bool = False) -> str:
+def send_email(to: list[str], subject: str, body_html: str, important: bool = False, image_bytes: bytes = None) -> str:
     try:
         username, password = _get_smtp_credentials()
 
-        msg = MIMEMultipart("alternative")
+        msg = MIMEMultipart("related")
         msg["Subject"] = subject
         msg["From"] = MAIL_FROM
         msg["To"] = ", ".join(to)
         if important:
             msg["X-Priority"] = "1"
             msg["Importance"] = "High"
-        msg.attach(MIMEText(body_html, "html"))
+
+        html_part = MIMEMultipart("alternative")
+        html_part.attach(MIMEText(body_html, "html"))
+        msg.attach(html_part)
+
+        if image_bytes:
+            img = MIMEImage(image_bytes, _subtype="png")
+            img.add_header("Content-ID", "<chart_image>")
+            img.add_header("Content-Disposition", "inline", filename="chart.png")
+            msg.attach(img)
 
         with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
             server.login(username, password)
@@ -69,10 +124,22 @@ def send_email(to: list[str], subject: str, body_html: str, important: bool = Fa
         return f"Error: {str(e)}"
 
 
-def send_ned_report(to: list[str], content: str, subject: str = "NED Report", important: bool = False) -> str:
-    """Send a formatted NED email with content wrapped in template."""
-    # Convert markdown-ish content to basic HTML
-    html_content = content.replace("\n", "<br>")
-    html_content = html_content.replace("**", "")  # strip bold markers
-    full_html = _wrap_html(html_content, subject)
-    return send_email(to, subject, full_html, important)
+def send_ned_report(to: list[str], content: str, subject: str = None, important: bool = False, chart_fig=None) -> str:
+    """Send a formatted NED email."""
+    if subject is None:
+        subject = f"NED Report — {datetime.utcnow().strftime('%Y-%m-%d')}"
+
+    html_content = _md_table_to_html(content)
+    # Clean remaining markdown
+    html_content = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', html_content)
+
+    image_bytes = None
+    if chart_fig:
+        try:
+            image_bytes = chart_fig.to_image(format="png", width=900, height=500)
+            html_content += '<br><img src="cid:chart_image" style="max-width:100%;">'
+        except Exception as e:
+            html_content += f"<br><p>(Chart could not be attached: {str(e)})</p>"
+
+    full_html = _wrap_html(html_content)
+    return send_email(to, subject, full_html, important, image_bytes)

@@ -229,6 +229,7 @@ if source_review_clicked:
     st.session_state.messages.append({"role": "user", "content": f"Source-Stats Review for {selected_build}"})
     st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
     st.session_state.last_response = msg
+    st.session_state.last_chart = None
     st.rerun()
 
 if ops_check_clicked:
@@ -246,6 +247,7 @@ if delivery_clicked:
         msg = f"**🚚 Delivery Status**\n\nError checking jobs: {str(e)}"
     st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
     st.session_state.last_response = msg
+    st.session_state.last_chart = None
     st.rerun()
 
 if availability_clicked:
@@ -287,9 +289,10 @@ for idx, message in enumerate(st.session_state.messages):
             st.warning(message["content"])
         else:
             st.write(message["content"])
-            # Show email hint for the last assistant message only
-            if message["role"] == "assistant" and idx == len(st.session_state.messages) - 1 and message.get("type") == "text":
-                st.caption("📧 *To email this, type:* `send email your@email.com` *or* `send email team`")
+            
+        # Show email hint for the last assistant message only
+        if message["role"] == "assistant" and idx == len(st.session_state.messages) - 1 and message.get("type") == "text":
+            st.caption("📧 *To email this, type:* `send email your@email.com` *or* `send email team`")
         
 
 
@@ -310,28 +313,29 @@ if query:
         
         elif query.lower().startswith("send email") or query.lower().startswith("send to"):
             from store.email_sender import send_ned_report, TEAM_EMAILS
-            
-            # Parse recipients
+
             email_input = query.lower().replace("send email", "").replace("send to", "").strip()
-            
+
             if not email_input or email_input == "team":
                 recipients = TEAM_EMAILS
             else:
                 recipients = [e.strip() for e in email_input.split(",") if "@" in e.strip()]
-            
+
             if not recipients:
                 msg = "Please provide valid email(s). Example: `send email user@company.com` or `send email team`"
                 st.write(msg)
                 st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
-            elif not st.session_state.get("last_response"):
+            elif not st.session_state.get("last_response") and not st.session_state.get("last_chart"):
                 msg = "No previous response to send. Ask something first, then use `send email`."
                 st.write(msg)
                 st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
             else:
+                chart = st.session_state.get("last_chart")
+                content = st.session_state.get("last_response", "Chart attached below.")
                 result = send_ned_report(
                     to=recipients,
-                    content=st.session_state.last_response,
-                    subject=f"NED Report — {datetime.utcnow().strftime('%Y-%m-%d')}",
+                    content=content,
+                    chart_fig=chart,
                 )
                 if result == "sent":
                     msg = f"✅ Email sent to: {', '.join(recipients)}"
@@ -339,6 +343,7 @@ if query:
                     msg = f"❌ Failed to send: {result}"
                 st.write(msg)
                 st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
+
 
         elif "delivery" in query.lower():
             try:
@@ -350,6 +355,7 @@ if query:
             st.write(msg)
             st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
             st.session_state.last_response = msg
+            st.session_state.last_chart = None
 
         
         elif query.lower().startswith("check "):
@@ -418,6 +424,7 @@ if query:
             st.write(msg)
             st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
             st.session_state.last_response = msg
+            st.session_state.last_chart = None
 
         elif detect_plot_request(query):
             query_lower = query.lower()
@@ -483,6 +490,8 @@ if query:
                             next_idx = len(st.session_state.messages)
                             st.plotly_chart(fig, use_container_width=True, key=f"chart_{next_idx}")
                             st.session_state.messages.append({"role": "assistant", "content": fig, "type": "chart"})
+                            st.session_state.last_chart = fig
+                            st.session_state.last_response = ""
                         else:
                             msg = "No matching data found for this query."
                             st.error(msg)
@@ -505,6 +514,8 @@ if query:
                             next_idx = len(st.session_state.messages)
                             st.plotly_chart(fig, use_container_width=True, key=f"chart_{next_idx}")
                             st.session_state.messages.append({"role": "assistant", "content": fig, "type": "chart"})
+                            st.session_state.last_chart = fig
+                            st.session_state.last_response = ""
                         else:
                             msg = "No matching data found for this query."
                             st.error(msg)
@@ -561,6 +572,8 @@ if query:
                                 next_idx = len(st.session_state.messages)
                                 st.plotly_chart(fig, use_container_width=True, key=f"chart_{next_idx}")
                                 st.session_state.messages.append({"role": "assistant", "content": fig, "type": "chart"})
+                                st.session_state.last_chart = fig
+                                st.session_state.last_response = ""
                             else:
                                 msg = "No matching data found."
                                 st.error(msg)
@@ -580,6 +593,7 @@ if query:
                     st.write(response)
                     st.session_state.messages.append({"role": "assistant", "content": response, "type": "text"})
                     st.session_state.last_response = response
+                    st.session_state.last_chart = None
                 except Exception as e:
                     msg = f"Error calling AI: {str(e)}"
                     st.error(msg)
