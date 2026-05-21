@@ -114,6 +114,13 @@ try:
 except Exception:
     pass
 
+# Start background version checker (runs every 48h)
+from store.version_checker import start_version_checker
+if "version_checker_started" not in st.session_state:
+    start_version_checker()
+    st.session_state.version_checker_started = True
+
+
 # with st.sidebar.expander("Data Source Debug", expanded=False):
 #     st.code(f"gcs_uri = {store.gcs_uri}\nlocal_path = {os.path.abspath(store.local_path)}", language="bash")
 #     source = "GCS" if store.gcs_uri else "LOCAL"
@@ -295,6 +302,38 @@ if query:
             st.info(msg)
             st.session_state.messages.append({"role": "assistant", "content": msg, "type": "info"})
         
+        elif query.lower().startswith("send email") or query.lower().startswith("send to"):
+            from store.email_sender import send_ned_report, TEAM_EMAILS
+            
+            # Parse recipients
+            email_input = query.lower().replace("send email", "").replace("send to", "").strip()
+            
+            if not email_input or email_input == "team":
+                recipients = TEAM_EMAILS
+            else:
+                recipients = [e.strip() for e in email_input.split(",") if "@" in e.strip()]
+            
+            if not recipients:
+                msg = "Please provide valid email(s). Example: `send email user@company.com` or `send email team`"
+                st.write(msg)
+                st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
+            elif not st.session_state.get("last_response"):
+                msg = "No previous response to send. Ask something first, then use `send email`."
+                st.write(msg)
+                st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
+            else:
+                result = send_ned_report(
+                    to=recipients,
+                    content=st.session_state.last_response,
+                    subject=f"NED Report — {datetime.utcnow().strftime('%Y-%m-%d')}",
+                )
+                if result == "sent":
+                    msg = f"✅ Email sent to: {', '.join(recipients)}"
+                else:
+                    msg = f"❌ Failed to send: {result}"
+                st.write(msg)
+                st.session_state.messages.append({"role": "assistant", "content": msg, "type": "text"})
+
         elif "delivery" in query.lower():
             try:
                 from store.delivery_checker import check_delivery_status, format_delivery_status
