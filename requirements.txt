@@ -7,4 +7,5 @@ google-cloud-storage
 requests
 openai
 redis
-kaleido
+kaleido==0.2.1
+
