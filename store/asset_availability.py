@@ -110,27 +110,27 @@ ASSET_PATHS = {
     "third_party_internal_email": {
         "path": "gs://0d9f08cb-ab81-4524-8765-ad1a21722431-3212-a/",
         "display": "Third Party Internal Email",
-        "cadence": "weekly",
+        "cadence": "monthly",
     },
     "third_party_internal_phones": {
         "path": "gs://65dfd896-4f6d-4f60-a6e3-edc5d906b4ca-3213-a/",
         "display": "Third Party Internal Phones",
-        "cadence": "weekly",
+        "cadence": "monthly",
     },
     "third_party_id5_hem": {
         "path": "gs://79f36342-a1a9-4bd9-b14c-8ffeca89fdbb-5379-a/",
         "display": "Third Party ID5 HEM",
-        "cadence": "weekly",
+        "cadence": "monthly",
     },
     "third_party_ramp_id": {
         "path": "gs://f85d388b-a710-4342-bd8b-484602bbb6c5-5880-a/",
         "display": "Third Party Ramp ID",
-        "cadence": "weekly",
+        "cadence": "monthly",
     },
     "third_party_tradedesk": {
         "path": "gs://354e9396-3379-4a3e-a567-0ce8b15eb3ed-5216-a/",
         "display": "Third Party TradeDesk",
-        "cadence": "weekly",
+        "cadence": "bi-weekly",
     },
     "ipi_ipv6": {
         "path": "gs://81e7e936-53e4-4432-b46a-29949eaca4ac-5335-a/",
@@ -263,50 +263,73 @@ def _extract_value(folder_name):
 
 
 def _sort_key(val):
-    """Sort numerically if possible, else alphabetically."""
+    """Sort numerically if possible, else return None to skip."""
     try:
-        return (1, int(val))
+        return int(val)
     except ValueError:
-        return (0, val)
+        return None
+
+
+def _looks_like_date(val):
+    """Check if value is a date in any format."""
+    import re
+    if re.match(r'^\d{4}-\d{2}-\d{2}$', val):
+        return True
+    if re.match(r'^\d{8}$', val):
+        return True
+    return False
 
 
 def _get_latest_obs_date(client, bucket_name, base_prefix):
     """
-    Tries: version → instanceid → date
-    Skips any level that doesn't exist.
+    Navigates: version → instanceid → obs_date
+    At each level: picks only numeric values, ignores text.
+    At date level: picks only date-like values, ignores text.
     """
-
-    def _pick_latest(folders):
-        entries = []
-        for d in folders:
-            folder = d.rstrip("/").split("/")[-1]
-            val = _extract_value(folder)
-            entries.append((_sort_key(val), _normalize_date(val), d))
-        entries.sort(key=lambda x: x[0], reverse=True)
-        return entries
-
-    def _looks_like_date(val):
-        import re
-        return bool(re.match(r'^\d{4}-\d{2}-\d{2}$', val))
-
     current_prefix = base_prefix
 
-    for step in range(4):  # max 4 levels deep
+    for step in range(4):
         folders = _list_prefixes(client, bucket_name, current_prefix)
         if not folders:
             return None
 
-        entries = _pick_latest(folders)
+        # Extract values
+        entries = []
+        for d in folders:
+            folder = d.rstrip("/").split("/")[-1]
+            val = _extract_value(folder)
+            entries.append((val, d))
+
+        if not entries:
+            return None
 
         # Check if this level has dates
-        if _looks_like_date(entries[0][1]):
-            return entries[0][1]
+        date_entries = []
+        for val, path in entries:
+            normalized = _normalize_date(val)
+            if _looks_like_date(normalized):
+                date_entries.append((normalized, path))
 
-        # Not dates — go deeper into highest value
-        current_prefix = entries[0][2]
+        if date_entries:
+            # This is the date level — pick latest date, ignore non-dates
+            date_entries.sort(key=lambda x: x[0], reverse=True)
+            return date_entries[0][0]
+
+        # Not dates — filter to numeric only, pick highest
+        numeric_entries = []
+        for val, path in entries:
+            num = _sort_key(val)
+            if num is not None:
+                numeric_entries.append((num, path))
+
+        if numeric_entries:
+            numeric_entries.sort(key=lambda x: x[0], reverse=True)
+            current_prefix = numeric_entries[0][1]
+        else:
+            # No numeric values found — try first folder anyway
+            current_prefix = entries[0][1]
 
     return None
-
 
 
 def check_asset_availability(asset_names: list[str]) -> dict:
@@ -366,6 +389,8 @@ def check_asset_availability(asset_names: list[str]) -> dict:
                         on_time = (today - latest_date) <= timedelta(days=1)
                     elif cadence == "weekly":
                         on_time = (today - latest_date) <= timedelta(days=7)
+                    elif cadence == "bi-weekly":
+                        on_time = (today - latest_date) <= timedelta(days=15)
                     else:  # monthly
                         on_time = (today - latest_date) <= timedelta(days=31)
                 except ValueError:
