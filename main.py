@@ -23,7 +23,8 @@ st.set_page_config(page_title="NED", layout="wide", initial_sidebar_state="colla
 st.markdown("""
     <style>
     footer {visibility: hidden;}
-    header {visibility: hidden;}
+    header [data-testid="stHeader"] {background: transparent;}
+    header [data-testid="stToolbar"] {visibility: hidden;}
     section[data-testid="stSidebar"] { visibility: visible !important; display: block !important; }
     button[data-testid="stSidebarCollapsedControl"] { visibility: visible !important; display: block !important; color: #00A2D1 !important; }
 
