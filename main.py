@@ -25,6 +25,7 @@ st.markdown("""
     footer {visibility: hidden;}
     header {visibility: hidden;}
     section[data-testid="stSidebar"] { visibility: visible !important; display: block !important; }
+    button[data-testid="stSidebarCollapsedControl"] { visibility: visible !important; display: block !important; color: #00A2D1 !important; }
 
     /* TransUnion Theme */
     .stApp { background-color: #1a1f2e; color: #e0e0e0; }

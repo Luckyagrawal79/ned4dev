@@ -192,6 +192,51 @@ ASSET_PATHS = {
         "display": "IPI IPv4 PP",
         "cadence": "weekly",
     },
+    "combined_event_cookie": {
+        "path": "gs://0d0fe3b2-4b88-4687-a265-ee09e4bbac2e-3401-a/",
+        "display": "Combined Event Cookie",
+        "cadence": "weekly",
+    },
+    "combined_event_device": {
+        "path": "gs://097b368e-aec2-4f5d-b66c-c9094e4e6c55-3406-a/",
+        "display": "Combined Event Device",
+        "cadence": "weekly",
+    },
+    "first_party_cookie": {
+        "path": "gs://d832a360-a1e8-4ebb-9125-cd096ce4da3f-3402-a/",
+        "display": "First Party Cookie",
+        "cadence": "weekly",
+    },
+    "device_hashed_email": {
+        "path": "gs://ea8b8616-0f82-4838-a5ec-8b8abcd01ee6-10327-a/",
+        "display": "Device Hashed Email",
+        "cadence": "weekly",
+    },
+    "device_email": {
+        "path": "gs://438b1998-a6f1-482f-9ea1-1f698336d0c6-10317-a/",
+        "display": "Device Email",
+        "cadence": "weekly",
+    },
+    "high_frequency_emails": {
+        "path": "gs://b9f9ea55-3c2d-4e97-bf6c-9e7da23012a7-10318-a/",
+        "display": "High Frequency Emails",
+        "cadence": "monthly",
+    },
+    "cookie_hashed_email": {
+        "path": "gs://e5c7c686-7705-466c-bac4-68f86e6d9639-10316-a/",
+        "display": "Cookie Hashed Email",
+        "cadence": "weekly",
+    },
+    "cookie_email": {
+        "path": "gs://bd662e66-9db5-47bd-b997-8d8302535d8a-10313-a/",
+        "display": "Cookie Email",
+        "cadence": "weekly",
+    },
+    "canonical_email_ekey_pid_subset": {
+        "path": "gs://518bdb03-e488-48cc-9606-a48e9eae2d53-10311-a/",
+        "display": "Canonical Email Ekey Pid Subset",
+        "cadence": "monthly",
+    },
 }
 
 # Assets to hide from user-facing list (internal/aggregate assets)
