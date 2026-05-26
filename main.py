@@ -23,10 +23,17 @@ st.set_page_config(page_title="NED", layout="wide", initial_sidebar_state="colla
 st.markdown("""
     <style>
     footer {visibility: hidden;}
-    header {background: transparent !important;}
     [data-testid="stToolbar"] {visibility: hidden;}
+
+    /* Sidebar toggle — force visible */
+    [data-testid="stSidebarCollapsedControl"],
+    [data-testid="collapsedControl"],
+    button[kind="headerNoPadding"] {
+        visibility: visible !important;
+        display: block !important;
+        z-index: 9999 !important;
+    }
     section[data-testid="stSidebar"] { visibility: visible !important; display: block !important; }
-    button[data-testid="stSidebarCollapsedControl"] { visibility: visible !important; display: block !important; color: #00A2D1 !important; }
 
     /* TransUnion Theme */
     .stApp { background-color: #1a1f2e; color: #e0e0e0; }
