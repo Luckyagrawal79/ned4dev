@@ -23,8 +23,8 @@ st.set_page_config(page_title="NED", layout="wide", initial_sidebar_state="colla
 st.markdown("""
     <style>
     footer {visibility: hidden;}
-    header [data-testid="stHeader"] {background: transparent;}
-    header [data-testid="stToolbar"] {visibility: hidden;}
+    header {background: transparent !important;}
+    [data-testid="stToolbar"] {visibility: hidden;}
     section[data-testid="stSidebar"] { visibility: visible !important; display: block !important; }
     button[data-testid="stSidebarCollapsedControl"] { visibility: visible !important; display: block !important; color: #00A2D1 !important; }
 
@@ -293,7 +293,7 @@ for idx, message in enumerate(st.session_state.messages):
             st.write(message["content"])
             
         # Show email hint for the last assistant message only
-        if message["role"] == "assistant" and idx == len(st.session_state.messages) - 1 and message.get("type") == "text":
+        if message["role"] == "assistant" and idx == len(st.session_state.messages) - 1 and message.get("type") in ["text", "chart"]:
             st.caption("📧 *To email this, type:* `send email your@email.com` *or* `send email team`")
         
 
